@@ -13,7 +13,8 @@ When available, you may use the material here for different venues:
 
 The sections are:
 - [WebSphere Application Server and Openshift](Intro.md)
-- Introduction to Openshift for WebSphere Administrators
+- [Opeionts to Move WebSphere Workload to Cloud](WebSphereCloud.md)
+- [Openshift Concepts for WebSphere Administrators](OpenshiftConcepts.md)
 - Migrating Applications
 - Application and Configuration Management
 - Problem Determination and Monitoring
