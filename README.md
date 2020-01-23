@@ -1,7 +1,8 @@
 # openshift-for-was-admin
 
-This information in this repository is designed to help WebSphere administrators' journey in operations modernization,  to transition to adopt Openshift and Cloudpak for Applications. The goals are:
-- Explain the value of Openshift from a WebSphere administrator's point of view.
+This information in this repository is designed to help with WebSphere administrators' journey in operations modernization,  to transition to adopt Cloudpak for Applications and Openshift. The goals are:
+- Present value of operations modernization from a WebSphere administrator's point of view.
+- Explain new concepts and processes in Openshift
 - Provide scenario-based guides that map scenarios in WebSphere to similar scenarios in Openshift.
 - Provide corresponding scenario based hands-on labs to help WebSphere administrator become proficient in Openshift.
 
@@ -12,8 +13,8 @@ When available, you may use the material here for different venues:
 - Potentially 2-day workshop
 
 The sections are:
-- [WebSphere Application Server and Openshift](Intro.md)
-- [Opeionts to Move WebSphere Workload to Cloud](WebSphereCloud.md)
+- [Why Operations Modernization](Intro.md)
+- [Options to Move WebSphere Workload to Cloud](WebSphereCloud.md)
 - [Openshift Concepts for WebSphere Administrators](OpenshiftConcepts.md)
 - Migrating Applications
 - Application and Configuration Management
