@@ -24,3 +24,6 @@ The sections are:
 - Disaster Recovery
 - Public and Hybrid Cloud
 - Devops and CI/CD
+
+List of labs:
+- [Introduction to Containerization](labs/HelloContainer)
