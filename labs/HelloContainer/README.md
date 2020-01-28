@@ -132,7 +132,7 @@ To make the build process repeatable, use a `Containerfile`, which contains inst
   localhost/app                        latest   ed48a27f7703   About a minute ago   853 MB
    ```
 
-- Start the container. Note that you are running with both http and https ports: `podman run -d -p 9080:9080 9443:9443 --name=app-instance app`
+- Start the container. Note that you are running with both http and https ports: `podman run -d -p 9080:9080 -p 9443:9443 --name=app-instance app`
 
 - Access the application running in the container:
   - If you are running in a server, use `curl --insecure https://localhost:9443/app` and ensure you have output that looks like: `<html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>`.
