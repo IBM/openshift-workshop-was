@@ -63,7 +63,7 @@ fce289e99eb9   13 months ago   /bin/sh -c #(nop) CMD ["/hello"]                0
 
 - List the history of the  commands used to create the layers in the image: `podman history ibmcom/websphere-liberty`. Use the `--no-trunc` option to not get truncated output. Note the Liberty image has a lot more layers compared to the hello world image.
 
-- Run the image: `podman run -d -p 9080:9080 --name wlp ibmcom/websphere-liberty`
+- Run the image: `podman run -d -p 9080:9080 --name wlp ibmcom/websphere-liberty`. Note the `-d` option runs the container in the background.
 
 - List the running container: `podman ps`
 ```
@@ -103,3 +103,61 @@ o  0.0.0.0:9080->9080/tcp  wlp
 
 
 ## Build and Run Your Own Image
+
+To make the build process repeatable, use a `Containerfile`, which contains instructions to create the new layers of the image.
+
+- Investigate the provided `Containerfile`:
+
+   ```
+    FROM ibmcom/websphere-liberty
+    COPY ServletApp.war /config/dropins/app.war
+   ```
+
+    -- The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
+
+   -- The second line `COPY`  is a straight copy of the file `ServletApp.war` from the directory you are running the build into a new layer in the image you are creating, at the location `/config/dropins/app.war`.
+
+- Run the build: `podman build -t app .`
+  ```
+  STEP 1: FROM ibmcom/websphere-liberty
+  STEP 2: COPY ServletApp.war /config/dropins/app.war
+  STEP 3: COMMIT app
+  ed48a27f7703f94ce8c615fbbc5db56425a24910b73c878e0cda85e868050bf6
+  ```
+
+- List the images: `podman images`
+
+  ```
+  REPOSITORY                           TAG      IMAGE ID       CREATED              SIZE
+  localhost/app                        latest   ed48a27f7703   About a minute ago   853 MB
+   ```
+
+- Start the container. Note that you are running with both http and https ports: `podman run -d -p 9080:9080 9443:9443 --name=app-instance app`
+
+- Access the application running in the container:
+  - If you are running in a server, use `curl --insecure https://localhost:9443/app` and ensure you have output that looks like: `<html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>`.
+  - If you are running on a desktop with browser
+    -  point your browser to `http://localhost:9080/app` and check that renders a page showing `Simple Servlet ran successfully`.
+    - Also point your browser to `https://localhost:9443/app`
+
+- To demonstrate container images are running at the process level, create a second container, but this time make it listen on ports 9081 and 9444: `podman run -d -p 9081:9080 -p 9444:9443 --name=app-instance1 app`. Note that network isolation allows each container to run on port 9080, but outside the container the actual ports used at 9080 and 9081. 
+   - If you are running on a server: `curl --insecure https://localhost:9444/app` and ensure you get the same output as before.
+   - If you are running on a desktop with browser, point your browser to `https://localhost:9444/app`.
+
+- List the running containers: `podman ps`
+
+```
+  CONTAINER ID  IMAGE                 COMMAND               CREATED             STATUS                 PORTS NAMES
+45e82c9cd416  localhost/app:latest  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
+cb20ce464c88  localhost/app:latest  /opt/ibm/wlp/bin/...  10 minutes ago      Up 10 minutes ago      0.0.0.0:9080->9080/ tcp                          app-instance
+```
+
+- Stop the first instance: `podman stop app-instance`
+
+- Stop the second instance: `podman stop app-instance1`
+
+- Remove the first instance: `podman rm app-instance`
+
+- Remove the second instance: `podman rm app-instance1`
+
+- Congratulations. You have completed the introduction to containerization lab.
