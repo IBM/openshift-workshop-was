@@ -38,3 +38,4 @@ The administrator sections are:
 
 List of labs:
 - [Introduction to Containerization](labs/HelloContainer)
+- [Introduction to Container Orchestration using Openshift](labs/IntroOpenshift)
