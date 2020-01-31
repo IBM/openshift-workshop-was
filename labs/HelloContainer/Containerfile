@@ -1,2 +1,4 @@
 FROM ibmcom/websphere-liberty
+COPY server.xml  /config
 COPY ServletApp.war /config/dropins/app.war
+RUN /liberty/wlp/bin/installUtility install /config/server.xml
