@@ -12,31 +12,29 @@ Your login id and password should be provided to you by your administrator.
 
 Switch to developer mode, and note you have fewer options. This mode is for developer working with their projects.
 
-![Developer Mode](DevMode.jpg)
+![Developer Mode](images/DevMode.jpg)
 
 
 Switch back to Administrator mode, which gives you access to more options.
 
-![Admin vs Developer](AdminDevToggle.jpg)
+![Admin vs Developer](images/AdminDevToggle.jpg)
 
 
 ### Dashboard
 
 Click on the dashboard to view summary of events:
 
-![Dashboard](Dashboard1.jpg)
+![Dashboard](images/Dashboard1.jpg)
 
 
 Scroll down to view the utilization of cluster resources:
 
-![Dashboard2](Dashboard2.jpg)
-
-Scroll down some more to view the resources available in the cluster.
+![Dashboard2](images/Dashboard2.jpg)
 
 
-Scroll down more to view the cluster inventory, then click through each item in the inventory to find out more:
+Scroll down more to view the cluster inventory. Click through each item in the inventory to find out more:
 
-![inventory](ClusterInventory.jpg)
+![inventory](images/ClusterInventory.jpg)
 
 Note that:
 
@@ -51,11 +49,11 @@ Openshift `projects` allow you to group related resources together and to assign
 It is common for artifacts related to different applications to be assigned to different `projects`. Resources that belong to the same project are stored in the same Kubernetes `namespace`.
 
 Click on `Projects` followed by *Create Project*:
-![Projects](CreateProject.jpg)
+![Projects](images/CreateProject.jpg)
 
 In the dialog, enter `myproject` as project name, then click Create:
 
-![Myproject](Myproject.jpg)
+![Myproject](images/Myproject.jpg)
 
 
 After creation, click on each of the tabs of myproject you just created. Note that:
@@ -63,7 +61,7 @@ After creation, click on each of the tabs of myproject you just created. Note th
 - the `YAML` tab shows you the YAML representation of your project. Every resource in Openshift is represented as a REST data structure. We'll be working with YAML files a lot more when we interact with Openshift via the command line.
 - The `Role Bindings` tab shows you the security configurations that apply to your project. For now, just take notice that there are many different roles already defined when a project is created. Each of these roles is used for a different purpose, and already mapped to different users and groups, or service accounts. 
 
-![MyprojectAfterCreate](MyprojectAftercreate.jpg)
+![MyprojectAfterCreate](images/MyprojectAftercreate.jpg)
 
 ### First Application
 
@@ -78,11 +76,11 @@ The typical artifacts you will need to run an application in Openshift are:
 
 Click Deployment, followed by Create Deployment:
 
-![Create Deployment](CreateDeployment.jpg)
+![Create Deployment](images/CreateDeployment.jpg)
 
 Note that the console shows you the YAML file for the deployment.  Change the number of replicas to 2, then click Create:
 
-![Deployment Replicas](DeploymentReplicas.jpg)
+![Deployment Replicas](images/DeploymentReplicas.jpg)
 
 
 Here is the specification of the deployment in its entirety:
@@ -129,11 +127,11 @@ Let's review this resource:
 
 Wait for both pods to be running:
 
-![Deployment After Create](DeploymentAfterCreate.jpg)
+![Deployment After Create](images/DeploymentAfterCreate.jpg)
 
 Click on the YAML tab, and not the additions to the original input YAML file.
 
-![Deployment After Create YAML](DeploymentAfterCreateYAML.jpg)
+![Deployment After Create YAML](images/DeploymentAfterCreateYAML.jpg)
 
 Here is a sample :
 
@@ -214,7 +212,7 @@ Note that:
 
 Scroll down to the `Networking` section on the left navigation, click `Service`, then click `Crate Service`:
 
-![Create Service](CreateService.jpg)
+![Create Service](images/CreateService.jpg)
 
 
 For the YAML parameters:
@@ -222,12 +220,12 @@ For the YAML parameters:
 - For the labels, use `app: hello-openshift`. These were the labels that we used when creating the deployment.
 - For the ports, use 8080, the same ports we used previously.
 
-![Create Service Params](CreateServiceParams.jpg)
+![Create Service Params](images/CreateServiceParams.jpg)
 
 
 After the service is created, click on the YAML tab:
 
-![Create Service After YAML ](CreateServiceAfterYAML.jpg)
+![Create Service After YAML ](images/CreateServiceAfterYAML.jpg)
 
 The YAML file looks like:
 ```
@@ -260,7 +258,7 @@ Note that for this service, there is a cluster wide IP address created, and that
 
 Click on `Route` in the left navigation, then click Crate Route:
 
-![Create Route](CreateRoute.jpg)
+![Create Route](images/CreateRoute.jpg)
 
 For the parameters
 
@@ -268,59 +266,59 @@ For the parameters
 - Service: example
 - Target Port: 8080 --> 8080
 
-![Create Route Parameters](CreateRouteParams.jpg)
+![Create Route Parameters](images/CreateRouteParams.jpg)
 
 Note that we are ignoring TLS configuration just for the purpose of this lab. 
 
 Try to access the route at the link provided:
 
-![Create Route](CreateRouteAccessRoute.jpg)
+![Create Route](images/CreateRouteAccessRoute.jpg)
 
 The browser will show: `Hello Openshift!`
 
-![Access Route](CreateRouteAccessRouteResult.jpg)
+![Access Route](images/CreateRouteAccessRouteResult.jpg)
 
 ### Changing Replica Instances
 
 Click on `Projectrs` from the left navigation, then click on `myproject`:
 
-![Locate Myproject](LocateMyproject.jpg)
+![Locate Myproject](images/LocateMyproject.jpg)
 
 
 Scroll down to see the resources that were created. Recall that we have created one deployment, which then created 2 pods. We also created one service, and one route.
 
-![Locate Myproject Resoruces](LocateMyprojectResources.jpg)
+![Locate Myproject Resoruces](images/LocateMyprojectResources.jpg)
 
 Click on the 2 pods:
 
-![Locate Myproject Resoruces](LocateMyprojectPods.jpg)
+![Locate Myproject Resoruces](images/LocateMyprojectPods.jpg)
 
 
 Delete one of the pods my clicking on the menu on the right, then selecting `Delete pod`. When prompted, click `Delete`.
 
-![Delete Pod](DeletePod.jpg)
+![Delete Pod](images/DeletePod.jpg)
 
 This is not the right way to reduce number of instances. You will notice that as soon as one of the pods is being terminated, another one is being created. The reason is that the controller for the `deployment` resource knows that your specification is for 2 instances, and it honors that specification by creating another one.
 
-![Delete Pod](DeletePodRecreate.jpg)
+![Delete Pod](images/DeletePodRecreate.jpg)
 
 To change the number of instances, you will need to change the specification of your deployment. Click on Deployments in the left navigation, then click on `example` deployment:
 
-![Locate Deloyment](LocateDeployment.jpg)
+![Locate Deloyment](images/LocateDeployment.jpg)
 
 
 Click on the down arrow to reduce the replica size down to 1:
 
-![Reduce Deployment](DeploymentReducePod.jpg)
+![Reduce Deployment](images/DeploymentReducePod.jpg)
 
 After the operation is completed, click on the YAML tab:
 
-![Reduce Deployment](DeploymentReducePod1.jpg)
+![Reduce Deployment](images/DeploymentReducePod1.jpg)
 
 Note that the console had changed the REST specification on your behalf so that the replica count is now 1:
 
 
-![Reduce Deployment YAML](DeploymentReducePod1YAML.jpg)
+![Reduce Deployment YAML](images/DeploymentReducePod1YAML.jpg)
 
 
 ## Using command line
@@ -343,11 +341,11 @@ If you make changes, just re-apply the specification via the command line tool.
 
 From the Openshift console, click on the twisty next to your login name and select `Copy Login Command`.
 
-![Copy Login Command](CopyLoginCommand.jpg)
+![Copy Login Command](images/CopyLoginCommand.jpg)
 
 In the new window that pops up, click on `Display Token`:
 
-![Display Token](DisplayToken.jpg)
+![Display Token](images/DisplayToken.jpg)
 
 Copy the instructions to login to your openshift cluster, then paste it into your terminal. The instruction looks like:
 ```
