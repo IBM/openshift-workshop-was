@@ -10,12 +10,12 @@ Your login id and password should be provided to you by your administrator.
 
 ### Administrator vs Developer View
 
-Switch to developer mode, and note you have fewer options. This mode is for developer working with their projects.
+Switch to developer view, and note you have fewer options. This view is for developer working with their projects.
 
 ![Developer Mode](images/DevMode.jpg)
 
 
-Switch back to Administrator mode, which gives you access to more options.
+Switch back to Administrator view, which gives you access to more options. We will concentrate on administrator view in this lab.
 
 ![Admin vs Developer](images/AdminDevToggle.jpg)
 
@@ -49,6 +49,7 @@ Openshift `projects` allow you to group related resources together and to assign
 It is common for artifacts related to different applications to be assigned to different `projects`. Resources that belong to the same project are stored in the same Kubernetes `namespace`.
 
 Click on `Projects` followed by *Create Project*:
+
 ![Projects](images/CreateProject.jpg)
 
 In the dialog, enter `myproject` as project name, then click Create:
@@ -68,9 +69,9 @@ After creation, click on each of the tabs of myproject you just created. Note th
 The typical artifacts you will need to run an application in Openshift are:
 
 - A container image containing your application, hosted in a container registry
-- A `pod` that specifies where to fetch an image and how it should be hosted. For load balancing, other resources such as `deployment` are used to manage a set of `pods`.
+- A `pod` that specifies where to fetch an image and how it should be hosted. To control the number of instances, you don't configure a `pod` directly. Instead, you configure another resources, such as `deployment`, that is used to manage a set of `pods`.
 - A `service` that exposes the application within the internal network, and enables the application to be load balanced within the Openshift cluster.
-- A `route` or `ingress` to make the application accessible outside of the cluster firewall.
+- A `route` or `ingress` to make the application accessible outside of the Openshift cluster firewall.
 
 #### First deployment 
 
@@ -110,7 +111,7 @@ spec:
 
 Let's review this resource:
 
-- Recall that every resource in Openshift has a group, version, and kind. For the `Deployment` resource:
+- Every resource in Openshift has a group, version, and kind. For the `Deployment` resource:
   - The group is `app`
   - The version is `v1`
   - The kind is `Deployment`
@@ -118,7 +119,7 @@ Let's review this resource:
   - The name of this instance is `example`
   - The namespace where the resource is running is `myproject`
 - The `spec` section defines the details specific to this kind of resource:
-  - The `selector` defines defines details of the `pods` that this `deployment` will manage. The `matchLabels` attribute with value `app: hello-openshift` means this `deployment` instance will manage all pods whose labels contain `app: hello-openshift`.
+  - The `selector` defines details of the `pods` that this `deployment` will manage. The `matchLabels` attribute with value `app: hello-openshift` means this `deployment` instance will manage all pods whose labels contain `app: hello-openshift`.
 - The `replicas: 2`  field specifies the number of replicas to run.
 - The `template` section describes information about how to run the image and create the `pods`:
   - The `labels` section specifies what labels to create for the pods.
@@ -129,7 +130,7 @@ Wait for both pods to be running:
 
 ![Deployment After Create](images/DeploymentAfterCreate.jpg)
 
-Click on the YAML tab, and not the additions to the original input YAML file.
+Click on the YAML tab, and note the additions to the original input YAML file.
 
 ![Deployment After Create YAML](images/DeploymentAfterCreateYAML.jpg)
 
@@ -217,7 +218,7 @@ Scroll down to the `Networking` section on the left navigation, click `Service`,
 
 For the YAML parameters:
 
-- For the labels, use `app: hello-openshift`. These were the labels that we used when creating the deployment.
+- For labels, use `app: hello-openshift`. This is how the service will find the pods to load balance. Therefore, it matches the labels that we used when creating the deployment for the hello-openshift application.
 - For the ports, use 8080, the same ports we used previously.
 
 ![Create Service Params](images/CreateServiceParams.jpg)
@@ -268,13 +269,13 @@ For the parameters
 
 ![Create Route Parameters](images/CreateRouteParams.jpg)
 
-Note that we are ignoring TLS configuration just for the purpose of this lab. 
+Note that we are ignoring TLS configuration just for the purpose of this lab.  Security will be address in a different lab.
 
 Try to access the route at the link provided:
 
 ![Create Route](images/CreateRouteAccessRoute.jpg)
 
-The browser will show: `Hello Openshift!`
+If you have configured everything correctly, the browser will show: `Hello Openshift!`. Congratulations, you just deployed your first application to Openshift.
 
 ![Access Route](images/CreateRouteAccessRouteResult.jpg)
 
@@ -285,7 +286,7 @@ Click on `Projectrs` from the left navigation, then click on `myproject`:
 ![Locate Myproject](images/LocateMyproject.jpg)
 
 
-Scroll down to see the resources that were created. Recall that we have created one deployment, which then created 2 pods. We also created one service, and one route.
+Scroll down to see the resources that were created. Recall that we have created one deployment with 2 pods in the specification. We also created one service, and one route.
 
 ![Locate Myproject Resoruces](images/LocateMyprojectResources.jpg)
 
@@ -323,7 +324,7 @@ Note that the console had changed the REST specification on your behalf so that 
 
 ## Using command line
 
-You can use both `oc`, the openshift command line too or `kubectl`, the Kubernetes command line tool, to interact with Openshift. 
+You can use both `oc`, the openshift command line tool, or `kubectl`, the Kubernetes command line tool, to interact with Openshift. 
 Resources in Openshift are configured via REST data structure. 
 For the command line tools, the REST data structure may be stored either in  a YAML file, or in a JSON file.
 The command line tools may be used to:
@@ -366,6 +367,8 @@ Using project "default".
 Use `oc api-resources` to list all available resource kinds. 
 Note that resources in Openshift have a group, version, and kind. 
 Some resources are global (not in a namespace), while others are scoped to a namespace.
+Many resources also have short names to save typing when using the command line tool. 
+For example, you may use cm instead of ConfigMap as a command line parameter when the parameter is for a `KIND`.
 Example output:
 
 ```
@@ -395,6 +398,7 @@ kube-public                  Active
 kube-system                  Active
 myproject                    Active
 ...
+```
 
 
 - List all pods in all namespaces: `oc get pods --all-namespaces`
@@ -445,7 +449,12 @@ Using project "myproject" on server "https://c100-e.us-south.containers.cloud.ib
 Now using project "project1" on server "https://c100-e.us-south.containers.cloud.ibm.com:32541".
 ```
 
-- Get the REST specification of the project: `oc get project project1 -o yaml`:
+- Switch to the `default` project: `oc project default`
+
+
+- Switch back to `project1`: `oc project project1`
+
+- View the REST specification of the project: `oc get project project1 -o yaml`:
 
 ```
 apiVersion: project.openshift.io/v1
@@ -474,7 +483,7 @@ status:
 
 #### First Deployment
 
-- Review the contents of `Deployment.yaml` and note that it is identifical to the to the deployment from the last section other the the namespace:
+- Review the contents of `Deployment.yaml` and note that it is identical to the to the deployment from the last section except for the namespace. This allows us to deploy the same image in a different project. Using the same image customized for different environments is an important concept that will be covered further in future labs.
 
 ```
 apiVersion: apps/v1
@@ -500,14 +509,16 @@ spec:
 ```
 
 
-- Apply the deployment to the project1 namespace: `oc apply -f Deployment.yam.1
+- Apply the deployment via the command line: `oc apply -f Deployment.yam.1`
+
 ```
 deployment.apps/example created
 ```
 
 - Check the status of deployment: `oc get deployment example -o yaml`. If the status does not show available replica count of 2, wait a few seconds before retrying.
 
-```apiVersion: extensions/v1beta1
+```
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
@@ -578,7 +589,7 @@ status:
   updatedReplicas: 2
 ```
 
-- List the running pods created by the deployment controller: `oc get pods`
+- List the running pods created by the controller for the deployment: `oc get pods`
 ```
 NAME                      READY   STATUS    RESTARTS   AGE
 example-75778c488-7k7q2   1/1     Running   0          3m37s
@@ -586,6 +597,7 @@ example-75778c488-c9jhd   1/1     Running   0          3m37s
 ```
 
 -- List the details for one of the pods: `oc get pods example-85778c488-7k7q2i -o yaml`
+
 ```
 apiVersion: v1
 kind: Pod
@@ -720,13 +732,13 @@ spec:
   type: ClusterIP
 ```
 
-- Create the service so that it's accessible and load balanced within the `project1` namespace: `oc apply -f Service.yaml`
+- Create the service so that it's accessible and load balanced for pods with label `app: hello-openshift` within the `project1` namespace: `oc apply -f Service.yaml`
 
 ```
 service/example created
 ```
 
-- Examine the route:
+- Examine the Route.yaml:
 
 ```
 apiVersion: route.openshift.io/v1
@@ -742,7 +754,7 @@ spec:
     name: example
 ```
 
-- Apply the route: `oc apply -f Route.yaml`
+- Apply the route to make the service reachable from outside the cluster: `oc apply -f Route.yaml`
 
 ```
 route.route.openshift.io/example created
@@ -757,19 +769,22 @@ example   example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-000
 ```
 
 - Check that application is accessible: 
-  - Point your browser to: `http://example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
-  - Or if you are in a server: `curl example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
+  - Point your browser to the URL. 
+  - Or if you are in a server, run`curl` against the URL: `curl http://<URL>`
 
 ### Changing Replica Instance
 
 - List pods: `oc get pods`
-```NAME                      READY   STATUS    RESTARTS   AGE
+
+```
+NAME                      READY   STATUS    RESTARTS   AGE
 example-75778c488-7k7q2   1/1     Running   0          60m
 example-75778c488-c9jhd   1/1     Running   0          60m
 
 ```
 
-- Delete one of thepods: `oc delete pod example-75778c488-7k7q2`
+- Delete one of the pods: `oc delete pod example-75778c488-7k7q2`
+
 ```
 pod "example-75778c488-7k7q2" deleted
 ```
@@ -783,6 +798,7 @@ example-75778c488-rhjrx   1/1     Running   0          28s
 ```
 
 - To reduce the number of pods, we need to change the specification: `oc edit deployment example`, and change `replicas: 2` to `replicas: 1`.
+
 ```
 deployment.extensions/example edited
 ```
@@ -792,3 +808,5 @@ deployment.extensions/example edited
 NAME                      READY   STATUS    RESTARTS   AGE
 example-75778c488-c9jhd   1/1     Running   0          65m
 ```
+
+- Congratulations, you have deployed your first application to Openshift via the command line.
