@@ -384,7 +384,7 @@ namespaces                            ns                                        
 nodes                                 no                                                     false        Node
 ```
 
-### Listing instances of a resource
+### Listing instances of a resource kind
 
 - List all projects: `oc get projects`
 
@@ -808,5 +808,10 @@ deployment.extensions/example edited
 NAME                      READY   STATUS    RESTARTS   AGE
 example-75778c488-c9jhd   1/1     Running   0          65m
 ```
+
+- Cleanup:
+  - `oc delete route example`
+  - `oc delete service example`
+  - `oc delete deployment example`
 
 - Congratulations, you have deployed your first application to Openshift via the command line.
