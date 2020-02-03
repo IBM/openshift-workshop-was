@@ -88,7 +88,7 @@ docker.io/openshift/hello-openshift   latest   7af3297a3fb4   21 months ago   6.
 
 - Run another instance of the same image: `podman run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift`.  
 
-- Access the application in the new container the same way. However, use port `8881` and `8889` instead.
+- Access the application in the new container the same way. However, use port `8081` and `8889` instead.
 
 - Verify there are two containers running in the same host: `podman ps`:
 
@@ -185,22 +185,22 @@ tcp  hello1
 
 ## Build and Run Your Own Image
 
-Note: This part of the lab requires about 800 MB of disk to store your images.  If you do not have the space, you can read through the instructions without doing the lab.
+Note: This part of the lab requires about 600 MB of disk to store your images.  If you do not have the space, you can read through the instructions without doing the lab.
 
 To make the build process repeatable, use a `Containerfile`, which contains instructions to create the new layers of the image.
 
 - Review the provided `Containerfile`:
 
-   ```
+```
 FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
 COPY server.xml  /config
 COPY ServletApp.war /config/dropins/app.war
 RUN /liberty/wlp/bin/installUtility install /config/server.xml 
- ```
+```
 
-    -- The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
+    - The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
 
-   -- The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
+   - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
    - The third line, another `COPY`, copies `ServletApp.war` from the current directory into a new layer in the image you are creating, at the location `/config/dropins/app.war`.
 
