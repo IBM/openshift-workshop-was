@@ -198,7 +198,7 @@ COPY ServletApp.war /config/dropins/app.war
 RUN /liberty/wlp/bin/installUtility install /config/server.xml 
 ```
 
-    - The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
+   - The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
 
    - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
