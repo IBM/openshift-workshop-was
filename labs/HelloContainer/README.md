@@ -195,7 +195,7 @@ To make the build process repeatable, use a `Containerfile`, which contains inst
 FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
 COPY server.xml  /config
 COPY ServletApp.war /config/dropins/app.war
-RUN /liberty/wlp/bin/installUtility install /config/server.xml 
+RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml 
 ```
 
    - The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
@@ -208,16 +208,13 @@ RUN /liberty/wlp/bin/installUtility install /config/server.xml
 
 - Run the build: `podman build -t app .`. The `-t` option tags the name of the image as `app`.
 
-  ```
-  STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
-  ...
-Writing manifest to image destination
-Storing signatures
+```
+STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
 STEP 2: COPY server.xml  /config
-13d669701aacedee4e1d171c20a9f85c93935fb111107fda36c9013f7f1223ae
+eac7bbb2c9f3b010d57744094e7bb11528b22cec5a3f914a7f1e7c9b657859f8
 STEP 3: COPY ServletApp.war /config/dropins/app.war
-b76a7bf9a089754d30a4883243ed21b3820ed60bb827ed2fa9437c63498cd9d0
-STEP 4: RUN /liberty/wlp/bin/installUtility install /config/server.xml
+d8c6c1b3b3b1ab810bf1d4d2a1fea9399a33b714264ae610143c0c6c15222dd9
+STEP 4: RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
 Checking for missing features required by the server ...
 The server requires the following additional features: servlet-3.0.  Installing features from the repository ...
 Establishing a connection to the configured repositories ...
@@ -230,6 +227,10 @@ Preparing assets for installation. This process might take several minutes to co
 Additional Liberty features must be installed for this server.
 
 To install the additional features, review and accept the feature license agreement:
+The --acceptLicense argument was found. This indicates that you have
+accepted the terms of the license agreement.
+
+
 Step 1 of 4: Downloading servlet-3.0 ...
 Step 2 of 4: Installing servlet-3.0 ...
 Step 3 of 4: Validating installed fixes ...
@@ -239,9 +240,9 @@ Step 4 of 4: Cleaning up temporary files ...
 All assets were successfully installed.
 
 Start product validation...
- Product validation completed successfully.
+Product validation completed successfully.
 STEP 5: COMMIT app
-baa6bb9ad29d4931a92879ae0aac044c689b16585ad2132f8f2ccf663c095f97
+3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
 ```
 
 - List the images: `podman images`
@@ -249,7 +250,7 @@ baa6bb9ad29d4931a92879ae0aac044c689b16585ad2132f8f2ccf663c095f97
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
 localhost/app                         latest                     baa6bb9ad29d   2 minutes ago   544 MB
-docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     513 MB
+docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
  ```
 
 - Start the container. Note that you are running with both http and https ports: `podman run -d -p 9080:9080 -p 9443:9443 --name=app-instance app`

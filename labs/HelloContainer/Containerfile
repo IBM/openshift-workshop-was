@@ -1,4 +1,4 @@
 FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
 COPY server.xml  /config
 COPY ServletApp.war /config/dropins/app.war
-RUN /liberty/wlp/bin/installUtility install /config/server.xml
+RUN /liberty/wlp/bin/installUtility --acceptLicense install /config/server.xml
