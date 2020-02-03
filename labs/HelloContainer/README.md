@@ -23,7 +23,7 @@ If you are expecting a lab about `docker`, you are at the right place. Note that
 podman version 1.6.4
 ```
 
-# Run a pre-buit image
+# Run a pre-built image
 
 - List avaiable local images: `podman images`
 ```
@@ -92,13 +92,13 @@ docker.io/openshift/hello-openshift   latest   7af3297a3fb4   21 months ago   6.
 
 - Verify there are two containers running in the same host: `podman ps`:
 
+```
 CONTAINER ID  IMAGE                                       COMMAND  CREATED             STATUS             PORTS
                                   NAMES
 5d2c82fe3f7c  docker.io/openshift/hello-openshift:latest           5 seconds ago       Up 5 seconds ago   0.0.0.0:8081->
 8080/tcp, 0.0.0.0:8889->8888/tcp  hello2
 43c70b723756  docker.io/openshift/hello-openshift:latest           About a minute ago  Up 57 seconds ago  0.0.0.0:8080->
 8080/tcp                          hello1```
-
 ```
 
 - View the logs: `podman logs hello1`
@@ -147,45 +147,49 @@ panic: ListenAndServe: listen tcp :8888: bind: address already in use
 ...
 ```
 
-## Investigate the podman command
+- Stop the containers:
+ - `podman stop hello1`
+ - `podman stop hello2`
 
-- Access the application running in the container from outside the container:
-  - If you are running a server machine, use curl to access the port: `curl http://localhost:9080` and ensure you have output.
-  - If you are running on a desktop, point your browser to: `http://localhost:9080`
+- List running containers: `podman ps`
 
- - Access the logs to your container: `podman logs --tail=0 -f wlp`. The `--tail=0` option lists all entries in the log. Use `Ctrl-C` To exit.
+- List all containers, including stopped ones: `podman ps -a`
 
-- Remote shell into your running container to poke around: `podman exec -it wlp /bin/sh`
-  - run `whoami` and note you're not running as root.
-  - cd `/logs` to find the log files
-  - cd `/liberty/wlp` to find the location of the liberty install
-  - cd `/liberty/wlp/usr/servers/defaultServer` to find the server congiruation. Note that the default server just runs without any application.
-  - Exit from the container: `exit`
-
-- Stop the container: `podman stop wlp`
-
-- List the process: `podman ps` and note that it does not show the stopped container.
-
-- List all processes: `podman ps -a` and note that -a option lists all container, including stopped containers.
 ```
-CONTAINER ID  IMAGE                                      COMMAND               CREATED         STATUS
-   PORTS                   NAMES
-eff4145f8f9a  docker.io/ibmcom/websphere-liberty:latest  /opt/ibm/wlp/bin/...  19 minutes ago  Exited (143) 7 seconds ag
-o  0.0.0.0:9080->9080/tcp  wlp
+CONTAINER ID  IMAGE                                       COMMAND  CREATED         STATUS                    PORTS
+                                     NAMES
+2b1181079e03  docker.io/openshift/hello-openshift:latest           16 seconds ago  Exited (2) 4 seconds ago  0.0.0.0:808
+1->8080/tcp, 0.0.0.0:8889->8888/tcp  hello2
+5bfd89e698e7  docker.io/openshift/hello-openshift:latest           32 seconds ago  Exited (2) 7 seconds ago  0.0.0.0:808
+0->8080/tcp                          hello1
+```
+  
+- restart a stopped container: `podman restart hello1`
+
+- List running containers: `podman ps`
+
+```
+CONTAINER ID  IMAGE                                       COMMAND  CREATED        STATUS             PORTS
+     NAMES
+5bfd89e698e7  docker.io/openshift/hello-openshift:latest           2 minutes ago  Up 29 seconds ago  0.0.0.0:8080->8080/
+tcp  hello1
 ```
 
-- Remove the container: `podman rm wlp`
+- Stop the container: `podman stop hello1`
 
-- List all containers again and verify the stopped container no longer exsits: `podman ps -a`
+- Remove stopped containers:
+  - `podman rm hello1`
+  - `podman rm hello2`
+  - `podman ps`
 
 
 ## Build and Run Your Own Image
 
-Note: This part of the lab requires about 1GB of disk to store your 
+Note: This part of the lab requires about 800 MB of disk to store your images.  If you do not have the space, you can read through the instructions without doing the lab.
 
 To make the build process repeatable, use a `Containerfile`, which contains instructions to create the new layers of the image.
 
-- Investigate the provided `Containerfile`:
+- Review the provided `Containerfile`:
 
    ```
 FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
@@ -199,9 +203,10 @@ RUN /liberty/wlp/bin/installUtility install /config/server.xml
    -- The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
    - The third line, another `COPY`, copies `ServletApp.war` from the current directory into a new layer in the image you are creating, at the location `/config/dropins/app.war`.
-   - The last line runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml1
 
-- Run the build: `podman build -t app .`
+   - The last line `RUN` runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
+
+- Run the build: `podman build -t app .`. The `-t` option tags the name of the image as `app`.
 
   ```
   STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
@@ -255,24 +260,26 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
     -  point your browser to `http://localhost:9080/app` and check that renders a page showing `Simple Servlet ran successfully`.
     - Also point your browser to `https://localhost:9443/app`
 
-- To demonstrate container images are running at the process level, create a second container, but this time make it listen on ports 9081 and 9444: `podman run -d -p 9081:9080 -p 9444:9443 --name=app-instance1 app`. Note that network isolation allows each container to run on port 9080, but outside the container the actual ports used at 9080 and 9081. 
-   - If you are running on a server: `curl --insecure https://localhost:9444/app` and ensure you get the same output as before.
-   - If you are running on a desktop with browser, point your browser to `https://localhost:9444/app`.
 
 - List the running containers: `podman ps`
 
 ```
   CONTAINER ID  IMAGE                 COMMAND               CREATED             STATUS                 PORTS NAMES
 45e82c9cd416  localhost/app:latest  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
-cb20ce464c88  localhost/app:latest  /opt/ibm/wlp/bin/...  10 minutes ago      Up 10 minutes ago      0.0.0.0:9080->9080/ tcp                          app-instance
 ```
 
-- Stop the first instance: `podman stop app-instance`
+ - Access the logs to your container: `podman logs --tail=0 -f app-instance`. The `--tail=0` option lists all entries in the log. Use `Ctrl-C` To exit.
 
-- Stop the second instance: `podman stop app-instance1`
+- Remote shell into your running container to poke around: `podman exec -it app-instance /bin/sh`
+  - run `whoami` and note you're not running as root.
+  - cd `/logs` to find the log files
+  - cd `/liberty/wlp` to find the location of the liberty install
+  - cd `/liberty/wlp/usr/servers/defaultServer` to find the server congiruation. Note that the default server just runs without any application.
+  - Exit from the container: `exit`
 
-- Remove the first instance: `podman rm app-instance`
+- Cleanup: 
+  - `podman stop app-instance`
+  - `podman rm app-instance`
 
-- Remove the second instance: `podman rm app-instance1`
 
 - Congratulations. You have completed the introduction to containerization lab.
