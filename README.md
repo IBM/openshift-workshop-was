@@ -37,5 +37,5 @@ The administrator sections are:
 - Devops and CI/CD
 
 List of labs:
-- [Introduction to Containerization](labs/HelloContainer)
-- [Introduction to Container Orchestration using Openshift](labs/IntroOpenshift)
+- [Introduction to Containerization](labs/Openshift/HelloContainer)
+- [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift)
