@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Liberty server for labs">
+
+    <variable name="wlp.password.encryption.key" value="My Password Encryption Key"  />
+
+</server>

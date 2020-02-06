@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Liberty server for labs">
+  <httpEndpoint id="defaultHttpEndpoint"
+              httpPort="9380"
+              httpsPort="9343" />
+</server>
