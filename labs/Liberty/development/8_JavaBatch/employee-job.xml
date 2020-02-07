@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="employee-job" restartable="true" version="1.0">
+	<step id="JobInitialization" next="ReadText">
+		<batchlet
+			ref="com.ibm.ws.jbatch.sample.employee.InitializationBatchlet" />
+	</step>
+	<step id="ReadText" next="CalcStats">
+		<listeners>
+			<listener ref="com.ibm.ws.jbatch.sample.employee.ReadTextStepListener" />
+		</listeners>
+		<chunk>
+			<reader ref="com.ibm.ws.jbatch.sample.employee.TextReader">
+				<properties>
+					<property name="input.text.file.name" value="#{jobParameters['input.text.file.name']}" />
+				</properties>
+			</reader>
+			<processor ref="com.ibm.ws.jbatch.sample.employee.TextProcessor" />
+			<writer ref="com.ibm.ws.jbatch.sample.employee.JDBCWriter" />
+		</chunk>
+	</step>
+	<step id="CalcStats" >
+		<listeners>
+			<listener ref="com.ibm.ws.jbatch.sample.employee.JDBCReaderChunkListener" />
+		</listeners>
+		<chunk>
+			<reader ref="com.ibm.ws.jbatch.sample.employee.JDBCReader">
+				<properties>
+					<property name="firstID" value="#{partitionPlan['firstID']}" />
+					<property name="lastID" value="#{partitionPlan['lastID']}" />
+				</properties>
+			</reader>
+			<writer ref="com.ibm.ws.jbatch.sample.employee.StatWriter" />
+		</chunk>
+		<partition>
+			<plan partitions="2">
+				<properties partition="0">
+					<property name="firstID" value="1230000" />
+					<property name="lastID" value="1230049" />
+				</properties>
+				<properties partition="1">
+					<property name="firstID" value="1230050" />
+				</properties>
+			</plan>
+			<collector ref="com.ibm.ws.jbatch.sample.employee.StatCollector" />
+			<analyzer ref="com.ibm.ws.jbatch.sample.employee.StatAnalyzer" />
+			<reducer ref="com.ibm.ws.jbatch.sample.employee.StatReducer" />
+		</partition>
+	</step>
+</job>

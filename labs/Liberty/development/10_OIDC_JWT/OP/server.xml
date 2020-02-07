@@ -1,0 +1,37 @@
+<server description="new server">
+
+    <!-- Enable features -->
+      <featureManager>
+       <feature>openidConnectServer-1.0</feature>
+       <feature>appSecurity-2.0</feature>
+       <feature>servlet-3.0</feature>
+       <feature>localConnector-1.0</feature>
+    </featureManager>
+
+   <basicRegistry id="basic" realm="OpBasicRealm">
+       <user name="user1" password="user1"/>
+       <user name="user2" password="user2"/>
+   </basicRegistry>
+
+   <openidConnectProvider id="OP" jwkEnabled="true" oauthProviderRef="Oauth" signatureAlgorithm="RS256"/>
+
+   <keyStore id="defaultKeyStore" password="labPassword"/>
+   
+   <httpEndpoint httpPort="8010" httpsPort="8020" id="defaultHttpEndpoint" host="*"/>
+                  
+    <oauth-roles>
+        <authenticated>
+            <special-subject type="ALL_AUTHENTICATED_USERS" />
+        </authenticated>
+    </oauth-roles>
+    
+   <oauthProvider httpsRequired="true" id="Oauth" tokenFormat="mpjwt" >
+       <localStore>
+        <client displayname="rp" name="rp" secret="{xor}LDo8LTor"
+            scope="openid profile scope1 email phone address" enabled="true" >
+            <redirect>https://localhost:9443/oidcclient/redirect/RP</redirect>
+        </client>
+       </localStore>
+   </oauthProvider>
+
+</server>

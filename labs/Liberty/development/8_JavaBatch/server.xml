@@ -1,0 +1,55 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>batchManagement-1.0</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>localConnector-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint">
+     <tcpOptions soReuseAddr="true"/>
+   </httpEndpoint>
+
+
+<dataSource id="batchDB" jndiName="jdbc/batch">
+    <jdbcDriver>
+        <library>
+            <fileset dir="${LAB_HOME}/db-derby-10.14.1.0-lib/lib" includes="derby.jar"/>
+        </library>
+    </jdbcDriver>
+    <properties.derby.embedded createDatabase="create" databaseName="${server.config.dir}/resources/BATCHDB">
+    </properties.derby.embedded>
+</dataSource>
+
+<dataSource id="employeDB" jndiName="jdbc/employeeDS">
+    <jdbcDriver>
+        <library>
+            <fileset dir="${LAB_HOME}/db-derby-10.14.1.0-lib/lib" includes="derby.jar"/>
+        </library>
+    </jdbcDriver>
+    <properties.derby.embedded createDatabase="create" databaseName="${server.config.dir}/resources/EMPLOYEEDB">
+    </properties.derby.embedded>
+</dataSource>
+
+<databaseStore dataSourceRef="batchDB" id="BatchDatabaseStore"/>
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <!--  The default self-signed SSL certificate in this example
+is intended only for development use and not for production. -->
+
+<keyStore id="defaultKeyStore" password="{xor}EzY9Oi0rJg=="/>
+<basicRegistry id="basic" realm="ibm/api">
+    <user name="admin" password="{xor}PjsyNjEvKDs="/>
+</basicRegistry>
+
+<authorization-roles id="com.ibm.ws.batch">
+    <security-role name="batchAdmin">
+        <user name="admin"/>
+    </security-role>
+</authorization-roles>
+
+    <webApplication id="EmployeeBatchWAR" location="EmployeeBatchWAR.war" name="EmployeeBatchWAR"/>
+</server>

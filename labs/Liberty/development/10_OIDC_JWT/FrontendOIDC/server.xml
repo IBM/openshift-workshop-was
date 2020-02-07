@@ -1,0 +1,39 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.3</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>jaxrs-2.0</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>jwt-1.0</feature>
+        <feature>openidConnectClient-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" host="localhost"/>
+        
+    
+    <keyStore password="{xor}Mz49Dz4sLCgwLTs="></keyStore>
+              
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication contextRoot="/frontend" id="BankingFrontendOIDC" location="BankingFrontendOIDC.war" name="BankingFrontendOIDC"/>
+
+    <webAppSecurity  logoutOnHttpSessionExpire="false"  ssoCookieName="RP" />
+
+    <openidConnectClient id="RP" signatureAlgorithm="RS256"
+           scope="openid profile email"
+           isClientSideRedirectSupported="false"
+           clientId="rp"
+           clientSecret="secret"  sharedKey="secret"
+           discoveryEndpointUrl="https://localhost:8020/oidc/endpoint/OP/.well-known/openid-configuration"
+           />
+
+    <jwtBuilder id="defaultJWT" keyAlias="default"  />
+
+</server>

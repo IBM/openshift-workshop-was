@@ -1,0 +1,37 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.3</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>jaxrs-1.1</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>openidConnectClient-1.0</feature>
+        <feature>jwt-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint httpPort="9081" httpsPort="9444" id="defaultHttpEndpoint" host="localhost"/>
+             
+    <keyStore password="{xor}Mz49Dz4sLCgwLTs="></keyStore>
+                  
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication contextRoot="/banking" id="BankingServiceJWT"
+    	location="BankingServiceJWT.war" name="BankingServiceJWT">
+    </webApplication>
+
+    <webAppSecurity  logoutOnHttpSessionExpire="false"  ssoCookieName="RS" />
+ 
+     <openidConnectClient id="RP" signatureAlgorithm="RS256" 
+          inboundPropagation="required"
+          audiences="BankingService"
+          issuerIdentifier="https://localhost:9443/jwt/defaultJWT"
+          trustStoreRef="defaultKeyStore"
+          trustAliasName="frontend" >
+      </openidConnectClient>
+</server>

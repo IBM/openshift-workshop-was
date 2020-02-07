@@ -1,0 +1,33 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.3</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>jaxrs-1.1</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>openidConnectClient-1.0</feature>
+        <feature>jwt-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint httpPort="9082" httpsPort="9445" id="defaultHttpEndpoint"/>
+                  
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+    <keyStore password="{xor}Mz49Dz4sLCgwLTs="></keyStore>
+
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication contextRoot="/credit" id="CreditServiceJWT" location="CreditServiceJWT.war" name="CreditServiceJWT"/>
+
+ <openidConnectClient id="RP" signatureAlgorithm="RS256" 
+          inboundPropagation="required"
+          audiences="CreditService"
+          issuerIdentifier="https://localhost:9443/jwt/defaultJWT"
+          jwkEndpointUrl="https://localhost:9443/jwt/ibm/api/defaultJWT/jwk" >
+      </openidConnectClient>
+
+</server>

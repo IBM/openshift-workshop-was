@@ -1,0 +1,18 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.3</feature>
+         <feature>jaxrs-2.0</feature>
+        <feature>localConnector-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint httpPort="9082" httpsPort="9444" id="defaultHttpEndpoint" host="*"/>
+                  
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+
+    <webApplication contextRoot="/credit" id="CreditServiceWeb" location="CreditServiceWeb.war" name="CreditServiceWeb"/>
+</server>
