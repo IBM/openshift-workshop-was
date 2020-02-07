@@ -62,3 +62,4 @@ Next, pick any lab for in-depth exploration:
 - [JAXWS](labs/Liberty/development/7_JAXWS)
 - [Java Batch](labs/Liberty/development/8_JavaBatch)
 - [Open ID Connect and JWT](labs/Liberty/development/10_OIDC_JWT)
+- [Micro Profile](https://github.com/OpenLiberty/tutorial-microprofile)
