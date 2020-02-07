@@ -36,6 +36,18 @@ The administrator sections are:
 - Public and Hybrid Cloud
 - Devops and CI/CD
 
-List of labs:
+
+## Labs
+
+### Container and Openshift Labs
+
 - [Introduction to Containerization](labs/Openshift/HelloContainer)
 - [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift)
+
+
+### Liberty Labs 
+
+Start with these two labs:
+
+- [Setup Liberty](labs/Liberty/gettingStarted/0_setup)
+- [Discover Liberty](labs/Liberty/gettingStarted/1_discover)
