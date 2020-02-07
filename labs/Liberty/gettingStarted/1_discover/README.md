@@ -367,7 +367,7 @@ Now you are ready to start working with a sample application that uses the Servl
 <webApplication id="Sample1" location="Sample1.war" name="Sample1" />
 ```
 3. Check the server’s `message.log` that the application is started.
-4. check the application is running by opening a browser at: <http://localhost:9080/Sample1/SimpleServlet>
+4. check the application is running by opening a browser at: [http://localhost:9080/Sample1/SimpleServlet](http://localhost:9080/Sample1/SimpleServlet)
 
 #### Modify the server HTTP(s) ports
 
@@ -380,7 +380,7 @@ to
 httpPort="9580"
 ```
  
-2. Save the changes, check the logs, then open a browser to: <http://localhost:9580/Sample1/SimpleServlet>
+2. Save the changes, check the logs, then open a browser to: [http://localhost:9580/Sample1/SimpleServlet](http://localhost:9580/Sample1/SimpleServlet>)
 
 #### Add INFO logging output to console
 
@@ -408,7 +408,7 @@ Updating the trace specification for debugging is easily performed by updating s
  ```
 1. Verify that the trace file contains trace data. The trace file is located at:
 `{LAB_HOME}\wlp\usr\servers\myServer\logs\trace.log`
-1. Check new entries are added to `trace.log` after you refresh the browser or point your browser to  the application at: <http://localhost:9580/Sample1/SimpleServlet>
+1. Check new entries are added to `trace.log` after you refresh the browser or point your browser to  the application at: [http://localhost:9580/Sample1/SimpleServlet](http://localhost:9580/Sample1/SimpleServlet)
 1. Very important: avoid excessive tracing by reverting the trace specification back to :  `<logging consoleLogLevel="INFO"/>`
 1. Save the changes.
 
