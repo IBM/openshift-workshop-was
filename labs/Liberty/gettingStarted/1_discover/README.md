@@ -323,14 +323,14 @@ This concludes the customization portion of the lab. In the next sections, you w
 1. Modify the server configuration.
     - Open an editor to edit `{LAB_HOME}/wlp/usr/servers/myServer/server.xml`
     - Under the feature manager, replace existing featured with `servlet-3.1` feature:
-```
-<featureManager>
-     <feature>servlet-3.1</feature>
-</featureManager>
-```
-    - Optionally change the server description to something meaningful, such as `Liberty server for labs`: `<server description="Libert server for labs">`
-    - Save the changes
-    - Look at the tail of `{LAB_HOME}/wlp/usr/servers/myServer/logs/message.log`. You should see messages about feature updates. For example,
+    ```
+    <featureManager>
+         <feature>servlet-3.1</feature>
+    </featureManager>
+    ```
+1.  Optionally change the server description to something meaningful, such as "Liberty server for labs": `<server description="Libert server for labs">`
+1. Save the changes
+1.  Look at the tail of `{LAB_HOME}/wlp/usr/servers/myServer/logs/message.log`. You should see messages about feature updates. For example:
 ```
 [4/16/19 14:29:29:276 CDT] 00000037 com.ibm.ws.kernel.feature.internal.FeatureManager            I CWWKF0007I: Feature update started.
 [4/16/19 14:29:29:400 CDT] 00000035 com.ibm.ws.config.xml.internal.ConfigRefresher               A CWWKG0017I: The server configuration was successfully updated in 0.240 seconds.
