@@ -7,23 +7,23 @@ Where applicable, substitute with Linux or Mac equivalent, such as path names.
 
 Please refer to the following table for file and resource location references on different operating systems.
 
-If you are participating in this lab as part of Liberty Virtual Proof of Technology (Liberty Virtual POT),  you would download a zip file that contains Liberty, Eclipse, WebSphere Developer tools. After following the installation instructions below, you can find Liberty installed in the following locations:
+If you are participating in this lab as part of Liberty Virtual Proof of Technology (Liberty Virtual POT),  you would download a zip file (URL provided during virtual POT) that contains Liberty, Eclipse, WebSphere Developer tools. After following the installation instructions below, you can find Liberty installed in the following locations:
 
 |Location Ref | OS | Absolute Path |
 |-------------|----|---------------|
-|{LAB_HOME}  | Windows | C:\WLP_<version> |
-|{LAB_HOME}  | Linux, Mac   | ~/WLP_<version> or your choice |
+|{LAB_HOME}  | Windows | `C:\WLP_<version>` |
+|{LAB_HOME}  | Linux, Mac   | `~/WLP_<version>` or your choice |
 
 
 If you are not participating as part of Liberty Virtual POT, you are free to install Liberty at a location of your choosing, after following the installation instructions below.
 
 
 
-## Installation Liberty
+## Installing Liberty
 
-If you are installing Liberty as part of Liberty Virtual POT, please proceed to [Installing as part of VirtualPOD](#InstallVirtualPOT).
+If you are installing Liberty as part of Liberty Virtual POT, proceed to [Installing as part of VirtualPOD](#InstallVirtualPOT).
 
-If you are installing Liberty not as part of Liberty Virtual POT, please proceed to [Installing On Your Own](#SelfInstall).
+If you are installing Liberty not as part of Liberty Virtual POT, proceed to [Installing On Your Own](#SelfInstall).
 
 <a name="InstallVirtualPOT"></a>
 ### Installing as part of Virtual POT
@@ -84,7 +84,7 @@ This allows you to pick up the Java that is part of your zip install.
 <a name="SelfInstall"></a>
 ### Installing On Your Own
 
-Install the latest version of Eclipse IDE from [eclipse.org](http://www.eclipse.org)
+Install the latest version of Eclipse IDE for Java EE Developers from [eclipse.org](http://www.eclipse.org)
 
 - Point your browser to [wasdev website](https://developer.ibm.com/wasdev), and click on `Download Latest Stable Release`
 
@@ -93,7 +93,8 @@ Install the latest version of Eclipse IDE from [eclipse.org](http://www.eclipse.
 
 - Download the zip file for the latest stable release, and unzip to your `{LAB_HOME}` directory. After unzip, your Liberty installation should be under `{LAB_HOME}/wlp`.
 - Follow the instructions to install WebSphere Developer Tools (WDT)
-- To install full Java EE 8 support: `{LAB_HOME}/wlp/bin/installUtility install --acceptLicene java-ee8`
+- Install full Java EE 7 support: `{LAB_HOME}/wlp/bin/installUtility install --acceptLicense javaee-7.0`
+- Install full Java EE 8 support: `{LAB_HOME}/wlp/bin/installUtility install --acceptLicense javaee-8.0`
 
 ## Verifying your Liberty Installation
 
@@ -122,18 +123,16 @@ You now have a Liberty runtime environment that is ready to be configured to run
 
 ## Test WebbSphere Developer Tools (WDT)
 
-You can manage Liberty from the command line, and edit the server configuration files in any editor, but the WebSphere Developer Tools (WDT) provide a great configuration editor, server controls and application publishing, as well as many other time-saving utilities.  
+You can manage Liberty from the command line, and edit the server configuration files in any editor, but the WebSphere Developer Tools (WDT) provide a great configuration editor, server controls and application publishing, as well as many other time-saving utilities.
 We will use WDT in many more labs.
 
-Normally you would first download and install Eclipse, followed by the installation of WDT. If you are running this lab as part of WebSphere Virtual POT, we have bundled everything into a single zip file. 
-The directory `{LAB_HOME}/wdt` contains a prebuilt and expanded WDT.
-Note:  Upon first startup, it may take Eclipse up to a minute to start as it initializes.
+*Note*:  Upon first startup, it may take Eclipse up to a minute to start as it initializes.
 
 1. Start Eclipse with WDT
    - For Virtual POT attendees:
-   - For Windows,  `{LAB_HOME}\wdt\eclipse\eclipse.exe`
-   - For Linux, `{LAB_HOME}/wdt/eclipse/eclipse`
-   - For Mac, `{LAB_HOME}/wdt/eclipse/Eclipse.app/Contents/MacOs/eclipse`
+       - For Windows,  `{LAB_HOME}\wdt\eclipse\eclipse.exe`
+       - For Linux, `{LAB_HOME}/wdt/eclipse/eclipse`
+       - For Mac, `{LAB_HOME}/wdt/eclipse/Eclipse.app/Contents/MacOs/eclipse`
    - For all others: start Eclipse that you have installed.
 
 1. When the Eclipse launcher prompts you to Select a workspace: 
@@ -149,14 +148,17 @@ Note:  Upon first startup, it may take Eclipse up to a minute to start as it ini
 
 ### Create Liberty Server in WDT
 
-1. At the bottom of the workbench, open the Servers view by clicking the `Servers` tab. 
-Right-click within the windows of the `Servers` view and select `New > Server`
-  ![New Server](images/NewServer.jpg)
+1. At the bottom of the workbench, open the Servers view by clicking the `Servers` tab.
+Right-click within the windows of the `Servers` view and select `New > Server`.
 
-1. Under the server type list, expand IBM and select the Liberty Server server type.   Use the default eclipse server name as supplied (localhost).  Click Next.  This creates the liberty server object in eclipse.
-  ![New Liberty Server](images/NewLibertyServer.jpg)
+    ![New Server](images/NewServer.jpg)
 
-1. Now eclipse needs to associate the ‘localhost’ server with a server configuration in a Liberty runtime (the runtime that you installed).  
+1. Under the server type list, expand IBM and select the Liberty Server server type.
+Use the default eclipse server name as supplied (localhost).  Click Next.  This creates the liberty server object in eclipse.
+
+    ![New Liberty Server](images/NewLibertyServer.jpg)
+
+1. Now eclipse needs to associate the `localhost` server with a server configuration in a Liberty runtime (the runtime that you installed).  
 The Liberty Runtime Environment page is displayed.
   - In the Path field under the Installation folder section,
     type or browse for the directory where you installed the
@@ -164,19 +166,22 @@ The Liberty Runtime Environment page is displayed.
   - You may also select which JRE to use if you have 
     multiple JRE in your environment.
   - Click Next.
-  ![New LIberty runtime](images/LibertyRuntime.jpg)
+
+    ![New LIberty runtime](images/LibertyRuntime.jpg)
 1. To create the server configuration in the runtime, 
  either use the current populated server `myServer` or 
  click the New button.  
  Note: if directions were followed and myServer was deleted, your screen print will differ and there will be no new button and defaultServer will be prepopulated.
-   ![New My Server ](images/NewMyServer.jpg)
-1. Enter `labServer1` to the Liberty Server: box then click Finish and then Finish again.
-  ![Lab Server ](images/LabServer.jpg)
-1. The new server will appear in the Servers view.
- You can expand the server to show a quick view of the configuration.  
- You can open the server configuration editor by double-clicking on Server Configuration:
 
-  ![Server Config ](images/ServerConfig.jpg)
+    ![New My Server ](images/NewMyServer.jpg)
+1. Enter `labServer1` to the Liberty Server: box then click Finish and then Finish again.
+
+    ![Lab Server ](images/LabServer.jpg)
+1. The new server will appear in the Servers view.
+You can expand the server to show a quick view of the configuration.  
+You can open the server configuration editor by double-clicking on Server Configuration:
+
+    ![Server Config ](images/ServerConfig.jpg)
 
 ## For Labs Accessing IBM Cloud: Create a IBM Cloud User ID
 
