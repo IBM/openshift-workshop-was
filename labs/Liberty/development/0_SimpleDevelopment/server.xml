@@ -1,0 +1,32 @@
+<server description="Liberty server for labs">
+
+    <!-- Enable features -->
+    <featureManager>
+		<feature>servlet-3.1</feature>
+	    <feature>localConnector-1.0</feature>
+    	<feature>appSecurity-2.0</feature>
+	    <feature>jsp-2.3</feature>
+		<feature>transportSecurity-1.0</feature>
+	</featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint host="${MY.HOST}" httpPort="${MY.HTTP.PORT}" httpsPort="${MY.HTTPS.PORT}" id="defaultHttpEndpoint">
+       <tcpOptions soReuseAddr="true"/>
+       <httpEndpoint/>
+
+
+    <logging consoleLogLevel="INFO"/>
+    <keyStore password="{xor}MiYsOjwtOis="/>
+    <basicRegistry>
+    	<user name="userX" password="{xor}Lz4sLCgwLTsH"/>
+    	<user name="userY" password="{xor}Lz4sLCgwLTsG"/>
+    </basicRegistry>
+
+    <webApplication id="LabWeb" location="LabWeb.war" name="LabWeb">
+    	<application-bnd>
+    		<security-role name="labWebUsers">
+    			<user name="userX"></user>
+    		</security-role>
+    	</application-bnd>
+    </webApplication>
+</server>
