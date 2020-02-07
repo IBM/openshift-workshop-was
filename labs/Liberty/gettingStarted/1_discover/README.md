@@ -5,8 +5,8 @@ The instructions assume a Windows environment, but Linux and Mac differences are
 Where applicable, substitute with Linux or Mac equivalent, such as path names.
 
 Note: 
--	To explore Liberty via WDT, proceed to section 2.
--	To explore Liberty via command line, proceed to section 3.
+-	To explore Liberty via WDT, proceed to [WDT Section](#WDT).
+-	To explore Liberty via command line, proceed to [Command Line Section](#CommandLine)
 
 
 If you are participating in this lab as part of Liberty Virtual Proof of Technology (Liberty Virtual POT),  you would download a zip file that contains Liberty, Eclipse, WebSphere Developer tools. After installation, you can find Liberty installed in the following locations:
@@ -18,6 +18,7 @@ If you are participating in this lab as part of Liberty Virtual Proof of Technol
 
 If you are not participating as part of Liberty Virtual POT, you had installed Liberty at a location of your choosing.
 
+<a name="WDT"></a>
 ## Explore Liberty via WDT
 
 Note: proceed directly to the next section if you only want to use the command line.
@@ -308,6 +309,7 @@ Restart the server to enable changes.
 
 This concludes the customization portion of the lab. In the next sections, you will be introduced to the Liberty configuration files for customizing the server initialization and environment settings. 
 
+<a name="CommandLine"></a>
 ## Explore Liberty Via Command Line
 
 ### Exploring the Liberty Server from command line
