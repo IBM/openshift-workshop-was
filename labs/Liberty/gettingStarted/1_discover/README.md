@@ -323,7 +323,7 @@ This concludes the customization portion of the lab. In the next sections, you w
 1. Modify the server configuration.
     - Open an editor to edit `{LAB_HOME}/wlp/usr/servers/myServer/server.xml`
     - Under the feature manager, replace existing featured with `servlet-3.1` feature:
- ```
+```
 <featureManager>
      <feature>servlet-3.1</feature>
 </featureManager>
