@@ -63,3 +63,5 @@ Next, pick any lab for in-depth exploration:
 - [Java Batch](labs/Liberty/development/8_JavaBatch)
 - [Open ID Connect and JWT](labs/Liberty/development/10_OIDC_JWT)
 - [Micro Profile](https://github.com/OpenLiberty/tutorial-microprofile)
+- [Monitoring and Debugging](labs/Liberty/development/11_Monitoring): With Jconsole and other tools.
+- [Packaging and Customizing Liberty](labs/Liberty/development/12_Customize): Options to package and run Liberty as a zip file, as a runnable JAR, or customize for containers.

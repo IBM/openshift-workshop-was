@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Liberty server for labs">
+
+    <!-- variables for port numbers -->
+    <variable name="customize.http.port" value="9080" />
+    <variable name="customize.https.port" value="9443" />
+
+    <!-- Disable reading configuration after server starts -->
+    <config updateTrigger="disabled"/>
+</server>

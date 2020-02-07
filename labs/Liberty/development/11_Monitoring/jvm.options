@@ -1,0 +1,4 @@
+-verbose:gc
+-agentlib:healthcenter
+-Xtrace:output=perfmon.%p.out
+-Dcom.ibm.java.diagnostics.healthcenter.agent.port=1972
