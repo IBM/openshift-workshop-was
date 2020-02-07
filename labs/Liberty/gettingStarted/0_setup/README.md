@@ -5,7 +5,7 @@ In this lab we will perform the initial set up required for all the labs and exp
 The instructions assume a Windows environment, but Linux and Mac differences are presented.
 Where applicable, substitute with Linux or Mac equivalent, such as path names.
 
-Please refer to the following table for file and resource location references on different operating systems.
+If you are not participating as part of Liberty Virtual POT, you are free to install Liberty and Eclipse at a location of your choosing, after following the installation instructions below.
 
 If you are participating in this lab as part of Liberty Virtual Proof of Technology (Liberty Virtual POT),  you would download a zip file (URL provided during virtual POT) that contains Liberty, Eclipse, WebSphere Developer tools. After following the installation instructions below, you can find Liberty installed in the following locations:
 
@@ -14,16 +14,11 @@ If you are participating in this lab as part of Liberty Virtual Proof of Technol
 |{LAB_HOME}  | Windows | `C:\WLP_<version>` |
 |{LAB_HOME}  | Linux, Mac   | `~/WLP_<version>` or your choice |
 
-
-If you are not participating as part of Liberty Virtual POT, you are free to install Liberty at a location of your choosing, after following the installation instructions below.
-
-
-
 ## Installing Liberty
 
-If you are installing Liberty as part of Liberty Virtual POT, proceed to [Installing as part of VirtualPOD](#InstallVirtualPOT).
-
 If you are installing Liberty not as part of Liberty Virtual POT, proceed to [Installing On Your Own](#SelfInstall).
+
+If you are installing Liberty as part of Liberty Virtual POT, proceed to [Installing as part of VirtualPOD](#InstallVirtualPOT).
 
 <a name="InstallVirtualPOT"></a>
 ### Installing as part of Virtual POT
@@ -84,12 +79,11 @@ This allows you to pick up the Java that is part of your zip install.
 <a name="SelfInstall"></a>
 ### Installing On Your Own
 
-Install the latest version of Eclipse IDE for Java EE Developers from [eclipse.org](http://www.eclipse.org)
+Install the latest version of Eclipse IDE for Java EE Developers from [eclipse.org](http://www.eclipse.org). You will have option to download either an installer, or a zip file. Follow the instructions to download install Eclipse.
 
 - Point your browser to [wasdev website](https://developer.ibm.com/wasdev), and click on `Download Latest Stable Release`
 
 ![Download latest](images/WASDevStartPage.jpg)
-
 
 - Download the zip file for the latest stable release, and unzip to your `{LAB_HOME}` directory. After unzip, your Liberty installation should be under `{LAB_HOME}/wlp`.
 - Follow the instructions to install WebSphere Developer Tools (WDT)
@@ -121,12 +115,12 @@ The server.xml file is the complete server configuration. Open up an editor to v
 You now have a Liberty runtime environment that is ready to be configured to run applications.  
  
 
-## Test WebbSphere Developer Tools (WDT)
+## Test WebSphere Developer Tools (WDT)
 
 You can manage Liberty from the command line, and edit the server configuration files in any editor, but the WebSphere Developer Tools (WDT) provide a great configuration editor, server controls and application publishing, as well as many other time-saving utilities.
 We will use WDT in many more labs.
 
-*Note*:  Upon first startup, it may take Eclipse up to a minute to start as it initializes.
+*Note*:  Upon first startup, it may take Eclipse up to a minute to initialize.
 
 1. Start Eclipse with WDT
    - For Virtual POT attendees:
