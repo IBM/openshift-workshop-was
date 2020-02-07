@@ -345,19 +345,19 @@ Now you are ready to start working with a sample application that uses the Servl
 1. The easiest way to deploy an application to Liberty is to copy it to the server’s `dropins` directory.
     - Copy the provided application at `{LAB_HOME}/labs/gettingStarted/1_discover/Sample1.war` to `{LAB_HOME}/wlp/usr/servers/myServers/dropins` directory
     - Check the server’s `messages.log` to ensure that application deployment has taken place:
-```
-[4/16/19 14:41:10:496 CDT] 00000066 com.ibm.ws.app.manager.AppMessageHelper                      I CWWKZ0018I: Starting application Sample1.
-[4/16/19 14:41:10:812 CDT] 00000066 com.ibm.ws.session.WASSessionCore                            I SESN8501I: The session manager did not find a persistent storage location; HttpSession objects will be stored in the local application server's memory.
-[4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.webcontainer.osgi.webapp.WebGroup                 I SRVE0169I: Loading Web Module: Sample1.
-[4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.webcontainer                                      I SRVE0250I: Web Module Sample1 has been bound to default_host.
-[4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.http.internal.VirtualHostImpl                     A CWWKT0016I: Web application available (default_host): http://localhost:9080/Sample1/
-[4/16/19 14:41:10:843 CDT] 00000066 com.ibm.ws.app.manager.AppMessageHelper                      A CWWKZ0001I: Application Sample1 started in 0.347 seconds.
-[4/16/19 14:41:11:044 CDT] 0000003b com.ibm.ws.webcontainer.osgi.mbeans.PluginGenerator          I SRVE9103I: A configuration file for a web server plugin was automatically generated for this server at C:\Users\MichaelCheng\Documents\workshops\VirtualPOT\LibertyPoT_19.0.0.3\WLP_19.0.0.3\wlp\usr\servers\myServer\logs\state\plugin-cfg.xml.
-[4/16/19 14:41:11:059 CDT] 00000058 com.ibm.ws.session.WASSessionCore                            I SESN0176I: A new session context will be created for application key default_host/Sample1
-[4/16/19 14:41:11:082 CDT] 00000058 com.ibm.ws.util                                              I SESN0172I: The session manager is using the Java default SecureRandom implementation for session ID generation. 
-```
-    - check the application is running by opening a browser at: `http://localhost:9080/Sample1/SimpleServlet`
-    - Delete the application from the `dropins` directory, then check that it’s no longer accessible from the browser. 
+    ```
+    [4/16/19 14:41:10:496 CDT] 00000066 com.ibm.ws.app.manager.AppMessageHelper                      I CWWKZ0018I: Starting application Sample1.
+    [4/16/19 14:41:10:812 CDT] 00000066 com.ibm.ws.session.WASSessionCore                            I SESN8501I: The session manager did not find a persistent storage location; HttpSession objects will be stored in the local application server's memory.
+    [4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.webcontainer.osgi.webapp.WebGroup                 I SRVE0169I: Loading Web Module: Sample1.
+    [4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.webcontainer                                      I SRVE0250I: Web Module Sample1 has been bound to default_host.
+    [4/16/19 14:41:10:828 CDT] 00000066 com.ibm.ws.http.internal.VirtualHostImpl                     A CWWKT0016I: Web application available (default_host): http://localhost:9080/Sample1/
+    [4/16/19 14:41:10:843 CDT] 00000066 com.ibm.ws.app.manager.AppMessageHelper                      A CWWKZ0001I: Application Sample1 started in 0.347 seconds.
+    [4/16/19 14:41:11:044 CDT] 0000003b com.ibm.ws.webcontainer.osgi.mbeans.PluginGenerator          I SRVE9103I: A configuration file for a web server plugin was automatically generated for this server at C:\Users\MichaelCheng\Documents\workshops\VirtualPOT\LibertyPoT_19.0.0.3\WLP_19.0.0.3\wlp\usr\servers\myServer\logs\state\plugin-cfg.xml.
+    [4/16/19 14:41:11:059 CDT] 00000058 com.ibm.ws.session.WASSessionCore                            I SESN0176I: A new session context will be created for application key default_host/Sample1
+    [4/16/19 14:41:11:082 CDT] 00000058 com.ibm.ws.util                                              I SESN0172I: The session manager is using the Java default SecureRandom implementation for session ID generation. 
+    ```
+1. check the application is running by opening a browser at: `http://localhost:9080/Sample1/SimpleServlet`
+1. Delete the application from the `dropins` directory, then check that it’s no longer accessible from the browser. 
 
 #### Deploy the application to the apps directory
 
@@ -422,11 +422,11 @@ The following steps will direct you how to define custom generic JVM arguments s
 1.  Create a `jvm.options` file that affects all servers
     - Change directory to `{LAB_HOME}/wlp/usr/servers/myServer`
     - Create a new file name `jvm.options`, and add the following lines to set the minimum and maximum heap size. The following options will set the min / max JVM heap size to 25 MB and 500 MB respectively. 
-```
--Xms25m
--Xmx500m
-```
-2. Save the file and restart the server
+    ```
+    -Xms25m
+    -Xmx500m
+    ```
+1. Save the file and restart the server
 
 
 TIP: 
