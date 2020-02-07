@@ -31,6 +31,7 @@ Note: proceed directly to the next section if you only want to use the command l
       Alternatively, you can also right-click the server name 
       and choose the Start option from the context menu.
     - Switch to the Console view if necessary. Look at the messages to see how fast your server starts!
+
    ![Console view](images/ConsoleView.jpg)
 1. Modify the lab server configuration.
     - In the `Servers` view, double-click on your `labServer` server to open the server `Overview` (or right-click and select `Open` from the context menu).
@@ -80,6 +81,7 @@ Switch to the `Console` panel at the bottom of the workbench and review the late
     - Ensure the `Target runtime` is set to `WebSphere Application Server Liberty`.  
     - Unselect `Add project to an EAR`
     - Click `Finish`.
+
     ![Import War 2](images/ImportWar2.jpg)
     - If prompted to open the web perspective, click `Open Perspective`.
     - Now you have a `Sample1` web project in your workspace, you can expand it in the `Enterprise Explorer` view to see the different components of the project.
@@ -250,7 +252,7 @@ In this section, you will specify a trace specification using the configuration 
     - Save the configuration changes.  
     - Check the console view
 
-    ![Trace String Console](images/TraceStringConcole.jpg)
+    ![Trace String Console](images/TraceStringConsole.jpg)
 1. Verify that the `trace.log` file contains trace data. 
     - From a Windows Explorer, navigate to the server logs directory: `{LAB_HOME}\wlp\usr\servers\labServer\logs`
     - The `trace.log` file has been created and contains content. 
