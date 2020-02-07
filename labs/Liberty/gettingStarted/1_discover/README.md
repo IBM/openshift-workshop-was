@@ -356,7 +356,8 @@ Now you are ready to start working with a sample application that uses the Servl
     [4/16/19 14:41:11:059 CDT] 00000058 com.ibm.ws.session.WASSessionCore                            I SESN0176I: A new session context will be created for application key default_host/Sample1
     [4/16/19 14:41:11:082 CDT] 00000058 com.ibm.ws.util                                              I SESN0172I: The session manager is using the Java default SecureRandom implementation for session ID generation. 
     ```
-1. check the application is running by opening a browser at: `http://localhost:9080/Sample1/SimpleServlet`
+1. check the application is running by opening a browser at: 
+[http://localhost:9080/Sample1/SimpleServlet](http://localhost:9080/Sample1/SimpleServlet)
 1. Delete the application from the `dropins` directory, then check that it’s no longer accessible from the browser. 
 
 #### Deploy the application to the apps directory
