@@ -47,7 +47,18 @@ The administrator sections are:
 
 ### Liberty Labs 
 
-Start with these two labs:
+First, Start with these two labs to familiarize yourself with installing and navigating Liberty:
 
 - [Setup Liberty](labs/Liberty/gettingStarted/0_setup)
 - [Discover Liberty](labs/Liberty/gettingStarted/1_discover)
+
+Next, pick any lab for in-depth exploration:
+- [Simple Development Lab with JSP and JEE Security](labs/Liberty/development/0_SimpleDevelopment) 
+- [Migration Toolkit](labs/Liberty/development/1_LibertyMigrationToolkit)
+- [JDBC](labs/Liberty/development/2_JDBC)
+- [JMS](labs/Liberty/development/3_JMS)
+- [Web Cache](labs/Liberty/development/5_WebCache)
+- [Web Socket](labs/Liberty/development/6_WebSocket)
+- [JAXWS](labs/Liberty/development/7_JAXWS)
+- [Java Batch](labs/Liberty/development/8_JavaBatch)
+- [Open ID Connect and JWT](labs/Liberty/development/10_OIDC_JWT)
