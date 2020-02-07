@@ -171,10 +171,10 @@ The Liberty Runtime Environment page is displayed.
 1. To create the server configuration in the runtime, 
  either use the current populated server `myServer` or 
  click the New button.  
- Note: if directions were followed and myServer was deleted, your screen print will differ and there will be no new button and defaultServer will be prepopulated.
+ Note: if you had previosly deleted `myServer`, your screen will differ, and there will be no new button and defaultServer will be prepopulated.
 
     ![New My Server ](images/NewMyServer.jpg)
-1. Enter `labServer1` to the Liberty Server: box then click Finish and then Finish again.
+1. Enter `labServer` to the `Liberty Server:` box then click Finish and then Finish again.
 
     ![Lab Server ](images/LabServer.jpg)
 1. The new server will appear in the Servers view.
@@ -195,10 +195,12 @@ unlimited IBM services and APIs.
 If you don't see a sign-up link, 
 you should already be logged in, 
 though you will need to know your login and password for later steps.
-  ![Create IBM ID](images/CreateIBMID.jpg)
+
+    ![Create IBM ID](images/CreateIBMID.jpg)
 1. On the sign-up page, enter your email address and the other required information.
 Your IBM ID and IBM Cloud information should be sent to your email account shortly.
-  ![Create IBM ID Email](images/CreateIBMIDEmail.jpg)
+
+    ![Create IBM ID Email](images/CreateIBMIDEmail.jpg)
 1. Once you receive the email message in your account, follow the steps to verify your address. 
 Once verified, you will be able to log in the IBM Cloud with the password you specified in the previous steps.
 
@@ -215,27 +217,29 @@ As a IBM Cloud user, you might want to use an API key when you enable a program 
 A benefit of using an API key can be that a user or organization can create several API Keys for different programs and the API keys can be deleted independently if compromised without interfering with other API keys or even the user.
 
 1. Create a Platform API Key to use to authenticate with IBM Cloud.  
-  - Click `Manage > Access (IAM)> Platform API Keys`
+    - Click `Manage > Access (IAM)> Platform API Keys`
 
-    ![Manage Security](images/ManageSecurity.jpg)
+        ![Manage Security](images/ManageSecurity.jpg)
+    - Click `IBM Cloud API Keys`:
 
-  - Click `IBM Cloud API Keys`:
+        ![IBM Cloud API Keys](images/IBMCloudAPIKeys.jpg)
+    - Click `Create`
 
-    ![IBM Cloud API Keys](images/IBMCloudAPIKeys.jpg)
+        ![Create API Key](images/CreateAPIKey.jpg)
+    - Enter the Name and a description; then click `Create`
+        - Name: `Liberty-APIKey`
+        - Description: `This API Key for use with Liberty POTs`
 
-  - Click `Create`
-    ![Create API Key](images/CreateAPIKey.jpg)
-  - Enter the Name and a description; then click `Create`
-       - Name: `Liberty-APIKey`
-       - Description: `This API Key for use with Liberty POTs`
-    ![API Key Name Description](images/APIKeyNameDescription.jpg)
-  -	Click `Download`
-    ![Download API Key](images/APIKeyDownload.jpg)
-  -	Find the downloaded file named `apiKey.json`.  (This should be in your browsers Download folder)
-  Now rename the file to `Liberty-APIKey.json`.   
+        ![API Key Name Description](images/APIKeyNameDescription.jpg)
+    -	Click `Download`
+
+        ![Download API Key](images/APIKeyDownload.jpg)
+    -	Find the downloaded file named `apiKey.json`.  (This should be in your browsers Download folder)
+
+Now rename the file to `Liberty-APIKey.json`.   
   There is a string in the file that will be used in lieu of a username/password.
-  - Copy the `Liberty-APIKey.json` to {LAB_HOME} just so it is not lost.  Unfortunately, this key is only downloadable in a file once.  If lost, another key will need to be generated.
-  -	The file contents will look accordingly. 
+- Copy the `Liberty-APIKey.json` to `{LAB_HOME}` just so it is not lost.  Unfortunately, this key is only downloadable in a file once.  If lost, another key will need to be generated.
+-	The file contents will look accordingly. 
     The string in bold is your `password` that maps to the `user` or `email address` of apikey
  ```
 {
