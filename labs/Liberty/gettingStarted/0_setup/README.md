@@ -132,7 +132,7 @@ We will use WDT in many more labs.
 1. When the Eclipse launcher prompts you to Select a workspace: 
   - Enter `{LAB_HOME}\workspace` 
   - Click OK, substituting `{LAB_HOME}` with the correct value for your platform.   This should create workspace directory for you.
-  - Note: Accepting the default workspace location, may cause problems with a preexisting workspace.  Please use a clean workspace location.
+  - Note: Accepting the default workspace location may cause problems with a preexisting workspace.  Please use a clean workspace location.
 
   ![Eclipse Launcher Workspace](images/EclipseLauncherWorkspace.jpg)
 
@@ -154,12 +154,12 @@ Use the default eclipse server name as supplied (localhost).  Click Next.  This 
 
 1. Now eclipse needs to associate the `localhost` server with a server configuration in a Liberty runtime (the runtime that you installed).  
 The Liberty Runtime Environment page is displayed.
-  - In the Path field under the Installation folder section,
+    - In the Path field under the Installation folder section,
     type or browse for the directory where you installed the
     Liberty runtime environment (The value of {LAB_HOME}/wlp)
-  - You may also select which JRE to use if you have 
+    - You may also select which JRE to use if you have 
     multiple JRE in your environment.
-  - Click Next.
+    - Click Next.
 
     ![New LIberty runtime](images/LibertyRuntime.jpg)
 1. To create the server configuration in the runtime, 
@@ -247,10 +247,7 @@ Now rename the file to `Liberty-APIKey.json`.
 ##  Labs Accessing IBM Cloud: Install the Command Line Interface (CLI) tools
 
 You can use the command line interface to deploy and modify applications and service instances.
-
-[<https://cloud.ibm.com/docs/cli/index.html#cli>]
-(https://cloud.ibm.com/docs/cli/index.html#cli)
+ Follow the instructions to download the IBM CLOUD CLI interface, `ibmcloud`: <https://cloud.ibm.com/docs/cli/index.html#cli>
  
-Follow the instructions to download the IBM CLOUD CLI interface, `ibmcloud`.
 
 This completes the lab exercise.
