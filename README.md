@@ -1,6 +1,6 @@
 # Openshift Workshop for WebSphere Users
 
-This information in this repository is designed to help with WebSphere user's journey in application and operations modernization,  to transition to adopt Cloudpak for Applications and Openshift.
+This information in this repository is designed to help with WebSphere user's journey in application and operations modernization,  to transition to Cloudpak for Applications and Openshift.
 
 For administrators, the goals are:
 
@@ -39,20 +39,27 @@ The administrator sections are:
 
 ## Labs
 
-### Container and Openshift Labs
+### Containzerization Labs
 
-- [Introduction to Containerization](labs/Openshift/HelloContainer)
-- [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift)
+- [Introduction to Containerization](labs/Openshift/HelloContainer). Requires an environment with `podman` installed.
+
+### Openshift Labs
+
+These labs require that you have access to a Openshift 4.x environment.
+
+- [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift). 
 
 
-### Liberty Labs 
+### Liberty Labs
 
-First, Start with these two labs to familiarize yourself with installing and navigating Liberty:
+These labs enable you to get started on Liberty quickly. 
+The hardware requirement is a laptop or desktop computer.
+First, start with these two labs to familiarize yourself with installing and navigating Liberty:
 
 - [Setup Liberty](labs/Liberty/gettingStarted/0_setup)
 - [Discover Liberty](labs/Liberty/gettingStarted/1_discover)
 
-Next, pick any lab for in-depth exploration:
+Next, pick any lab for further exploration:
 - [Simple Development Lab with JSP and JEE Security](labs/Liberty/development/0_SimpleDevelopment) 
 - [Migration Toolkit](labs/Liberty/development/1_LibertyMigrationToolkit)
 - [JDBC](labs/Liberty/development/2_JDBC)
