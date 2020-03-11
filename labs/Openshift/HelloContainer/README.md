@@ -1,29 +1,35 @@
 # Introduction to Containerization
 
-# Background
+## Background
 
-If you are expecting a lab about `docker`, you are at the right place. Note that this lab uses `podman` instead of `docker` for the following reasons:
+If you are expecting a lab about `docker`, you are at the right place. Note that this lab uses `podman` instead of `docker` because `podman` is more secure. It runs in user space, and does not require a daemon. However, if you only have `docker` in your environment, you may use it:
 
--  `podman` is more secure because it runs in user space, and does not require a daemon.
 - `pdoman` command line parameters are compatible with `docker`.
 - Both `podman` and `docker` conform to the Open Container Initiative specifications, and they support the same image format and registry APIs.
 
 
-# Prerequisites
+## Prerequisites
 
-- Ensure you are familiar with the concept of images and containers .
-- You have podman installed.
+- You have `podman` or `docker` installed.
 - You have access to the internet.
 
+## What is Container
 
-# Check your environment
+Compared to virtual machines, containers supports virtualization at the process level. Everything you need to run your software, from the operating system and up, is stored in a special file called a container image.  Container images are created via tools such as `docker` or `podman`. When you start a container, it is run as a process. But the isolation abstraction provided by the operating system makes the process think that it's running in its own virtual machine.  You may also start the same image multiple times, as multiple virtual processes. As virtual processes, containers may be started and stopped much more quickly than virtual machines.
+
+When you build a new container image, you usually start with an existing image. Existing images are hosted in container registries. For example, docker hub, or registry.access.redhat.com, or your own internal registry. 
+
+If you need more background on containers: https://www.docker.com/resources/what-container
+
+
+## Check your environment
 
 - List version of podman: `podman --version`
 ```
 podman version 1.6.4
 ```
 
-# Run a pre-built image
+## Run a pre-built image
 
 - List avaiable local images: `podman images`
 ```
@@ -82,7 +88,7 @@ docker.io/openshift/hello-openshift   latest   7af3297a3fb4   21 months ago   6.
   - The `-p` command maps the host port to the port in the container. Through virtual network, the port in the container may be fixed, When you run the container, you may assign a new port on the host dynamically.
 
 - Access the application in the container.
-  - If you are running in the server, try `curl http://localhost:8080`.
+  - If you are running in a server, try `curl http://localhost:8080`.
   - If you are running on a desktop, point your browser to `http://localhost:8080`
   - Also try port 8888
 
@@ -206,7 +212,7 @@ RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
 
    - The last line `RUN` runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
-- Run the build: `podman build -t app .`. The `-t` option tags the name of the image as `app`.
+- Run the build: `podman build -t app .`. The `-t` option tags the name of the image as `app`. This runs the commands in `Containerfile` to build a new image called `app`.
 
 ```
 STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
@@ -245,7 +251,7 @@ STEP 5: COMMIT app
 3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
 ```
 
-- List the images: `podman images`
+- List the images to see that the new image `app` is built: `podman images`
 
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
@@ -282,5 +288,9 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
   - `podman stop app-instance`
   - `podman rm app-instance`
 
+- For extra credit:
+  - Start multiple instances of the image for vertical scaling.
+  - Think about what would be required to manage these images across multiple machines to support horizontal scaling.
+    
 
 - Congratulations. You have completed the introduction to containerization lab.
