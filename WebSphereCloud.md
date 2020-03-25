@@ -51,7 +51,7 @@ In this section, we compare in detail WebSphere Application server cell, Liberty
 |topology   |             |              |                    |                 |
 |           |max env      | 300-1000 JVMs| 10,000 JVMs        | **100,000 pods**    |
 |           | disk        | 2GB per node | up to 200 MB       |depends on underlying runtime|
-|           |firewall     | Y            | Y                  | Y |
+|           |firewall     | N            | N                  | Y |
 |           |load balancer| Y            | Y                  | Y |
 |Performance|             |              |                    |
 |           |initial heap | > 100 MB     | **> 30 MB**            | depends on underlying runtime |
@@ -65,17 +65,17 @@ In this section, we compare in detail WebSphere Application server cell, Liberty
 |           | health management | yes     | yes               | yes                           |
 |disaster recovery|        |roll you own | roll you rown      |roll your own                  |
 |administration|
-|           | admin model | scriptin + GUI| scripting + GUI   | **declarative**|
+|           | admin model | scripting + GUI| scripting + GUI   | **declarative**|
 |           |deployment unit| app         | zip file          | image |
 |app config |             | separate      | in zip file       | in image   |
 |infra config|            | in infra      | in zip file       |source control + infra |
-|libraries  |             | separate      | in zip file       | in imnage |
+|libraries  |             | separate      | in zip file       | in image |
 |app edition |            | yes           | no                | yes (a/b) 
 |infra upgrade|           | app + infra migration | no migration | depends on underlying runtime |
 | security |   
 |          | admin roles  | 6+             | 1-2              | namespace + user defined|
 |          | admin audit  | yes            | yes              | yes (?)|
-|    |app security domain | yes            | no (seperate by JVM) | depends on underlying runime|
+|    |app security domain | yes            | no (seperated by JVM) | depends on underlying runtime|
 | |certificate management | some           | no               | yes?|
 | | secret management     | password hash/encryption | password hash/encryption| underlying runtime + **config map + external value** |
 | | security scans        | no             | no               | yes? |
