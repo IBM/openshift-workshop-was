@@ -22,3 +22,21 @@ Enter the key for your workshop and your IBM ID to get assigned a cluster.
 - For Openshift console, click `Openshift Web Console`
 - For the cloud shell, click the `cloud shell` button.
 ![console](images/Console.jpg)
+
+## Access the web terminal
+
+1. On the OpenShift web console -> Networking -> Routes -> Select Project `lab` and click on the URL of route `tools` under Location.  The IBM Cloud login user is redirected to OAuth proxy for authentication and authorization and then redirected back to the route's URL with terminal displayed.
+
+- Click on the route `tools` URL
+![Route URL](images/tools_route.jpg)
+
+- Click on `Log in with OpenShift`
+![Oauth Proxy Authentication](images/oauthproxy.jpg)
+
+- Click on `Allow selected permissions`
+![Authorization](images/auth_permission.jpg)
+
+- Note: The authorization permission page above may not display again in the later access when the information is already in the browser cookie cache.
+
+- The web terminal is displayed:
+![Web Terminal](images/terminal.jpg)
