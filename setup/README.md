@@ -38,5 +38,5 @@ Enter the key for your workshop and your IBM ID to get assigned a cluster.
 
 - Note: The authorization permission page above may not display again in the later access when the information is already in the browser cookie cache.
 
-- The web terminal is displayed:
+- The web terminal is displayed, where you can access the resources on the IBM Cloud OpenShift cluster via CLI such as docker, oc, etc.
 ![Web Terminal](images/terminal.jpg)
