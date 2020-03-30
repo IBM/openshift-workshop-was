@@ -2,9 +2,9 @@
 
 This section contains instructions to access Openshift Clusters for those workshops that use IBM public cloud
 
-## Create an IBM ID
+## Create a free IBM Cloud Account ID
 
-If you don't already have an IBM ID, point your browser to https://cloud.ibm.com to apply. You may use any email, including personal email, to apply for an IBM ID. No credit card needed.
+If you don't already have an IBM Cloud Account ID, point your browser to https://cloud.ibm.com and select `Create an IBM Cloud account`. You may use any email, including personal email, to apply. No credit card needed.
 
 ## Cluster assignment
 
