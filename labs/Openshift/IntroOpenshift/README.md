@@ -2,6 +2,10 @@
 
 In this lab, we will introduce you to the basics of container Orchestration using Openshift. The first part of this lab uses the web console.  The second part of this lab uses the command line.
 
+## Prerequisite
+
+For background on basic Openshift concepts, please read: https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md
+
 ## Using the Web Console
 
 ### Login to the web console
@@ -205,7 +209,7 @@ status:
 
 Note that:
 
-- There are quite a few more `metadta`. `Metadata` may be added by any number of controllers as needed to help with their function.
+- There are quite a bit more `metadta`. `Metadata` may be added by any number of controllers as needed to help with their function.
 - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by admission controllers if they were configured.
 - The `status` sub-resource is how Openshift communicates that status of the resource. The `status` is updated regularly as the underlying state of the resource changes.
 
@@ -353,7 +357,7 @@ Copy the instructions to login to your openshift cluster, then paste it into you
 oc login --token=<TOKEN> --server=<SERVER Address>
 ```
 
-After login, you'll see seomthing like:
+After login, you'll see something like:
 ```
 Logged into "<SERVER address" as "<USER>" using the token provided.
 
@@ -509,7 +513,7 @@ spec:
 ```
 
 
-- Apply the deployment via the command line: `oc apply -f Deployment.yam.1`
+- Apply the deployment via the command line: `oc apply -f Deployment.yaml`
 
 ```
 deployment.apps/example created
@@ -803,11 +807,13 @@ example-75778c488-rhjrx   1/1     Running   0          28s
 deployment.extensions/example edited
 ```
 
+
 - List the pods to show only 1 pod is running: `oc get pods`
 ```
 NAME                      READY   STATUS    RESTARTS   AGE
 example-75778c488-c9jhd   1/1     Running   0          65m
 ```
+
 
 - Cleanup:
   - `oc delete route example`
