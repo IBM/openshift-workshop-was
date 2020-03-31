@@ -13,11 +13,22 @@ If you are expecting a lab about `docker`, you are at the right place. Note that
 - You have `podman` or `docker` installed.
 - You have access to the internet.
 
-## What is Container
+## What is a Container
 
-Compared to virtual machines, containers supports virtualization at the process level. Everything you need to run your software, from the operating system and up, is stored in a special file called a container image.  Container images are created via tools such as `docker` or `podman`. When you start a container, it is run as a process. But the isolation abstraction provided by the operating system makes the process think that it's running in its own virtual machine.  You may also start the same image multiple times, as multiple virtual processes. As virtual processes, containers may be started and stopped much more quickly than virtual machines.
+Compared to virtual machines, containers supports virtualization at the process level. 
+Think of them as virtual processes.
+The isolation abstraction provided by the operating system makes the process think that it's running in its own virtual machine.
+As processes, containers may be created, started, and stopped much more quickly than virtual machines.
 
-When you build a new container image, you usually start with an existing image. Existing images are hosted in container registries. For example, docker hub, or registry.access.redhat.com, or your own internal registry. 
+Everything you need to run your application, from the operating system and up, is stored in a special file called a container image.  
+Container images are self contained and portable. 
+You may run one or more instances anywhere. 
+And you don't have to worry about missing prerequisites, because all prerequisites are stored in the image.
+
+Container images are created via tools such as `docker` or `podman`. 
+Existing images are hosted in container registries. 
+For example, docker hub, or registry.access.redhat.com, or your own internal registry. 
+
 
 If you need more background on containers: https://www.docker.com/resources/what-container
 
@@ -293,7 +304,8 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
   - Note that this is a stripped down environment where many coammnds are not available. For example, try `which ps`.
   - cd `/logs` to find the log files
   - cd `/liberty/wlp` to find the location of the liberty install
-  - cd `/liberty/wlp/usr/servers/defaultServer` to find the server congiruation. Note that the default server just runs without any application.
+  - cd `/liberty/wlp/usr/servers/defaultServer` to find the server configuration. 
+  - cd `/opt/ibm/wlp/output` to find the workarea files required by the server runtime.
   - Exit from the container: `exit`
 
 - Cleanup: 
@@ -301,7 +313,7 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
   - `podman rm app-instance`
 
 - For extra credit:
-  - Start multiple instances of the image for vertical scaling.
+  - Start another instances of the image for vertical scaling, but with different port numbers on the host.
   - Think about what would be required to manage these images across multiple machines to support horizontal scaling.
     
 
