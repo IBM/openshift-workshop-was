@@ -203,7 +203,8 @@ podman images
 
 ## Build and Run Your Own Image
 
-To make the build process repeatable, use a `Containerfile`, which contains instructions to create the new layers of the image.
+We use a `Containerfile`, which contains the instructions to create the new layers of your image.
+Recall an image contains the entire file system that you want to use to run your virtual process in a container.
 
 - Review the provided `Containerfile`:
 
@@ -214,7 +215,7 @@ COPY ServletApp.war /config/dropins/app.war
 RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml 
 ```
 
-   - The first line `FROM` specifies the existing image to be used.  If this is not in the local repository, it will be pulled from a remote registry such as docker hub.
+   - The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub.
 
    - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
@@ -222,7 +223,7 @@ RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
 
    - The last line `RUN` runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
-- Run the build: `podman build -t app -f Containerfile .`. The `-t` option tags the name of the image as `app`. This runs the commands in `Containerfile` to build a new image called `app`.
+- Run the build: `podman build -t app -f Containerfile .`. The `-t` option tags the name of the image as `app`.  The `-f` option specifies the name of the `Containerfile`. The build command runs the commands in `Containerfile` to build a new image called `app`.
 
 ```
 STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
@@ -261,7 +262,7 @@ STEP 5: COMMIT app
 3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
 ```
 
-- List the images to see that the new image `app` is built: `podman images`
+- List the images to see that the new image `app` is built: `podman images`. Note that the base image, `docker.io/ibmcom/websphere-liberty` has also be pulled into the local registry.
 
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
@@ -285,10 +286,11 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
 45e82c9cd416  localhost/app:latest  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
 ```
 
- - Access the logs to your container: `podman logs --tail=0 -f app-instance`. The `--tail=0` option lists all entries in the log. Use `Ctrl-C` To exit.
+ - Access the logs to your container: `podman logs -f app-instance`. Use `Ctrl-C` To exit.
 
 - Remote shell into your running container to poke around: `podman exec -it app-instance /bin/sh`
   - run `whoami` and note you're not running as root.
+  - Note that this is a stripped down environment where many coammnds are not available. For example, try `which ps`.
   - cd `/logs` to find the log files
   - cd `/liberty/wlp` to find the location of the liberty install
   - cd `/liberty/wlp/usr/servers/defaultServer` to find the server congiruation. Note that the default server just runs without any application.
