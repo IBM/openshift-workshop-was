@@ -121,7 +121,7 @@ serving on 8888
 serving on 8080
 ```
 
-- To export the file system of a running container: `podman export hello > hello1.tar`
+- To export the file system of a running container: `podman export hello1 > hello1.tar`
 
 - List the files on the file system: `tar -tvf hello1.tar`. Note that this is a very small image.
 
@@ -141,8 +141,12 @@ drwxr-xr-x root/root         0 2020-01-31 20:31 sys/
 ```
 
 - Run another command in the running container. 
-The typical use case is to run a shell command, so you can navigate within the container. 
-However, for this image there is only one executable. So we'll execute the same command again: `podman exec -ti hello1 /hello-openshift`. 
+You can reach into the running container to run another command. 
+The typical use case is to run a shell command, so you can use the shell to navigate within the container and run other commands.
+However, our image is tiny, and there is no built-in shell.
+This makes it safer, but also more difficult to debug.
+For the purpose of this lab, we'll execute the same command again: `podman exec -ti hello1 /hello-openshift`. 
+
 Running this command again in the same container results in an error, 
 because there is already another copy running in the background that is bound to the ports 8080 and 8888:
 
@@ -183,15 +187,21 @@ tcp  hello1
 
 - Stop the container: `podman stop hello1`
 
-- Remove stopped containers:
+- Remove stopped containers, and note that there are no more containers:
   - `podman rm hello1`
   - `podman rm hello2`
-  - `podman ps`
+  - `podman ps -a`
 
+- Remove the image from local cache:
+
+```
+podman images
+podman rmi openshift/hello-openshift
+podman images
+```
+ 
 
 ## Build and Run Your Own Image
-
-Note: This part of the lab requires about 600 MB of disk to store your images.  If you do not have the space, you can read through the instructions without doing the lab.
 
 To make the build process repeatable, use a `Containerfile`, which contains instructions to create the new layers of the image.
 
@@ -212,7 +222,7 @@ RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
 
    - The last line `RUN` runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
-- Run the build: `podman build -t app .`. The `-t` option tags the name of the image as `app`. This runs the commands in `Containerfile` to build a new image called `app`.
+- Run the build: `podman build -t app -f Containerfile .`. The `-t` option tags the name of the image as `app`. This runs the commands in `Containerfile` to build a new image called `app`.
 
 ```
 STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
