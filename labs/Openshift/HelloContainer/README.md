@@ -6,24 +6,29 @@ If you are expecting a lab about `docker`, you are at the right place.
 This lab will introduce you to the basic concepts of containerization, including:
 
 - What are containers and container images
-- HOw to start, stop, and remove containers.
+- How to start, stop, and remove containers.
 - How to create container images
 
-We encourage you to use `podman` instead of `docker`, if available,  because `podman` is more secure.
+Note: This lab uses `docker`. 
+However, We encourage you to use `podman` instead of `docker` in your own environment. By default, Openshift 4.x uses `podman`.
+The reason is that `podman` is more secure.
 It runs in user space, and does not require a daemon.
-However, if you only have `docker` in your environment, you may use it. Otherwise, substitute `docker` with `podman` below.
+However, if you only have `docker` in your environment, you may use it. 
+Otherwise, substitute `docker` with `podman` below.
 
 - `podman` command line parameters are compatible with `docker`.
 - Both `podman` and `docker` conform to the Open Container Initiative specifications, and they support the same image format and registry APIs.
 
+The reason we are not yet using `podman` for this lab is that it does not yet work in the web terminal environment.
+The web terminal runs in a container. 
+In order to run this lab within the web terminal, we need a container that runs in a container.
+We have not yet been able to configure `podman` to run inside a container.
 
 ## Prerequisites
 
 - You have `podman` or `docker` installed.
 - You have access to the internet.
-- You have cloned this lab via `git clone https://github.com/IBM/openshift-workshop-was.git` so that the content 
-  of this lab is available in your working directory. 
-  After you performed the `git clone` operation, this lab is under the directory `openshift-workshop-was/labs/Openshift/HelloContainer`.
+- You have cloned this lab from github.
 
 ## What is a Container
 
@@ -47,16 +52,18 @@ If you need more background on containers: https://www.docker.com/resources/what
 
 ## Check your environment
 
-1. List version of podman: `docker --version`
+1. List version of docker: `docker --version`
 
 ## Run a pre-built image
 
-1. List avaiable local images: `docker images`
+1. List available local images: `docker images`
+
     ```
     REPOSITORY   TAG   IMAGE ID   CREATED   SIZE
     ```
 
 1. Pull an test image from docker hub:  `docker pull openshift/hello-openshift`
+
     ```
     Trying to pull registry.access.redhat.com/openshift/hello-openshift...
       name unknown: Repo not found
@@ -69,6 +76,7 @@ If you need more background on containers: https://www.docker.com/resources/what
     ```
 
 1. List available local images again: `docker images`
+
     ```
     REPOSITORY                            TAG      IMAGE ID       CREATED         SIZE
     docker.io/openshift/hello-openshift   latest   7af3297a3fb4   21 months ago   6.1 MB
@@ -108,13 +116,14 @@ If you need more background on containers: https://www.docker.com/resources/what
     - The `-p` command maps the host port to the port in the container. Through virtual network, the port in the container may be fixed, When you run the container, you may assign a new port on the host dynamically.
   
 1. Access the application in the container.
-    - If you are running in a server, try `curl http://localhost:8080`.
+    - If you are running in a server, or the web terminal, try `curl http://localhost:8080`.
     - If you are running on a desktop, point your browser to `http://localhost:8080`
     - Also try port 8888
 
-1. Run another instance of the same image: `docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift`.  
+1. Run another instance of the same image: `docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift`. 
+Question: how does this compare to the time it takes to start a new virtual machine?
 
-1.  Access the application in the new container the same way. However, use port `8081` and `8889` instead.
+1. Access the application in the new container the same way. However, use port `8081` and `8889` instead.
 
 1. Verify there are two containers running in the same host: `docker ps`:
 
@@ -140,6 +149,8 @@ If you need more background on containers: https://www.docker.com/resources/what
     serving on 8888
     serving on 8080
     ```
+
+    Note: they each think they have their own machine, and have opened the same ports.
 
 1. To export the file system of a running container: `docker export hello1 > hello1.tar`
 
@@ -289,13 +300,13 @@ Recall an image contains the entire file system that you want to use to run your
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
 localhost/app                         latest                     baa6bb9ad29d   2 minutes ago   544 MB
-docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
+ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
  ```
 
 - Start the container. Note that you are running with both http and https ports: `docker run -d -p 9080:9080 -p 9443:9443 --name=app-instance app`
 
 - Access the application running in the container:
-  - If you are running in a server, use `curl --insecure https://localhost:9443/app` and ensure you have output that looks like: `<html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>`.
+  - If you are running in a server, or using the web terminal, use `curl --insecure https://localhost:9443/app` and ensure you have output that looks like: `<html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>`.
   - If you are running on a desktop with browser
     -  point your browser to `http://localhost:9080/app` and check that renders a page showing `Simple Servlet ran successfully`.
     - Also point your browser to `https://localhost:9443/app`
@@ -319,13 +330,70 @@ docker.io/ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   
     - cd `/opt/ibm/wlp/output` to find the workarea files required by the server runtime.
     - Exit from the container: `exit`
 
+1. Managing image versions. 
+There is no built-in versioning for container images. 
+However, you may use a tagging convention to version your images. 
+The convention is to use `major.minor.patch`, such as `1.3.5`.
+The default tag for the most recently built image is `latest`. 
+
+    ```
+    docker tag app 1
+    docker tag app 1.3
+    docker tag app 1.3.5
+    docker images
+    ```
+
+    And the output:
+    ```
+    REPOSITORY                 TAG                        IMAGE ID            CREATED             SIZE
+    app                        1                          d98cbdf82a0d        21 hours ago        542MB
+    app                        1.3                        d98cbdf82a0d        21 hours ago        542MB
+    app                        1.3.5                      d98cbdf82a0d        21 hours ago        542MB
+    app                        latest                     d98cbdf82a0d        21 hours ago        542MB
+    ```
+
+    Note that all the different tags are currently associated with the same image ID. 
+    When you pull or run an image, you may specify the tag, based on your versioning requirements. For example, 
+    - `docker run app:1 ...` matches the latest 1.x.x version.
+    - `docker run app:1.3 ...` matches the latest 1.3.x version.
+    - `docker run app:1.3.5 ...` matches only 1.3.5.
+
+    After you build a new patch version of the image, you will tag the new version as follows:
+    ```
+    docker tag app 1
+    docker tag app 1.3
+    docker tag app 1.3.6
+    ```
+
+    This means that:
+    - `docker run app:1 ...` matches the new version
+    - `docker run app:1.3 ...` matches the new version
+    - `docker run app:1.3.5 ...` uses the exact version.
+    - `docker run app:1.3.6 ...` uses the exact version.
+
+    When you build a new minor version of the image, you will tag the new version as follows:
+    ```
+    docker tag app 1
+    docker tag app 1.4
+    docker tag app 1.4.0
+    ```
+
+    This means that:
+    - `docker run app:1 ...` matches the new version
+    - `docker run app:1.3 ...` matches the old version
+    - `docker run app:1.4 ...` uses the new version
+    - `docker run app:1.3.5 ...` uses the exact version.
+    - `docker run app:1.4.0 ...` uses the exact version.
+
 1. Cleanup: 
     - `docker stop app-instance`
     - `docker rm app-instance`
 
 1. For extra credit:
     - Start another instances of the image for vertical scaling, but with different port numbers on the host.
-    - Think about what would be required to manage these images across multiple machines to support horizontal scaling.
+    - Point your browser to `hub.docker.com`, click "Explore" and explore the millions of available images.
+    - Think about how you would tag a new image at a major version, `2.0.0`.
+    - Think about what would be required to manage containers across multiple machines to support horizontal scaling.
     
 
 Congratulations. You have completed the introduction to containerization lab.
