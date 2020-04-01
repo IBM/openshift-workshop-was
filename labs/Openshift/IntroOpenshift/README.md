@@ -212,6 +212,24 @@ The typical artifacts you will need to run an application in Openshift are:
     - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by admission controllers if they were configured.
     - The `status` sub-resource is how Openshift communicates that status of the resource. The `status` is updated regularly as the underlying state of the resource changes.
 
+1. Click on `Pods`
+
+    ![Create Service](images/DeploymentToPods.jpg)
+
+1. Clkc on one of the pods:
+
+    ![Create Service](images/Pods.jpg)
+
+1. Explore the various tabs for your pod
+
+    ![Create Service](images/ExplorePod.jpg)
+
+   - Overview: displays the overall resource usage for your pod. Note that for CPU usage, the unit is m, or milli-core, which is 1/1000th of one core.
+   - YAML: examine the YAML that describes your pod
+   - Environment: lists the environment variables defined for your pod. For our `hello-openshift` pod, there is none.
+   - Logs: shows the console log for your container. Note that it is the same log as the log from the Introduction to Docker lab, as the same image is being used.
+   - Terminal: Opens a remote shell into your container. As with the Introduction to Docker lab, no shell is available within the container. This makes it more secure, but also more difficult to debug.
+
 ### First Service
 
 A service enables the pods we just created to be load balanced within the Openshift cluster. 
@@ -219,6 +237,7 @@ A service enables the pods we just created to be load balanced within the Opensh
 1. Scroll down to the `Networking` section on the left navigation, click `Service`, then click `Crate Service`:
 
     ![Create Service](images/CreateService.jpg)
+
 
 
 1. For the YAML parameters:
@@ -282,9 +301,10 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     ![Create Route](images/CreateRouteAccessRoute.jpg)
 
-If you have configured everything correctly, the browser will show: `Hello Openshift!`. Congratulations, you just deployed your first application to Openshift.
+1. If you have configured everything correctly, the browser will show `Hello Openshift!`. Congraluations, you just deployed your first application to Openshift.
 
-    ![Access Route](images/CreateRouteAccessRouteResult.jpg)
+    ![Create Route](images/CreateRouteAccessRouteResult.jpg)
+
 
 ### Changing Replica Instances
 
