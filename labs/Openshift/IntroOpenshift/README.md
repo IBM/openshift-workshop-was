@@ -212,11 +212,14 @@ The typical artifacts you will need to run an application in Openshift are:
     - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by admission controllers if they were configured.
     - The `status` sub-resource is how Openshift communicates that status of the resource. The `status` is updated regularly as the underlying state of the resource changes.
 
-1. Click on `Pods`
+1. Click on `Pods`. 
+Note that the pods resources are managed by the controller for your `deployment`. 
+You do not create the pod resources yourself. 
+That is the reason that `Pods` tab is under the `deployment` resource you just created.
 
     ![Create Service](images/DeploymentToPods.jpg)
 
-1. Clkc on one of the pods:
+1. Click on one of the pods:
 
     ![Create Service](images/Pods.jpg)
 
@@ -744,6 +747,13 @@ calico-node-t7zwg                                1/1     Running   0          24
       startTime: "2020-01-30T20:37:28Z"
     ```
 
+1. Show the logs of one of the pods: `oc logs <pod name>`
+
+```
+serving on 8888
+serving on 8080
+```
+
 1. Take a look at `Service.yaml` and note that it's for the `project1` namespace:
 
     ```
@@ -799,9 +809,7 @@ calico-node-t7zwg                                1/1     Running   0          24
            example    8080                 None
     ```
 
-1. Check that application is accessible: 
-    - Point your browser to the URL. 
-    - Or if you are in a server, run`curl` against the URL: `curl http://<URL>`
+1. Check that application is accessible by pointing your browser to the URL. For the example above it is: `http://mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
 
 ### Changing Replica Instance
 
@@ -813,7 +821,7 @@ calico-node-t7zwg                                1/1     Running   0          24
     example-75778c488-c9jhd   1/1     Running   0          60m
     ```
 
-1. Delete one of the pods: `oc delete pod example-75778c488-7k7q2`
+1. Delete one of the pods: `oc delete pod <pod name>`
 
     ```
     pod "example-75778c488-7k7q2" deleted
