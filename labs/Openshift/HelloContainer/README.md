@@ -8,13 +8,13 @@ This lab will introduce you to the basic concepts of containerization, including
 - What are containers and container images
 - How to start, stop, and remove containers.
 - How to create container images
+- How to version container iamges
 
 Note: This lab uses `docker`. 
 However, We encourage you to use `podman` instead of `docker` in your own environment. By default, Openshift 4.x uses `podman`.
 The reason is that `podman` is more secure.
 It runs in user space, and does not require a daemon.
-However, if you only have `docker` in your environment, you may use it. 
-Otherwise, substitute `docker` with `podman` below.
+If `podman` is available, substitute `docker` with `podman` below.
 
 - `podman` command line parameters are compatible with `docker`.
 - Both `podman` and `docker` conform to the Open Container Initiative specifications, and they support the same image format and registry APIs.
