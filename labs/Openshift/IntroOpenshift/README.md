@@ -8,7 +8,7 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 
 ## Prerequisite
 
-- For background on basic Openshift concepts, please read: https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md
+- For background on basic Openshift concepts, read: https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md
 - You have cloned the lab into your working directory.
 
 ## Using the Web Console
@@ -19,7 +19,7 @@ Instructions on how to access your console is provided to you by your lab instru
 
 ### Administrator vs Developer View
 
-1. Switch to Developer view, and note you have fewer options. This view is for developer working with their projects.
+1. Switch to Developer view, and note you have fewer and different options. This view is for developer working with their projects.
 
     ![Developer Mode](images/DevMode.jpg)
 
@@ -68,7 +68,7 @@ It is common for artifacts related to different applications to be assigned to d
 1. After creation, click on each of the tabs of myproject you just created. Note that:
 
    - the `YAML` tab shows you the YAML representation of your project. Every resource in Openshift is represented as a REST data structure. We'll be working with YAML files a lot more when we interact with Openshift via the command line.
-   - The `Role Bindings` tab shows you the security configurations that apply to your project. For now, just take notice that there are many different roles already defined when a project is created. Each of these roles is used for a different purpose, and already mapped to different users and groups, or service accounts. 
+   - The `Role Bindings` tab shows you the security configurations that apply to your project. For now, just take notice that there are many different roles already defined when a project is created. Each of these roles is used for a different purpose, and already mapped to different users and groups, or service accounts.
 
    ![MyprojectAfterCreate](images/MyprojectAftercreate.jpg)
 
@@ -126,7 +126,7 @@ The typical artifacts you will need to run an application in Openshift are:
       - The group is `app`
       - The version is `v1`
       - The kind is `Deployment`
-    - The metadata specifies data that is that is needed for the runtime:
+    - The metadata specifies data that is needed for the runtime:
       - The name of this instance is `example`
       - The namespace where the resource is running is `myproject`
       - Though not shown here, any labels associated with the resource. We will see the use of labels later.
@@ -134,7 +134,7 @@ The typical artifacts you will need to run an application in Openshift are:
       - The `selector` defines details of the `pods` that this `deployment` will manage. The `matchLabels` attribute with value `app: hello-openshift` means this `deployment` instance will search for and manage all pods whose labels contain `app: hello-openshift`.
     - The `replicas: 2`  field specifies the number of instances to run.
     - The `template` section describes information about how to run the container image and create the `pods`:
-      - The `labels` section specifies what labels to add to the pods being to be created.
+      - The `labels` section specifies what labels to add to the pods being to be created. Note that it matches the labels defined in the `selector`.
       - The `containers` section specifies where to fetch the container image and which ports to expose. For our example, the image to run is `openshift/hello-openshift`.
     
 1. Wait for both pods to be running:
@@ -217,7 +217,7 @@ The typical artifacts you will need to run an application in Openshift are:
 1. Note that:
 
     - There are quite a bit more `metadta`. `Metadata` may be added by any number of controllers as needed to help with their function.
-    - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by background admission controllers.
+    - The `spec` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by background admission controllers.
     - The `status` sub-resource is how Openshift communicates that status of the resource. The `status` is updated regularly as the underlying state of the resource changes.
 
 1. Click on `Pods`. 
@@ -236,7 +236,7 @@ That is the reason that `Pods` tab is under the `deployment` resource you just c
     ![Create Service](images/ExplorePod.jpg)
 
    - Overview: displays the overall resource usage for your pod. Note that for CPU usage, the unit is m, or milli-core, which is 1/1000th of one core.
-   - YAML: examine the YAML that describes your pod. This YAML is created by the deployment controller based on the specification you supplied in your deployment.
+   - YAML: examine the YAML that describes your pod. This YAML is created by the deployment controller based on the specification you supplied in your deployment. Note that labels associated with your pod are what you had specified in the deployment.
    - Environment: lists the environment variables defined for your pod. For our `hello-openshift` pod, there is none.
    - Logs: shows the console log for your container. Note that it is the same log as the log from the Introduction to Docker lab, as the same image is being used.
    - Terminal: Opens a remote shell into your container. As with the Introduction to Docker lab, no shell is available within the container for this image. This makes it more secure, but also more difficult to debug.
@@ -312,7 +312,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     ![Create Route](images/CreateRouteAccessRoute.jpg)
 
-1. If you have configured everything correctly, the browser will show `Hello Openshift!`. Congraluations, you just deployed your first application to Openshift.
+1. If you have configured everything correctly, the browser will show `Hello Openshift!`. Congratulations, you just deployed your first application to Openshift.
 
     ![Create Route](images/CreateRouteAccessRouteResult.jpg)
 
@@ -332,11 +332,11 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
    ![Locate Myproject Resoruces](images/LocateMyprojectPods.jpg)
 
 
-1. Delete one of the pods my clicking on the menu on the right, then selecting `Delete pod`. When prompted, click `Delete`.
+1. Delete one of the pods by clicking on the menu on the right, then selecting `Delete pod`. When prompted, click `Delete`.
 
     ![Delete Pod](images/DeletePod.jpg)
 
-    This is not the right way to reduce number of instances. You will notice that as soon as one of the pods is being terminated, another one is being created. The reason is that the controller for the `deployment` resource knows that your specification is for 2 instances, and it honors that specification by creating another one.
+    This is not the right way to reduce number of instances. You will notice that as soon as one of the pods is being terminated, another one is being created. The reason is that the controller for the `deployment` resource knows that your specification is for 2 instances, and it honors that specification by creating another one. This also gives you automatic failure recovery should one of the pods crashes on its own.
 
     ![Delete Pod](images/DeletePodRecreate.jpg)
 
@@ -371,9 +371,23 @@ The command line tools may be used to:
 - Update existing resources
 - Delete resources
 
-Recall that Openshift implements a controller model: the REST data structure contains the specification, and controllers performs any operations required to conform the specification. 
-This also makes it easy for you to store and version the REST specification in source control repository. 
+Recall that Openshift implements a controller model: the REST data structure contains the specification, and controllers performs any operations required to conform to the specification. 
+This also makes it easy for you to store and version the REST specification in a source control repository. 
 If you make changes, just re-apply the specification via the command line tool.
+
+###  Command Line Terminal
+
+You may run this part of the lab from any terminal where the oc command is installed. 
+If your lab environment is provided on the IBM public cloud, you will be using the web terminal. 
+Instructions to access the web terminal is at: https://github.com/IBM/openshift-workshop-was/tree/master/setup.
+
+After you get into the your command line terminal, clone the lab to your local directory via:
+
+```
+git clone https://github.com/IBM/openshift-workshop-was.git
+```
+
+Change directory to:  `openshift-workshop-was/labs/Openshift/IntroOpenshift`
 
 ### Login
 
@@ -385,13 +399,13 @@ If you make changes, just re-apply the specification via the command line tool.
 
     ![Display Token](images/DisplayToken.jpg)
 
-1. Copy the instructions to login to your openshift cluster, then paste it into your terminal. The instruction looks like:
+1. Copy the instructions to login to your openshift cluster, then paste it into your command line terminal. The instruction looks like:
 
     ```
     oc login --token=<TOKEN> --server=<SERVER Address>
     ```
 
-1. After login, you'll see something like:
+1. After login, the project last accessed is displayed, and it may or may not be the `default` project shown below:
 
     ```
     Logged into "<SERVER address" as "<USER>" using the token provided.
@@ -400,8 +414,6 @@ If you make changes, just re-apply the specification via the command line tool.
     
     Using project "default".
     ```
-
-    Note: the name of the project is the last project you used, and is not necessarily `default`.
 
 ### Listing resources
 
@@ -480,7 +492,7 @@ calico-node-t7zwg                                1/1     Running   0          24
     kube-node-lease                                                        Active
     ```
 
-1. Get current project: `oc project`:
+1. Get current project: `oc project` (Note: current project may not be `myproject` shown below):
 
     ```
     Using project "myproject" on server "https://c100-e.us-south.containers.cloud.ibm.com:32541".
@@ -788,7 +800,7 @@ serving on 8080
     service/example created
     ```
 
-1. Examine the Route.yaml:
+1. Examine Route.yaml:
 
     ```
     apiVersion: route.openshift.io/v1
@@ -819,7 +831,7 @@ serving on 8080
            example    8080                 None
     ```
 
-1. Check that application is accessible by pointing your browser to the URL. For the example above it is: `http://mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
+1. Check that application is accessible by pointing your browser to the URL. For the example above it is: `http://example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
 
 ### Changing Replica Instance
 
@@ -845,11 +857,13 @@ serving on 8080
     example-75778c488-rhjrx   1/1     Running   0          28s
     ```
 
-1. To reduce the number of pods, we need to change the specification: `oc edit deployment example`, and change `replicas: 2` to `replicas: 1`.
+1. To reduce the number of pods, we need to change the specification: `oc edit deployment example`, and under the `spec` section (not under the `status` section, change `replicas: 2` to `replicas: 1`.
 
     ```
     deployment.extensions/example edited
     ```
+
+    Note: The above edits the copy that is stored in Openshift. You may also edit your local copy of `Deployment.yaml` and re-apply it.
 
 1. List the pods to show only 1 pod is running: `oc get pods`
 
