@@ -28,7 +28,12 @@ We have not yet been able to configure `podman` to run inside a container.
 
 - You have `podman` or `docker` installed.
 - You have access to the internet.
-- You have cloned this lab from github.
+- You have cloned this lab from github. If not, follows these steps:
+
+```
+clone git clone https://github.com/IBM/openshift-workshop-was.git
+cd openshift-workshop-was/labs/Openshift/HelloContainer
+```
 
 ## What is a Container
 
