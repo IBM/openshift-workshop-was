@@ -8,7 +8,7 @@ This lab will introduce you to the basic concepts of containerization, including
 - What are containers and container images
 - How to start, stop, and remove containers.
 - How to create container images
-- How to version container iamges
+- How to version container images
 
 Note: This lab uses `docker`. 
 However, We encourage you to use `podman` instead of `docker` in your own environment. By default, Openshift 4.x uses `podman`.
@@ -62,7 +62,7 @@ If you need more background on containers: https://www.docker.com/resources/what
     REPOSITORY   TAG   IMAGE ID   CREATED   SIZE
     ```
 
-1. Pull an test image from docker hub:  `docker pull openshift/hello-openshift`
+1. Pull a test image from docker hub:  `docker pull openshift/hello-openshift`
 
     ```
     Trying to pull registry.access.redhat.com/openshift/hello-openshift...
@@ -250,7 +250,7 @@ Recall an image contains the entire file system that you want to use to run your
    
    - The third line, another `COPY`, copies `ServletApp.war` from the current directory into a new layer in the image you are creating, at the location `/config/dropins/app.war`.
 
-   - The last line `RUN` runs he `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
+   - The last line `RUN` runs the `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
 1. Run the build: 
     ```
@@ -295,7 +295,7 @@ Recall an image contains the entire file system that you want to use to run your
     3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
     ```
 
-1. List the images to see that the new image `app` is built: `docker images`. Note that the base image, `docker.io/ibmcom/websphere-liberty` has also be pulled into the local registry.
+1. List the images to see that the new image `app` is built: `docker images`. Note that the base image, `docker.io/ibmcom/websphere-liberty` has also been pulled into the local registry.
 
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
@@ -323,7 +323,7 @@ ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ag
 
 1. Remote shell into your running container to poke around: `docker exec -it app-instance /bin/sh`
     - run `whoami` and note you're not running as root.
-    - Note that this is a stripped down environment where many coammnds are not available. For example, try `which ps`.
+    - Note that this is a stripped down environment where many commands are not available. For example, try `which ps`.
     - cd `/logs` to find the log files
     - cd `/liberty/wlp` to find the location of the liberty install
     - cd `/liberty/wlp/usr/servers/defaultServer` to find the server configuration. 

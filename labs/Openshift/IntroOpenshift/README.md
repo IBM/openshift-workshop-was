@@ -15,7 +15,7 @@ Your console URL and login id and password are provided to you by your administr
 
 ### Administrator vs Developer View
 
-1. Switch to developer view, and note you have fewer options. This view is for developer working with their projects.
+1. Switch to Developer view, and note you have fewer options. This view is for developer working with their projects.
 
     ![Developer Mode](images/DevMode.jpg)
 
@@ -241,7 +241,7 @@ That is the reason that `Pods` tab is under the `deployment` resource you just c
 
 A service enables the pods we just created to be load balanced within the Openshift cluster. 
 
-1. Scroll down to the `Networking` section on the left navigation, click `Service`, then click `Crate Service`:
+1. Scroll down to the `Networking` section on the left navigation, click `Service`, then click `Create Service`:
 
     ![Create Service](images/CreateService.jpg)
 
@@ -290,7 +290,7 @@ A service enables the pods we just created to be load balanced within the Opensh
 
 A route exposes your internal endpoints outside your cluster's built-in firewall. 
 
-1. Click on `Route` in the left navigation, then click Crate Route:
+1. Click on `Route` in the left navigation, then click Create Route:
 
     ![Create Route](images/CreateRoute.jpg)
 
@@ -302,7 +302,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     ![Create Route Parameters](images/CreateRouteParams.jpg)
 
-    Note that we are ignoring TLS configuration just for the purpose of this lab.  Security will be address in a different lab.
+    Note that we are ignoring TLS configuration just for the purpose of this lab.  Security will be addressed in a different lab.
 
 1. Access the route at the link provided:
 
