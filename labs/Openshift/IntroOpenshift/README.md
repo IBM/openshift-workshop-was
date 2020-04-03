@@ -1,6 +1,10 @@
 # Introduction to Container Orchestration using Openshift
 
-In this lab, we will introduce you to the basics of container Orchestration using Openshift. The first part of this lab uses the web console.  The second part of this lab uses the command line.
+In this lab, we will introduce you to the basics of container Orchestration using Openshift. We will
+
+- Perform basic navigation using the web console
+- Deploy the `hello-openshift` image through the web console.
+- Deploy the `hello-openshift` image through the command line.
 
 ## Prerequisite
 
@@ -11,7 +15,7 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 
 ### Login to the web console
 
-Your console URL and login id and password are provided to you by your administrator.
+Instructions on how to access your console is provided to you by your lab instructor.
 
 ### Administrator vs Developer View
 
@@ -232,7 +236,7 @@ That is the reason that `Pods` tab is under the `deployment` resource you just c
     ![Create Service](images/ExplorePod.jpg)
 
    - Overview: displays the overall resource usage for your pod. Note that for CPU usage, the unit is m, or milli-core, which is 1/1000th of one core.
-   - YAML: examine the YAML that describes your pod
+   - YAML: examine the YAML that describes your pod. This YAML is created by the deployment controller based on the specification you supplied in your deployment.
    - Environment: lists the environment variables defined for your pod. For our `hello-openshift` pod, there is none.
    - Logs: shows the console log for your container. Note that it is the same log as the log from the Introduction to Docker lab, as the same image is being used.
    - Terminal: Opens a remote shell into your container. As with the Introduction to Docker lab, no shell is available within the container for this image. This makes it more secure, but also more difficult to debug.
@@ -449,6 +453,7 @@ myproject                    Active
       1/1     Running     0          24h
     kube-system                                             calico-kube-controllers-549fdb8d79-khkvr
       1/1     Running     0          25h
+    ...
     ```
 
 
@@ -459,6 +464,7 @@ NAME                                             READY   STATUS    RESTARTS   AG
 calico-kube-controllers-549fdb8d79-khkvr         1/1     Running   0          25h
 calico-node-jc6ln                                1/1     Running   0          24h
 calico-node-t7zwg                                1/1     Running   0          24h
+...
 ```
 
 
@@ -831,7 +837,7 @@ serving on 8080
     pod "example-75778c488-7k7q2" deleted
     ```
 
-1. List pods again and note that a new instance has been created because the deployment specified 2 instances: `oc get pods`
+1. List pods again and note that a new instance has been created as expected. The deployment specified 2 instances, so the controller tries to maintain 2 instances: `oc get pods`
 
     ```
     NAME                      READY   STATUS    RESTARTS   AGE
@@ -857,5 +863,6 @@ serving on 8080
     - `oc delete route example`
     - `oc delete service example`
     - `oc delete deployment example`
+    - `oc get pods`.  You may have to do this a few times, to wait for the pods to be deleted.
 
 Congratulations, you have deployed your first application to Openshift via the command line.
