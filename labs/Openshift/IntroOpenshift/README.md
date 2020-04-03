@@ -73,9 +73,12 @@ It is common for artifacts related to different applications to be assigned to d
 The typical artifacts you will need to run an application in Openshift are:
 
 - A container image containing your application, hosted in a container registry
-- A `pod` that specifies where to fetch an image and how it should be hosted. To control the number of instances, you don't configure a `pod` directly. Instead, you configure another resources, such as `deployment`, that is used to manage a set of `pods`.
+- One or more `pods` that specifies where to fetch an image and how it should be hosted. 
+- A `deployment` to control the number of instances pods. You don't normally configure a `pod` directly. Instead, you configure a `deployment` to manage a set of `pods`.
 - A `service` that exposes the application within the internal network, and enables the application to be load balanced within the Openshift cluster.
 - A `route` or `ingress` to make the application accessible outside of the Openshift cluster firewall.
+
+    ![Typcal Deployment](images/TypicalDeployment.jpg)
 
 #### First deployment 
 
@@ -122,12 +125,13 @@ The typical artifacts you will need to run an application in Openshift are:
     - The metadata specifies data that is that is needed for the runtime:
       - The name of this instance is `example`
       - The namespace where the resource is running is `myproject`
+      - Though not shown here, any labels associated with the resource. We will see the use of labels later.
     - The `spec` section defines the details specific to this kind of resource:
-      - The `selector` defines details of the `pods` that this `deployment` will manage. The `matchLabels` attribute with value `app: hello-openshift` means this `deployment` instance will manage all pods whose labels contain `app: hello-openshift`.
-    - The `replicas: 2`  field specifies the number of replicas to run.
-    - The `template` section describes information about how to run the image and create the `pods`:
-      - The `labels` section specifies what labels to create for the pods.
-      - The `containers` section specifies where to fetch the container image and which ports to expose.
+      - The `selector` defines details of the `pods` that this `deployment` will manage. The `matchLabels` attribute with value `app: hello-openshift` means this `deployment` instance will search for and manage all pods whose labels contain `app: hello-openshift`.
+    - The `replicas: 2`  field specifies the number of instances to run.
+    - The `template` section describes information about how to run the container image and create the `pods`:
+      - The `labels` section specifies what labels to add to the pods being to be created.
+      - The `containers` section specifies where to fetch the container image and which ports to expose. For our example, the image to run is `openshift/hello-openshift`.
     
 1. Wait for both pods to be running:
 
@@ -209,7 +213,7 @@ The typical artifacts you will need to run an application in Openshift are:
 1. Note that:
 
     - There are quite a bit more `metadta`. `Metadata` may be added by any number of controllers as needed to help with their function.
-    - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by admission controllers if they were configured.
+    - The `specification` has more attributes filled in as well. These are default values that were not specified in our original YAML file. But sometimes it is also possible that some values are overridden by background admission controllers.
     - The `status` sub-resource is how Openshift communicates that status of the resource. The `status` is updated regularly as the underlying state of the resource changes.
 
 1. Click on `Pods`. 
@@ -231,7 +235,7 @@ That is the reason that `Pods` tab is under the `deployment` resource you just c
    - YAML: examine the YAML that describes your pod
    - Environment: lists the environment variables defined for your pod. For our `hello-openshift` pod, there is none.
    - Logs: shows the console log for your container. Note that it is the same log as the log from the Introduction to Docker lab, as the same image is being used.
-   - Terminal: Opens a remote shell into your container. As with the Introduction to Docker lab, no shell is available within the container. This makes it more secure, but also more difficult to debug.
+   - Terminal: Opens a remote shell into your container. As with the Introduction to Docker lab, no shell is available within the container for this image. This makes it more secure, but also more difficult to debug.
 
 ### First Service
 
