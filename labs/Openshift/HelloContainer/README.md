@@ -239,6 +239,9 @@ because there is already another copy running in the background that is bound to
 
 We use a `Containerfile`, which contains the instructions to create the new layers of your image.
 Recall an image contains the entire file system that you want to use to run your virtual process in a container.
+For this sample, we are building a new image for a Java EE web application ServletApp.war.
+It is configured to run on the WebSphere Liberty Runtime. 
+The configuration file for the server is in the server.xml.
 
 1. Review the provided `Containerfile`:
 
@@ -249,7 +252,8 @@ Recall an image contains the entire file system that you want to use to run your
     RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml 
     ```
 
-   - The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub.
+
+   - The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
 
    - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
@@ -257,10 +261,11 @@ Recall an image contains the entire file system that you want to use to run your
 
    - The last line `RUN` runs the `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
-1. Run the build: 
+1. Run the build. Ensure you include `.` at the end of the command:
     ```
     docker build -t app -f Containerfile .
     ```
+
     The `-t` option tags the name of the image as `app`.  The `-f` option specifies the name of the `Containerfile`. The build command runs the commands in `Containerfile` to build a new image called `app`.
 
     ```
