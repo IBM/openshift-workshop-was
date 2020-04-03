@@ -334,12 +334,12 @@ ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ag
 There is no built-in versioning for container images. 
 However, you may use a tagging convention to version your images. 
 The convention is to use `major.minor.patch`, such as `1.3.5`.
-The default tag for the most recently built image is `latest`. 
+The default tag if you don't specify one `latest`, which is always the most recent.
 
     ```
-    docker tag app 1
-    docker tag app 1.3
-    docker tag app 1.3.5
+    docker tag app app:1
+    docker tag app app:1.3
+    docker tag app app:1.3.5
     docker images
     ```
 
@@ -358,11 +358,11 @@ The default tag for the most recently built image is `latest`.
     - `docker run app:1.3 ...` matches the latest 1.3.x version.
     - `docker run app:1.3.5 ...` matches only 1.3.5.
 
-    After you build a new patch version of the image, you will tag the new version as follows:
+    After you build a new patch version of the image, you will create a new latest version. Tag it as follows:
     ```
-    docker tag app 1
-    docker tag app 1.3
-    docker tag app 1.3.6
+    docker tag app app:1
+    docker tag app app:1.3
+    docker tag app app:1.3.6
     ```
 
     This means that:
@@ -373,9 +373,9 @@ The default tag for the most recently built image is `latest`.
 
     When you build a new minor version of the image, you will tag the new version as follows:
     ```
-    docker tag app 1
-    docker tag app 1.4
-    docker tag app 1.4.0
+    docker tag app app:1
+    docker tag app app:1.4
+    docker tag app app:1.4.0
     ```
 
     This means that:
