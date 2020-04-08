@@ -21,6 +21,7 @@ Enter the key for your workshop and your IBM ID to get assigned a cluster.
 
 - After sumitting successfully, the Congratuations page similar to the following is displayed:
 
+
 ![Workshop cluster assigned](images/assignment.jpg)
 
 
@@ -70,7 +71,7 @@ The information will already be in the browser cookie cache.
 
 ## Clone the Workshop 
 
-From within the web terminal:
+From within the web terminal, run the following `git` command to downloand the repository for labs:
 
 ```
 git clone https://github.com/IBM/openshift-workshop-was.git
@@ -78,5 +79,13 @@ git clone https://github.com/IBM/openshift-workshop-was.git
 
 The contents for the labs are under the the directory `openshift-workshop-was/labs`. You can access files required for your labs under the lab's directory. For example: 
 
-- Introduction to Containers: `openshift-workshop-was/labs/Openshift/HelloContainer`
-- Introduction to Openshift: `openshift-workshop-was/labs/Openshift/IntroOpenshift`
+- Introduction to Containerization: `openshift-workshop-was/labs/Openshift/HelloContainer`
+- Introduction to Container Orchestration using Openshift: `openshift-workshop-was/labs/Openshift/IntroOpenshift`
+
+## Next
+
+You've completed the lab setup.  Please follow the link to do the first lab `Introduction to Containerization`:
+
+- [Introduction to Containerization](labs/Openshift/HelloContainer)
+
+
