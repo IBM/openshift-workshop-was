@@ -406,4 +406,10 @@ The default tag if you don't specify one `latest`, which is always the most rece
     - Think about what would be required to manage containers across multiple machines to support horizontal scaling.
     
 
-Congratulations. You have completed the introduction to containerization lab.
+Congratulations! You have completed the **Introduction to Containerization** lab.
+
+## Next
+Please follow the link to do the next lab **Introduction to Container Orchestration using Openshift**:
+- [Introduction to Container Orchestration using Openshift](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift).
+
+
