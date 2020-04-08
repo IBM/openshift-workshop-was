@@ -56,11 +56,11 @@ To access the web terminal:
 
 ![Route URL](images/tools_route.jpg)
 
-- Click on `Log in with OpenShift`
+- Click on **Log in with OpenShift**
 
 ![Oauth Proxy Authentication](images/oauthproxy.jpg)
 
-- Click on `Allow selected permissions`
+- Click on **Allow selected permissions**
 
 ![Authorization](images/auth_permission.jpg)
 
@@ -73,7 +73,7 @@ The information will already be in the browser cookie cache.
 
 ## Clone the Workshop 
 
-From within the web terminal, run the following `git` command to downloand the repository for labs:
+From within the web terminal, run the following **git** command to downloand the repository for labs:
 
 ```
 git clone https://github.com/IBM/openshift-workshop-was.git
