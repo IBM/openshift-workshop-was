@@ -19,7 +19,13 @@ Enter the key for your workshop and your IBM ID to get assigned a cluster.
 
 ![Workshop assignment](images/Initial.jpg)
 
-- Login to IBM cloud with your IBM ID.
+- After sumitting successfully, the Congratuations page similar to the following is displayed:
+
+![Workshop cluster assigned](images/assignment.jpg)
+
+
+- From the page, note about your assigned cluster name and ignore the bullet 5 which is not used in this workshop.
+- Login to the link **IBM Cloud account** with your IBM ID.
 - Ensure that the account selected is `2044184 - CP4AWorkshops`
 
 ![CP4Apps Account](images/CP4AppsAccount.jpg)
