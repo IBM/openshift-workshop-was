@@ -50,7 +50,9 @@ The web terminal runs in your Openshift cluster.
 It gives you command line access to many tools you will use for the labs. 
 To access the web terminal:
 
-- From the OpenShift web console, navigate to Networking -> Routes.  Select Project `lab` and click on the URL of route `tools` under "Location".  
+- From the OpenShift web console, navigate to Networking -> Routes.  
+- On the right, from the top, select Project name **lab** and 
+- from the route **tools**, click on the URL under "Location".  
 
 ![Route URL](images/tools_route.jpg)
 
@@ -86,6 +88,6 @@ The contents for the labs are under the the directory `openshift-workshop-was/la
 
 You've completed the lab setup.  Please follow the link to do the first lab `Introduction to Containerization`:
 
-- [Introduction to Containerization](labs/Openshift/HelloContainer)
+- [Introduction to Containerization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/HelloContainer)
 
 
