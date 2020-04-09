@@ -358,8 +358,8 @@ The configuration file for the server is in the server.xml.
 
    ```
    REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
-   localhost/app                         latest                     baa6bb9ad29d   2 minutes ago   544 MB
-   ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
+   app                                   latest                     baa6bb9ad29d   2 minutes ago   544 MB
+   ibmcom/websphere-liberty              kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
    ```
 
 1. Start the container. Note that you are running with both http and https ports: 
