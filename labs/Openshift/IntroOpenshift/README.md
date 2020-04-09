@@ -9,13 +9,13 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 ## Prerequisite
 
 - For background on basic Openshift concepts, read: https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md
-- You have cloned the lab into your working directory.
+- You have the access to OpenShift Web Console. 
+- You have cloned the lab into your working directory through the web terminal session. 
 
-## Using the Web Console
+## Deploy the `hello-openshift` image through the web console
 
 ### Login to the web console
-
-Instructions on how to access your console is provided to you by your lab instructor.
+The instruction to access the web console is at: [Lab Setup](https://github.com/IBM/openshift-workshop-was/tree/master/setup).
 
 ### Administrator vs Developer View
 
@@ -359,7 +359,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
     ![Reduce Deployment YAML](images/DeploymentReducePod1YAML.jpg)
 
 
-## Using command line
+## Deploy the `hello-openshift` image through the command line
 
 You can use both `oc`, the openshift command line tool, or `kubectl`, the Kubernetes command line tool, to interact with Openshift. 
 Resources in Openshift are configured via REST data structure. 
@@ -379,7 +379,7 @@ If you make changes, just re-apply the specification via the command line tool.
 
 You may run this part of the lab from any terminal where the oc command is installed. 
 If your lab environment is provided on the IBM public cloud, you will be using the web terminal. 
-Instructions to access the web terminal is at: https://github.com/IBM/openshift-workshop-was/tree/master/setup.
+Instructions to access the web terminal is at: [Lab Setup](https://github.com/IBM/openshift-workshop-was/tree/master/setup).
 
 After you get into the your command line terminal, clone the lab to your local directory via:
 
