@@ -415,11 +415,15 @@ There is no built-in versioning for container images.
 However, you may use a tagging convention to version your images. 
 The convention is to use `major.minor.patch`, such as `1.3.5`.
 The default tag if you don't specify one `latest`, which is always the most recent.
-
+    
+    Run the command to tag for the different versions:
     ```
     docker tag app app:1
     docker tag app app:1.3
     docker tag app app:1.3.5
+    ```
+    List the images again:
+    ```
     docker images
     ```
 
