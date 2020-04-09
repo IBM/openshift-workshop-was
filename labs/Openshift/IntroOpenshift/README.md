@@ -145,7 +145,7 @@ The typical artifacts you will need to run an application in Openshift are:
 
     ![Deployment After Create YAML](images/DeploymentAfterCreateYAML.jpg)
 
-1. Here is a sample :
+1. Here is a sample YAML after the deployment is created :
 
     ```
     kind: Deployment
