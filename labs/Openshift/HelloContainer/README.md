@@ -115,7 +115,11 @@ If you need more background on containers: https://www.docker.com/resources/what
     ]
     ```
 
-1. Run the image: `docker run --name hello1 -d -p 8080:8080 -p 8888:8888 openshift/hello-openshift`.  Note that:
+1. Run the image: 
+   ```
+   docker run --name hello1 -d -p 8080:8080 -p 8888:8888 openshift/hello-openshift
+   ```
+   Note that:
     - The `--name` option gives the container a name.
     - The `-d` option runs the command in the background as a daemon
     - The `-p` command maps the host port to the port in the container. Through virtual network, the port in the container may be fixed, When you run the container, you may assign a new port on the host dynamically.
@@ -125,7 +129,10 @@ If you need more background on containers: https://www.docker.com/resources/what
     - If you are running on a desktop, point your browser to `http://localhost:8080`
     - Also try port 8888
 
-1. Run another instance of the same image: `docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift`. 
+1. Run another instance of the same image: 
+   ```
+   docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift
+   ```
 Question: how does this compare to the time it takes to start a new virtual machine?
 
 1. Access the application in the new container the same way. However, use port `8081` and `8889` instead.
