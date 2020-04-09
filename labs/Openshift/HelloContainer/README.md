@@ -402,12 +402,12 @@ The configuration file for the server is in the server.xml.
    docker exec -it app-instance /bin/sh
    ```
    In the shell session,
-    - run `whoami` and note you're not running as root.
+    - run `whoami` and then run `id`, note you're not running as root.
     - Note that this is a stripped down environment where many commands are not available. For example, try `which ps`.
     - cd `/logs` to find the log files
     - cd `/liberty/wlp` to find the location of the liberty install
     - cd `/liberty/wlp/usr/servers/defaultServer` to find the server configuration. 
-    - cd `/opt/ibm/wlp/output` to find the workarea files required by the server runtime.
+    - cd `/opt/ibm/wlp/output/defaultServer` to find the workarea files required by the server runtime.
     - Exit from the container: `exit`
 
 1. Managing image versions. 
