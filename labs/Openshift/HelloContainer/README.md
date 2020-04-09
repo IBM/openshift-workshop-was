@@ -271,13 +271,16 @@ The configuration file for the server is in the server.xml.
 
    - The last line `RUN` runs the `installUtility` command within the image to install additional features required to run the server as specified in `server.xml`. You can use the `RUN` command to run any command that is available within the image to customize the image itself.
 
-1. Run the build. Ensure you include `.` at the end of the command:
+1. Run the build.  Ensure you include `.` at the end of the command (the dot indicates using the file from the current directory):
     ```
     docker build -t app -f Containerfile .
     ```
 
-    The `-t` option tags the name of the image as `app`.  The `-f` option specifies the name of the `Containerfile`. The build command runs the commands in `Containerfile` to build a new image called `app`.
+    - The `-t` option tags the name of the image as `app`.  
+    - The `-f` option specifies the name of the `Containerfile`. 
+    - The build command runs the commands in `Containerfile` to build a new image called `app`.
 
+    - docker build output:
     ```
     STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
     STEP 2: COPY server.xml  /config
@@ -315,7 +318,11 @@ The configuration file for the server is in the server.xml.
     3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
     ```
 
-1. List the images to see that the new image `app` is built: `docker images`. Note that the base image, `docker.io/ibmcom/websphere-liberty` has also been pulled into the local registry.
+1. List the images to see that the new image `app` is built: 
+   ```
+   docker images
+   ```
+   Note that the base image, `docker.io/ibmcom/websphere-liberty` has also been pulled into the local registry.
 
  ```
  REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
