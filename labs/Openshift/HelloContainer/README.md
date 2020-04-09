@@ -374,7 +374,8 @@ The configuration file for the server is in the server.xml.
    Use `Ctrl-C` To exit.
 
 1. Remote shell into your running container to poke around: 
-   ```docker exec -it app-instance /bin/sh
+   ```
+   docker exec -it app-instance /bin/sh
    ```
    In the shell session,
     - run `whoami` and note you're not running as root.
