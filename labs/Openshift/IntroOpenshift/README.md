@@ -9,13 +9,13 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 ## Prerequisite
 
 - For background on basic Openshift concepts, read [Openshift Concepts for WebSphere Administrators](https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md)
-- You have the access to OpenShift Web Console. 
+- You have the access to OpenShift Web Console with IBM Cloud account ID login. 
 - You have cloned the lab into your working directory through the web terminal session. 
 
 ## Deploy the hello-openshift image through the web console
 
 ### Login to the web console
-The instruction to access the web console is at: [Lab Setup](https://github.com/IBM/openshift-workshop-was/tree/master/setup).
+The instruction to access the web console is at: [Lab Setup](https://github.com/IBM/openshift-workshop-was/tree/master/setup).  You may need to re-login (by pointing to https://cloud.ibm.com with your IBM Cloud account ID) when the console session is expired.
 
 ### Administrator vs Developer View
 
