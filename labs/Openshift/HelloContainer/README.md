@@ -133,7 +133,7 @@ If you need more background on containers: https://www.docker.com/resources/what
    ```
    docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift
    ```
-Question: how does this compare to the time it takes to start a new virtual machine?
+    Question: how does this compare to the time it takes to start a new virtual machine?
 
 1. Access the application in the new container the same way. However, use port `8081` and `8889` instead.
 
@@ -145,7 +145,7 @@ Question: how does this compare to the time it takes to start a new virtual mach
     5d2c82fe3f7c  docker.io/openshift/hello-openshift:latest           5 seconds ago       Up 5 seconds ago   0.0.0.0:8081->
     8080/tcp, 0.0.0.0:8889->8888/tcp  hello2
     43c70b723756  docker.io/openshift/hello-openshift:latest           About a minute ago  Up 57 seconds ago  0.0.0.0:8080->
-    8080/tcp                          hello1```
+    8080/tcp                          hello1
     ```
 
 1. View the logs: `docker logs hello1`
