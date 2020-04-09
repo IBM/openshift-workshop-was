@@ -350,16 +350,26 @@ ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ag
     - Also point your browser to 9443:  `https://localhost:9443/app`
 
 
-1. List the running containers: `docker ps`
+1. List the running containers: 
+    ```
+    docker ps
+    ```
 
     ```
       CONTAINER ID  IMAGE                 COMMAND               CREATED             STATUS                 PORTS NAMES
     45e82c9cd416  localhost/app:latest  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
     ```
 
-1. Access the logs to your container: `docker logs -f app-instance`. Use `Ctrl-C` To exit.
+1. Access the logs to your container: 
+   ```
+   docker logs -f app-instance
+   ```
+   Use `Ctrl-C` To exit.
 
-1. Remote shell into your running container to poke around: `docker exec -it app-instance /bin/sh`
+1. Remote shell into your running container to poke around: 
+   ```docker exec -it app-instance /bin/sh
+   ```
+   In the shell session,
     - run `whoami` and note you're not running as root.
     - Note that this is a stripped down environment where many commands are not available. For example, try `which ps`.
     - cd `/logs` to find the log files
