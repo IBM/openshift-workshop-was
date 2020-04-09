@@ -441,17 +441,17 @@ nodes                                 no                                        
 
 1. List all projects: `oc get projects`
 
-```
-NAME          DISPLAY NAME   STATUS
-default                      Active
-ibm-cert-store               Active
-ibm-system                   Active
-kube-node-lease              Active
-kube-public                  Active
-kube-system                  Active
-myproject                    Active
-...
-```
+    ```
+    NAME          DISPLAY NAME   STATUS
+    default                      Active
+    ibm-cert-store               Active
+    ibm-system                   Active
+    kube-node-lease              Active
+    kube-public                  Active
+    kube-system                  Active
+    myproject                    Active
+    ...
+    ```
 
 
 1. List all pods in all namespaces: `oc get pods --all-namespaces`
@@ -471,13 +471,13 @@ myproject                    Active
 
 1.  List all pods within a namespace: `oc get pods -n kube-system`
 
-```
-NAME                                             READY   STATUS    RESTARTS   AGE
-calico-kube-controllers-549fdb8d79-khkvr         1/1     Running   0          25h
-calico-node-jc6ln                                1/1     Running   0          24h
-calico-node-t7zwg                                1/1     Running   0          24h
-...
-```
+    ```
+    NAME                                             READY   STATUS    RESTARTS   AGE
+    calico-kube-controllers-549fdb8d79-khkvr         1/1     Running   0          25h
+    calico-node-jc6ln                                1/1     Running   0          24h
+    calico-node-t7zwg                                1/1     Running   0          24h
+    ...
+    ```
 
 
 ### Projects
@@ -771,10 +771,10 @@ calico-node-t7zwg                                1/1     Running   0          24
 
 1. Show the logs of one of the pods: `oc logs <pod name>`
 
-```
-serving on 8888
-serving on 8080
-```
+    ```
+    serving on 8888
+    serving on 8080
+    ```
 
 1. Take a look at `Service.yaml` and note that it's for the `project1` namespace:
 
