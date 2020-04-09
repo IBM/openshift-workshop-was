@@ -8,7 +8,7 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 
 ## Prerequisite
 
-- For background on basic Openshift concepts, read: https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md
+- For background on basic Openshift concepts, read [Openshift Concepts for WebSphere Administrators](https://github.com/IBM/openshift-workshop-was/blob/master/OpenshiftConcepts.md)
 - You have the access to OpenShift Web Console. 
 - You have cloned the lab into your working directory through the web terminal session. 
 
