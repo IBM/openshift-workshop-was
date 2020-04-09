@@ -386,10 +386,13 @@ The configuration file for the server is in the server.xml.
     ```
     docker ps
     ```
-
+    ```
+    CONTAINER ID     IMAGE     COMMAND                  CREATED             STATUS              PORTS                    NAMES                                     
+    595cdc49c710     app       "/opt/ibm/helpers/ru…"   8 minutes ago       Up 8 minutes        0.0.0.0:9080->9080/tcp, 0.0.0.0:9443->9443/tcp      app-instance
+    ```
     ```
       CONTAINER ID  IMAGE                 COMMAND               CREATED             STATUS                 PORTS NAMES
-    45e82c9cd416  localhost/app:latest  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
+    45e82c9cd416  app  /opt/ibm/wlp/bin/...  About a minute ago  Up About a minute ago  0.0.0.0:9081->9080/ tcp, 0.0.0.0:9444->9443/tcp  app-instance1
     ```
 
 1. Access the logs to your container: 
