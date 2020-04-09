@@ -61,7 +61,7 @@ It is common for artifacts related to different applications to be assigned to d
 
     ![Projects](images/CreateProject.jpg)
 
-1. In the dialog, enter `myproject` as project name, then click Create:
+1. In the dialog, enter `myproject` as project name, then click **Create**:
 
     ![Myproject](images/Myproject.jpg)
 
