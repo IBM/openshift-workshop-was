@@ -331,30 +331,30 @@ The configuration file for the server is in the server.xml.
    ```
    Note that the base image, `docker.io/ibmcom/websphere-liberty` has also been pulled into the local registry.
 
- ```
- REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
-localhost/app                         latest                     baa6bb9ad29d   2 minutes ago   544 MB
-ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
- ```
+   ```
+   REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
+   localhost/app                         latest                     baa6bb9ad29d   2 minutes ago   544 MB
+   ibmcom/websphere-liberty    kernel-java8-ibmjava-ubi   7ea3d0a2b3fe   4 hours ago     544 MB
+   ```
 
-- Start the container. Note that you are running with both http and https ports: 
-  ```
-  docker run -d -p 9080:9080 -p 9443:9443 --name=app-instance app
-  ```
+1. Start the container. Note that you are running with both http and https ports: 
+   ```
+   docker run -d -p 9080:9080 -p 9443:9443 --name=app-instance app
+   ```
 
-- Access the application running in the container:
-  - If you are running in a server, or using the web terminal, run with the curl command:
-    ```
-    curl --insecure https://localhost:9443/app
-    ```
+1. Access the application running in the container:
+   - If you are running in a server, or using the web terminal, run with the curl command:
+     ```
+     curl --insecure https://localhost:9443/app
+     ```
     and ensure you have output that looks like:
-    ```
-    <html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>
-    ```
-  - If you are running on a desktop with browser,
-    - point your browser to port 9080: `http://localhost:9080/app` 
-    - and check that renders a page showing `Simple Servlet ran successfully`.
-    - Also point your browser to 9443:  `https://localhost:9443/app`
+     ```
+     <html><h1><font color=green>Simple Servlet ran successfully</font></h1>Powered by WebSphere Liberty  <html>
+     ```
+   - If you are running on a desktop with browser,
+     - point your browser to port 9080: `http://localhost:9080/app` 
+     - and check that renders a page showing `Simple Servlet ran successfully`.
+     - Also point your browser to 9443:  `https://localhost:9443/app`
 
 
 1. List the running containers: 
