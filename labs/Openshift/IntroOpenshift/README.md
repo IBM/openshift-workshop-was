@@ -12,7 +12,7 @@ In this lab, we will introduce you to the basics of container Orchestration usin
 - You have the access to OpenShift Web Console. 
 - You have cloned the lab into your working directory through the web terminal session. 
 
-## Deploy the `hello-openshift` image through the web console
+## Deploy the hello-openshift image through the web console
 
 ### Login to the web console
 The instruction to access the web console is at: [Lab Setup](https://github.com/IBM/openshift-workshop-was/tree/master/setup).
@@ -359,7 +359,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
     ![Reduce Deployment YAML](images/DeploymentReducePod1YAML.jpg)
 
 
-## Deploy the `hello-openshift` image through the command line
+## Deploy the hello-openshift image through the command line
 
 You can use both `oc`, the openshift command line tool, or `kubectl`, the Kubernetes command line tool, to interact with Openshift. 
 Resources in Openshift are configured via REST data structure. 
