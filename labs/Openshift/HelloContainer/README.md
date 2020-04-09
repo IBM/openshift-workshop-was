@@ -289,40 +289,65 @@ The configuration file for the server is in the server.xml.
 
     - docker build output:
     ```
-    STEP 1: FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
-    STEP 2: COPY server.xml  /config
-    eac7bbb2c9f3b010d57744094e7bb11528b22cec5a3f914a7f1e7c9b657859f8
-    STEP 3: COPY ServletApp.war /config/dropins/app.war
-    d8c6c1b3b3b1ab810bf1d4d2a1fea9399a33b714264ae610143c0c6c15222dd9
-    STEP 4: RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
+    Sending build context to Docker daemon   25.6kB
+    Step 1/4 : FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
+    kernel-java8-ibmjava-ubi: Pulling from ibmcom/websphere-liberty
+    ee2244abc66f: Pull complete 
+    befb03b11956: Pull complete 
+    137dc88f6a93: Pull complete 
+    5bdd69a33184: Pull complete 
+    d4e2554981d7: Pull complete 
+    32c91bc0f2e1: Pull complete 
+    db7e931336a9: Pull complete 
+    3b32f9956ae2: Pull complete 
+    304584ffa0a2: Pull complete 
+    9f6da4c82b7e: Pull complete 
+    b6fa5b2e2325: Pull complete 
+    Digest: sha256:d76f79695afe2f653fc7b272f9a629105446e6b78ff0d733d494c93ff05728e7
+    Status: Downloaded newer image for ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
+     ---> 4d9265befb26
+    Step 2/4 : COPY server.xml  /config
+     ---> 4a02d03d3725
+    Step 3/4 : COPY ServletApp.war /config/dropins/app.war
+     ---> b2def2a0feac
+    Step 4/4 : RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml
+     ---> Running in 5f5b05aec1ae
     Checking for missing features required by the server ...
-    The server requires the following additional features: servlet-3.0.  Installing features from the repository ...
+    The server requires the following additional features: appsecurity-2.0 servlet-3.0.  Installing features from the repository ...
     Establishing a connection to the configured repositories ...
     This process might take several minutes to complete.
-    
+
     Successfully connected to all configured repositories.
-    
+
     Preparing assets for installation. This process might take several minutes to complete.
-    
+
     Additional Liberty features must be installed for this server.
-    
+
     To install the additional features, review and accept the feature license agreement:
     The --acceptLicense argument was found. This indicates that you have
     accepted the terms of the license agreement.
-    
-    
-    Step 1 of 4: Downloading servlet-3.0 ...
-    Step 2 of 4: Installing servlet-3.0 ...
-    Step 3 of 4: Validating installed fixes ...
-    Step 4 of 4: Cleaning up temporary files ...
-    
-    
+
+    Step 1 of 12: Downloading ssl-1.0 ...
+    Step 2 of 12: Installing ssl-1.0 ...
+    Step 3 of 12: Downloading appSecurity-2.0 ...
+    Step 4 of 12: Installing appSecurity-2.0 ...
+    Step 5 of 12: Downloading servlet-3.0 ...
+    Step 6 of 12: Installing servlet-3.0 ...
+    Step 7 of 12: Downloading jndi-1.0 ...
+    Step 8 of 12: Installing jndi-1.0 ...
+    Step 9 of 12: Downloading distributedMap-1.0 ...
+    Step 10 of 12: Installing distributedMap-1.0 ...
+    Step 11 of 12: Validating installed fixes ...
+    Step 12 of 12: Cleaning up temporary files ...
+
     All assets were successfully installed.
-    
+
     Start product validation...
     Product validation completed successfully.
-    STEP 5: COMMIT app
-    3f9c0085cca1fc11ecb918451b054bd60a5da6911b559c54b18551283a4e784f
+    Removing intermediate container 5f5b05aec1ae
+     ---> e1c6bfabda76
+    Successfully built e1c6bfabda76
+    Successfully tagged app:latest
     ```
 
 1. List the images to see that the new image `app` is built: 
