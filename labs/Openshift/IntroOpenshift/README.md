@@ -90,7 +90,7 @@ The typical artifacts you will need to run an application in Openshift are:
 
     ![Create Deployment](images/CreateDeployment.jpg)
 
-1. Note that the console shows you the YAML file for the deployment.  Change the number of replicas to 2, then click Create:
+1. Note that the console shows you the YAML file for the deployment.  Change the number of replicas to 2, then click **Create**:
 
     ![Deployment Replicas](images/DeploymentReplicas.jpg)
 
