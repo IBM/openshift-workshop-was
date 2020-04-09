@@ -244,7 +244,17 @@ It is configured to run on the WebSphere Liberty Runtime.
 The configuration file for the server is in the server.xml.
 
 1. Review the provided `Containerfile`:
+- located in the directory /openshift-workshop-was/labs/Openshift/HelloContainer, where you ran `git clone` command in the lab setup): for example,
 
+    ```/openshift-workshop-was/labs/Openshift/HelloContainer,
+    root@lab-tools-6d4cbb56b6-cn2k5:/openshift-workshop-was/labs/Openshift/HelloContainer# ls -l 
+    total 32
+    -rw-r--r--. 1 root root   203 Apr  9 01:13 Containerfile
+    -rw-r--r--. 1 root root 18484 Apr  9 01:13 README.md
+    -rw-r--r--. 1 root root  2519 Apr  9 01:13 ServletApp.war
+    -rw-r--r--. 1 root root   342 Apr  9 01:13 server.xml
+    ```
+- the content of `Containerfile`:
     ```
     FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
     COPY server.xml  /config
