@@ -2,9 +2,14 @@
 
 This section contains instructions to access Openshift Clusters for those workshops that use IBM public cloud
 
+## Prequisite
+
+You will be given a URL specific to your workshop (e.g. https://<workshop name>.mybluemix.net/), and a lab key through email one day before the workshop session. The information will be used for the cluster assignment in the workshop.
+
 ## Create a free IBM Cloud Account ID
 
-If you don't already have an IBM Cloud Account ID, point your browser to https://cloud.ibm.com and select `Create an IBM Cloud account`. You may use any email, including personal email. No credit card needed.
+- If you have already an IBM ID, you may proceed to next section ##Cluster assignment.
+- If you don't have an IBM ID, point your browser to https://cloud.ibm.com and select **Create an IBM Cloud account** to request the ID. You may use any email, including personal email. No credit card is needed.
 
 Note: You may optionally deactivate your account after the lab. 
 However, we encourage you to keep your account for future labs. 
@@ -13,9 +18,8 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ## Cluster assignment
 
-- You will be given a URL specific to your workshop, and a lab key. 
-Point your browser to the URL. 
-Enter the key for your workshop and your IBM ID to get assigned a cluster.
+- Point your browser to the worshop URL which is given through email; or check again with the workshop presenter. 
+- Enter the lab key for your workshop and your IBM ID to get assigned a cluster.
 
 ![Workshop assignment](images/Initial.jpg)
 
