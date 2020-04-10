@@ -9,7 +9,7 @@ You will be given a URL specific to your workshop (e.g. https://<workshop name>.
 ## Create a free IBM Cloud Account ID
 
 - If you have already an IBM ID, you may proceed to next section **Cluster assignment**.
-  - Note: If your IBM ID is not with email pattern (e.g. shortname without `@`), please inform the workshop presenter and a manual assignment will be made for you accordinly and you will skip next section **Cluster assignment**
+  - Note: If your IBM ID is not with email pattern (e.g. shortname without `@`), please inform the workshop presenter and a manual assignment will be made for you accordinly. You will then skip next section **Cluster assignment**
 - If you don't have an IBM ID, point your browser to https://cloud.ibm.com and select **Create an IBM Cloud account** to request the ID. You may use any email, including personal email. No credit card is needed.
 
 Note: You may optionally deactivate your account after the lab. 
