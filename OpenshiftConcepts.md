@@ -77,64 +77,130 @@ Openshift may be used to manage a very large environment.
 Namespaces are used to allow you to isolate disparate resources  within the environment, e.g. between different teams, or applications.  
 Resource instances may be scoped to a namespace, or be cluster wide if they are applicable to the entire cluster.
 
-In openshift, a pod is is the most basic unit of runtime to be managed. It is used to run one or more related containers.
-Here is a sample redacted configuration for a Pod with 1 container:
+In openshift, a pod is is the most basic unit of runtime to be managed. 
+It is used to run one or more related containers.
+Normally you do not run define a `pod`. 
+Instead, you define a `deployment` that controls the number of instances in `pod`.
+
+Here is a sample redacted configuration for a `deployment` for 2 pods:
 
 ```
-apiVersion: v1
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-openshift
+  template:
+    metadata:
+      labels:
+        app: hello-openshift
+    spec:
+      containers:
+      - image: openshift/hello-openshift
+        imagePullPolicy: Always
+        name: hello-openshift
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+status:
+  availableReplicas: 2
+  conditions:
+  - lastTransitionTime: "2020-04-13T11:50:39Z"
+    lastUpdateTime: "2020-04-13T11:50:39Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2020-04-13T11:50:22Z"
+    lastUpdateTime: "2020-04-13T11:50:39Z"
+    message: ReplicaSet "example-75778c488" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 2
+  replicas: 2
+  updatedReplicas: 2
+```
+
+Note the following:
+
+- `replicas: 2`: the specification is for 2 instances
+- `image: openshift/hello-openshift`: specifies the image to run
+- `containerPort: 8080`: specifies the port it opens.
+- `readyReplicas: 2`: from the status field, shows there are 2 replicas ready to run.
+
+
+The controller for the above deployment follows the above specification, and creates two `pods`. 
+Here is a sample redacted configuration for one of the `pods`: 
+
+```
+piVersion: v1
 kind: Pod
 metadata:
-  name: demo-app-7c4f775c8b-8xn2n
+  labels:
+    app: hello-openshift
+    pod-template-hash: 75778c488
+  name: example-75778c488-8wgsw
   namespace: default
 spec:
   containers:
-  - env:
-    - name: WLP_LOGGING_CONSOLE_LOGLEVEL
-      value: info
-    - name: WLP_LOGGING_CONSOLE_SOURCE
-      value: message,trace,accessLog,ffdc
-    - name: WLP_LOGGING_CONSOLE_FORMAT
-      value: json
-    image: openliberty/open-liberty:full-java8-openj9-ubi
+  - image: openshift/hello-openshift
+    imagePullPolicy: Always
+    name: hello-openshift
     ports:
-    - containerPort: 9080
-      name: 9080-tcp
+    - containerPort: 8080
       protocol: TCP
-  imagePullSecrets:
-  - name: demo-app-dockercfg-657tj
 status:
   conditions:
   - lastProbeTime: null
-    lastTransitionTime: "2020-01-23T16:05:32Z"
+    lastTransitionTime: "2020-04-13T11:50:23Z"
     status: "True"
     type: Initialized
-  - containerID: cri-o://9d2d4fcdfcea0c4b3a968daf412b6216b76d1e779eb1364313395caf6f41997f
-    image: docker.io/openliberty/open-liberty:full-java8-openj9-ubi
-    imageID: docker.io/openliberty/open-liberty@sha256:0bb44ef72d851b3fac9adeea36ba35f6f9a327708b02ec8fd70659d3429a0530
+  - lastProbeTime: null
+    lastTransitionTime: "2020-04-13T11:50:38Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2020-04-13T11:50:38Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2020-04-13T11:50:23Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: cri-o://fd909c5a3f6cbf8cd9b430b39b3173c830c668daff739f8b425d9803755f11b3
+    image: docker.io/openshift/hello-openshift:latest
+    imageID: docker.io/openshift/hello-openshift@sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e
     lastState: {}
-    name: app
+    name: hello-openshift
     ready: true
     restartCount: 0
     started: true
     state:
       running:
-        startedAt: "2020-01-23T16:06:06Z"
-  hostIP: 10.16.28.115
+        startedAt: "2020-04-13T11:50:37Z"
+  hostIP: 10.16.20.129
   phase: Running
-  podIP: 10.254.4.23
+  podIP: 10.254.21.218
   podIPs:
-  - ip: 10.254.4.23
+  - ip: 10.254.21.218
   qosClass: BestEffort
-  startTime: "2020-01-23T16:05:32Z"
+  startTime: "2020-04-13T11:50:23Z"
 ```
 
-Note that a pod specification:
+Note that:
 
-- is scoped to a namespace.
-- defines where to fetch and run the container image. (`image`)
-- defines environment variables for the process to be run in the container
-- defines which ports to expose
-- contains a sub-resource `status` that describes the current status of the pod. The `status` is generated by the controller in Openshift that monitors pods.
+- `name: example-75778c488-8wgsw` is generated by the controller for the deployment. Each pod it generates has a unique suffix.
+- The name of the image and the port mirrors what you defined in the `deployment`.
+- The controller for the `pod` is responsible for taking the specification to create a running pod within the Openshift cluster.
+- The `status` sub-resource shows the current status of the `pod`.
 
 ## Controller Model and Declarative Specification
 
