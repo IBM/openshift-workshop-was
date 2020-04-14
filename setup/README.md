@@ -8,7 +8,7 @@ You will be given a URL specific to your workshop (e.g. `https://<workshop name>
  
 ## Browser Requirement
 
-- Please use Firefox or Chrome when possible during the workshop. It's been noted IE or Edge brwoser may cause an unexpected behavior accessing the URLs for the lab.
+- Please use Firefox or Chrome when possible during the workshop. It's been noted IE or Edge browser may cause an unexpected behavior accessing the URLs for the lab.
 - When accessing Open Shift Web Console through IBM Cloud login, you may experience the block pop-up from the browser, please ensure to unblock in order to proceed. 
   - Also note other type of blocks may be caused by your company's firewall rules, please check if any alternative can be used.
 
