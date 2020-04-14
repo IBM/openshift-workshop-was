@@ -12,16 +12,21 @@ You will be given a URL specific to your workshop (e.g. `https://<workshop name>
 - When accessing Open Shift Web Console through IBM Cloud login, you may experience the block pop-up from the browser, please ensure to unblock in order to proceed. 
   - Also note other type of blocks may be caused by your company's firewall rules, please check if any alternative can be used.
 
-## Create a free IBM Cloud Account ID
+## Signing up with a new or existing IBMid
 
-- If you have already an IBM ID, you may proceed to next section **Cluster assignment**.
-  - Note: If your IBM ID is not with email pattern (e.g. shortname without `@`), please inform the workshop presenter and a manual assignment will be made for you accordinly. You will then skip next section **Cluster assignment**
-- If you don't have an IBM ID, point your browser to https://cloud.ibm.com and select **Create an IBM Cloud account** to request the ID. You may use any email, including personal email. No credit card is needed.
+You can sign up for an IBM Cloud account by using your existing IBMid or by creating a new IBMid.
+To sign up for IBM Cloud with an IBMid:
+- Go to the [IBM Cloud login page](https://cloud.ibm.com), and click **Create an IBM Cloud account**.
+- Enter your IBMid email address. If you don't have an existing IBMid, an ID is created based on the email that you enter.
+- Complete the remaining fields with your information, and click **Create account**.
+- Confirm your account by clicking the link in the confirmation email that's sent to your provided email address.
+- **Note**: If your IBMid is not with email pattern (e.g., a shortname), please inform the workshop presenter then a manual cluster assignment will be made accordinly. In the next step ##Cluser Assignment, you will start by logging in [IBM Cloud login page](https://cloud.ibm.com) and continue with the step "- Once logged in, ensure that the account selected is **2044184 - CP4AWorkshops**".
 
 Note: You may optionally deactivate your account after the lab. 
 However, we encourage you to keep your account for future labs. 
 After deactivation, you will need to contact IBM Support to reactivate it. 
 If you insist on deactivation, follow the instructions on the support page for "lite account": https://www.ibm.com/support/pages/how-can-you-cancel-your-ibm-cloud-account.
+
 
 ## Cluster assignment
 
