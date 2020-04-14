@@ -31,7 +31,7 @@ We have not yet been able to configure `podman` to run inside a container.
 - You have cloned this lab from github. If not, follows these steps:
 
 ```
-clone git clone https://github.com/IBM/openshift-workshop-was.git
+git clone https://github.com/IBM/openshift-workshop-was.git
 cd openshift-workshop-was/labs/Openshift/HelloContainer
 ```
 
