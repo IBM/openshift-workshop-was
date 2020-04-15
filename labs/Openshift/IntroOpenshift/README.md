@@ -319,7 +319,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
 ### Changing Replica Instances
 
-1. Click on `Projectrs` from the left navigation, then click on `myproject`:
+1. Click on `Projects` from the left navigation, then click on `myproject`:
 
     ![Locate Myproject](images/LocateMyproject.jpg)
 
@@ -534,7 +534,7 @@ nodes                                 no                                        
       phase: Active
     ```
 
-### Fist Application
+### First Application
 
 #### First Deployment
 
