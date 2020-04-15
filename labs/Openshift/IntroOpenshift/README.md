@@ -547,7 +547,7 @@ nodes                                 no                                        
    -rw-r--r--. 1 root root   207 Apr  9 01:13 Service.yaml
    -rw-r--r--. 1 root root   384 Apr  9 01:13 Deployment.yaml
    ```
-1. Review the contents of `Deployment.yaml` and note that it is identical to the to the deployment from the last section except for the namespace. This allows us to deploy the same image in a different project. Using the same image customized for different environments is an important concept that will be covered further in future labs.
+1. Review the contents of `Deployment.yaml` (using `cat` or `vi` command) and note that it is identical to the to the deployment from the last section except for the namespace. This allows us to deploy the same image in a different project. Using the same image customized for different environments is an important concept that will be covered further in future labs.
 
     ```
     apiVersion: apps/v1
