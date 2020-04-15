@@ -538,6 +538,15 @@ nodes                                 no                                        
 
 #### First Deployment
 
+1. In your web terminal session, under the directory where you clone the labs repository (.../openshift-workshop-was/labs/Openshift/IntroOpenshift), you will find **Deployment.yaml**, for example, 
+   ```
+   root@lab-tools-6d4cbb56b6-cn2k5:/openshift-workshop-was/labs/Openshift/IntroOpenshift# ls -lt
+   drwxr-xr-x. 2 root root  4096 Apr  9 01:13 images
+   -rw-r--r--. 1 root root 32461 Apr  9 01:13 README.md
+   -rw-r--r--. 1 root root   171 Apr  9 01:13 Route.yaml
+   -rw-r--r--. 1 root root   207 Apr  9 01:13 Service.yaml
+   -rw-r--r--. 1 root root   384 Apr  9 01:13 Deployment.yaml
+   ```
 1. Review the contents of `Deployment.yaml` and note that it is identical to the to the deployment from the last section except for the namespace. This allows us to deploy the same image in a different project. Using the same image customized for different environments is an important concept that will be covered further in future labs.
 
     ```
