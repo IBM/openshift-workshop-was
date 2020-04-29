@@ -150,12 +150,9 @@ If you need more background on containers: https://www.docker.com/resources/what
 1. Verify there are two containers running in the same host: `docker ps`:
 
     ```
-    CONTAINER ID  IMAGE                                       COMMAND  CREATED             STATUS             PORTS
-                                      NAMES
-    5d2c82fe3f7c  docker.io/openshift/hello-openshift:latest           5 seconds ago       Up 5 seconds ago   0.0.0.0:8081->
-    8080/tcp, 0.0.0.0:8889->8888/tcp  hello2
-    43c70b723756  docker.io/openshift/hello-openshift:latest           About a minute ago  Up 57 seconds ago  0.0.0.0:8080->
-    8080/tcp                          hello1
+    CONTAINER ID        IMAGE                       COMMAND              CREATED              STATUS              PORTS                                            NAMES
+    5a62f8527b44        openshift/hello-openshift   "/hello-openshift"   About a minute ago   Up About a minute   0.0.0.0:8081->8080/tcp, 0.0.0.0:8889->8888/tcp   hello2
+    c9d49aaa01b7        openshift/hello-openshift   "/hello-openshift"   4 minutes ago        Up 4 minutes        0.0.0.0:8080->8080/tcp, 0.0.0.0:8888->8888/tcp   hello1
     ```
 
 1. View the logs: `docker logs hello1`
