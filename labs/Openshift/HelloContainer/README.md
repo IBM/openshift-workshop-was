@@ -357,7 +357,7 @@ The configuration file for the server is in the server.xml.
    ```
    docker images
    ```
-   Note that the base image, `docker.io/ibmcom/websphere-liberty` has also been pulled into the local registry.
+   Note that the base image, `ibmcom/websphere-liberty` has also been pulled into the local registry.
 
    ```
    REPOSITORY                            TAG                        IMAGE ID       CREATED         SIZE
