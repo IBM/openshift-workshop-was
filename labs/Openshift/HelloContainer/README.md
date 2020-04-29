@@ -70,14 +70,13 @@ If you need more background on containers: https://www.docker.com/resources/what
 1. Pull a test image from docker hub:  `docker pull openshift/hello-openshift`
 
     ```
-    Trying to pull registry.access.redhat.com/openshift/hello-openshift...
-      name unknown: Repo not found
-    Trying to pull docker.io/openshift/hello-openshift...
-    doGetting image source signatures
-    Copying config 7af3297a3f done
-    Writing manifest to image destination
-    Storing signatures
-    7af3297a3fb4487b740ed6798163f618e6eddea1ee5fa0ba340329fcae31c8f6
+    Using default tag: latest
+    latest: Pulling from openshift/hello-openshift
+    4f4fb700ef54: Pull complete 
+    8b32988996c5: Pull complete 
+    Digest: sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e
+    Status: Downloaded newer image for openshift/hello-openshift:latest
+    docker.io/openshift/hello-openshift:latest
     ```
 
 1. List available local images again: `docker images`
