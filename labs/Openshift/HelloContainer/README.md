@@ -82,8 +82,8 @@ If you need more background on containers: https://www.docker.com/resources/what
 1. List available local images again: `docker images`
 
     ```
-    REPOSITORY                            TAG      IMAGE ID       CREATED         SIZE
-    docker.io/openshift/hello-openshift   latest   7af3297a3fb4   21 months ago   6.1 MB
+    REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+    openshift/hello-openshift   latest              7af3297a3fb4        2 years ago         6.09MB
     ```
 
 1. Inspect the image: `docker inspect openshift/hello-openshift` and note that:
