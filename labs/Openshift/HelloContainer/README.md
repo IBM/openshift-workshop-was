@@ -176,18 +176,19 @@ If you need more background on containers: https://www.docker.com/resources/what
 1. List the files on the file system: `tar -tvf hello1.tar`. Note that this is a very small image.
 
     ```
-    drwxr-xr-x root/root         0 2020-01-31 20:31 dev/
-    drwxr-xr-x root/root         0 2020-01-31 20:31 etc/
-    -rwxr-xr-x root/root         0 2020-01-31 20:31 etc/hostname
-    -rwxr-xr-x root/root         0 2020-01-31 20:31 etc/hosts
-    -rwxr-xr-x root/root         0 2020-01-31 20:31 etc/passwd
-    -rwxr-xr-x root/root         0 2020-01-31 20:31 etc/resolv.conf
-    -rwxr-xr-x root/root   6089990 2018-04-18 10:22 hello-openshift
-    drwxr-xr-x root/root         0 2020-01-31 20:31 proc/
-    drwxr-xr-x root/root         0 2020-01-31 20:31 run/
-    -rwxr-xr-x root/root         0 2020-01-31 20:31 run/.containerenv
-    drwxr-xr-x root/root         0 2020-01-31 20:31 run/secrets/
-    drwxr-xr-x root/root         0 2020-01-31 20:31 sys/
+    -rwxr-xr-x 0/0               0 2020-04-29 16:48 .dockerenv
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/
+    -rwxr-xr-x 0/0               0 2020-04-29 16:48 dev/console
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/pts/
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/shm/
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 etc/
+    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hostname
+    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hosts
+    lrwxrwxrwx 0/0               0 2020-04-29 16:48 etc/mtab -> /proc/mounts
+    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/resolv.conf
+    -rwxr-xr-x 0/0         6089990 2018-04-18 10:22 hello-openshift
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 proc/
+    drwxr-xr-x 0/0               0 2020-04-29 16:48 sys/
     ```
 
 1. Run another command in the running container. 
