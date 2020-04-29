@@ -94,11 +94,20 @@ If you need more background on containers: https://www.docker.com/resources/what
     ```
     [
         {
-            "Id": "7af3297a3fb4487b740ed6798163f618e6eddea1ee5fa0ba340329fcae31c8f6",
-            "Digest": "sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e",
+            "Id": "sha256:7af3297a3fb4487b740ed6798163f618e6eddea1ee5fa0ba340329fcae31c8f6",
+            "RepoTags": [
+                "openshift/hello-openshift:latest"
+            ],
+            "RepoDigests": [
+                "openshift/hello-openshift@sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e"
+            ],
+            
             ...
+            
             "Config": {
                 "User": "1001",
+                ...
+                
                 "ExposedPorts": {
                     "8080/tcp": {},
                     "8888/tcp": {}
@@ -106,6 +115,8 @@ If you need more background on containers: https://www.docker.com/resources/what
                 "Env": [
                     "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
                 ],
+                ...
+                
                 "Entrypoint": [
                     "/hello-openshift"
                 ]
