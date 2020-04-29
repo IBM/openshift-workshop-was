@@ -215,9 +215,9 @@ because there is already another copy running in the background that is bound to
 1. List all containers, including stopped ones: `docker ps -a`
 
     ```
-    CONTAINER ID        IMAGE                       COMMAND              CREATED              STATUS              PORTS                                             NAMES
-    5a62f8527b44        openshift/hello-openshift   "/hello-openshift"   About a minute ago   Up About a minute   0.0.0.0:8081->8080/tcp,       0.0.0.0:8889->8888/tcp   hello2
-    c9d49aaa01b7        openshift/hello-openshift   "/hello-openshift"   4 minutes ago        Up 4 minutes        0.0.0.0:8080->8080/tcp, 0.0.0.0:8888->8888/tcp   hello1
+    CONTAINER ID        IMAGE                       COMMAND              CREATED             STATUS                      PORTS               NAMES
+    5a62f8527b44        openshift/hello-openshift   "/hello-openshift"   28 minutes ago      Exited (2) 28 seconds ago                       hello2
+    c9d49aaa01b7        openshift/hello-openshift   "/hello-openshift"   31 minutes ago      Exited (2) 32 seconds ago                       hello1
     ```
    
 1. restart a stopped container: `docker restart hello1`
