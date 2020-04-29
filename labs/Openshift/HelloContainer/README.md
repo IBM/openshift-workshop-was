@@ -225,11 +225,10 @@ because there is already another copy running in the background that is bound to
 1. List running containers: `docker ps`
 
     ```
-    CONTAINER ID  IMAGE                                       COMMAND  CREATED        STATUS             PORTS
-         NAMES
-    5bfd89e698e7  docker.io/openshift/hello-openshift:latest           2 minutes ago  Up 29 seconds ago  0.0.0.0:8080->8080/
-    tcp  hello1
+    CONTAINER ID        IMAGE                       COMMAND              CREATED             STATUS              PORTS                                            NAMES
+    c9d49aaa01b7        openshift/hello-openshift   "/hello-openshift"   33 minutes ago      Up 8 seconds        0.0.0.0:8080->8080/tcp, 0.0.0.0:8888->8888/tcp   hello1
     ```
+    
 1. Stop the container: `docker stop hello1`
 
 1. Remove stopped containers, and note that there are no more containers:
