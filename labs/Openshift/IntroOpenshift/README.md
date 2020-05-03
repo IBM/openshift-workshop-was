@@ -253,8 +253,8 @@ A service enables the pods we just created to be load balanced within the Opensh
 
 1. For the YAML parameters:
 
-    - For labels, use `app: hello-openshift`. This is how the service will find the pods to load balance. Therefore, it matches the labels that we used when creating the deployment for the hello-openshift application.
-    - For the ports, changed to 8080, the same ports we used previously.
+    - Under spec.selector, change `app: MyApp` to `app: hello-openshift`. This is how the service will find the pods to load balance. Therefore, it matches the labels (`spec.selector.matchLabels`) that we used when creating the deployment for the hello-openshift application.
+    - Under spec.ports, change `port: 80` to `port: 8080` and change `targetPort: 9376` to `targetPort: 8080`, the same ports we used previously.
 
     ![Create Service Params](images/CreateServiceParams.jpg)
 
@@ -357,6 +357,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
 
     ![Reduce Deployment YAML](images/DeploymentReducePod1YAML.jpg)
+
 
 
 ## Deploy the hello-openshift image through the command line
@@ -866,8 +867,13 @@ nodes                                 no                                        
     example-75778c488-rhjrx   1/1     Running   0          28s
     ```
 
-1. To reduce the number of pods, we need to change the specification: `oc edit deployment example`, and under the `spec` section (not under the `status` section, change `replicas: 2` to `replicas: 1`.
+1. To reduce the number of pods, we need to change the specification through `vi` editor using the following command:
+    ```
+    oc edit deployment example
+    ```
+    and under the `spec` section (not under the `status` section), change `replicas: 2` to `replicas: 1`, and save the change (by `:wq`).
 
+    The output:
     ```
     deployment.extensions/example edited
     ```
