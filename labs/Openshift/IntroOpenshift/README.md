@@ -295,15 +295,15 @@ A service enables the pods we just created to be load balanced within the Opensh
 
 A route exposes your internal endpoints outside your cluster's built-in firewall. 
 
-1. Click on `Route` in the left navigation, then click Create Route:
+1. Click on `Route` in the left navigation, then click `Create Route`:
 
     ![Create Route](images/CreateRoute.jpg)
 
 1. Supply input to the following parameters:
 
-    - Name: example
-    - Service: example
-    - Target Port: 8080 --> 8080
+    - Name: `example`
+    - Service: `example`
+    - Target Port: `8080 --> 8080 (TCP)`
     - Click `Create`
 
     ![Create Route Parameters](images/CreateRouteParams.jpg)
