@@ -299,11 +299,12 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     ![Create Route](images/CreateRoute.jpg)
 
-1. For the parameters
+1. Supply input to the following parameters:
 
     - Name: example
     - Service: example
     - Target Port: 8080 --> 8080
+    - Click `Create`
 
     ![Create Route Parameters](images/CreateRouteParams.jpg)
 
