@@ -478,6 +478,7 @@ The default tag if you don't specify one `latest`, which is always the most rece
     - `docker rm app-instance`
 
 1. For extra credit:
+    - Search the internet for information about multi-stage build. In a single stage build, the final image contains both build and runtime artifacts. A multi-stage build allows you to build with one base image, and copy the result of the build to another base image. The gives you even more control over the output of the build, and the size of the final image.
     - Start another instances of the image for vertical scaling, but with different port numbers on the host.
     - Point your browser to `hub.docker.com`, click "Explore" and explore the millions of available images.
     - Think about how you would tag a new image at a major version, `2.0.0`.
