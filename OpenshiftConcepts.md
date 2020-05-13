@@ -1,15 +1,18 @@
 #  Openshift Concepts for WebSphere Administrators
 
+* [Introduction](#Introduction)
+* [High Level Architecture](#High_Level)
+* [Configuration model](#Config_Model)
+* [Controller model and declarative specification](#Controller)
+* [Custom Resources and Operators](#CRD)
+* [Internal Networking](#Networking)
+* [Storage](#Storage)
+* [Immutable images](#Immutable_Images)
+* [Automation](#Automation)
+* [Comparision With Kubernetes](#Comparision_Kubernetes)
+* [Cloud Pak For Applications](#CP4A)
 
-High Level Architecture
-Configuration model
-Controller model and declarative specification 
-Custom Resources and Operators
-Internal Networking
-Storage
-Immutable images
-Automation
-
+<a name="Introduction"></a>
 ## Introduction
 
 In this chapter, we introduce the most important concepts and processes in Openshift. The prerequisite is that you already familiar with the following concepts:
@@ -20,6 +23,7 @@ In this chapter, we introduce the most important concepts and processes in Opens
 
 If you are not, please refer to the previous chapter.
 
+<a name="High_Level"></a>
 ## High Level Architecture
 
 ![Openshift Architecture](OpenshiftArch.jpg)
@@ -52,6 +56,7 @@ The main differences  for day to day administration are:
 - Image based deployment
 - Built-in firewall and networking
 
+<a name="Config_Model"></a>
 ## Configuration Model
 
 Resources in Openshift are stored in REST format.
@@ -202,6 +207,7 @@ Note that:
 - The controller for the `pod` is responsible for taking the specification to create a running pod within the Openshift cluster.
 - The `status` sub-resource shows the current status of the `pod`.
 
+<a name="Controller"></a>
 ## Controller Model and Declarative Specification
 
 The administration model for WebSphere is command based. 
@@ -221,6 +227,7 @@ Similarly there is a controller for every resource type within Openshift. It mon
 - resource modified: Determines the differences between the current state of the resource, and the new desired state, and performs actions needed to bring the resource to the new desired state. For example, if any part of the pod specification is changed, such as image location, or environment variables, the controller determines what changes are required, and carries them out.
 - resource deleted: Deletes the underlying resource. In the case of a pod, the hardware resources required to run the container(s) are release.
 
+<a name="CRD"></a>
 # Custom Resources and Operators
 
 For WebSphere administrators, custom resources are similar to custom JMX MBeans or custom services.
@@ -247,6 +254,7 @@ An administrator may:
 - Create new custom resources that are then managed by the controller shipped with the operator. For example, create new database instance, or perform database backup.
 
 
+<a name="Networking"></a>
 ## Internal Networking
 
 Openshift comes installed with a firewall and internal software defined network. 
@@ -255,6 +263,7 @@ You may define a `service` to load balance internal applications. A `service` le
 
 To expose an application outside of the Kubernetes cluster,use a `route` or `ingress` resource.  The `route` resource is only available in Openshift. It was created before the Kubernetes `ingress` resource became available. The `ingress` resource is part of Kubernetes.  The underlying technology used to implement a route or ingress is environment dependent. For on-premise cloud, your administrator may configure one or more load balancers that bridges the internal and external network. Public clouds will have their own networking infrastructure.
 
+<a name="Storage"></a>
 ## Storage
 
 Conceptually a pod is indistinguishable from any other pod, and can be quickly created or destroyed at will. When a pod is destroyed, you lose all storage associated with that pod. However, there are cases where you may want to assign permanent storage to the pod. 
@@ -270,6 +279,7 @@ When deploying an application, you define its persistent storage requirements vi
 The `persistent volume claim` requests a certain amount of storage with certain permissions.  
 If the request can be met, the `persistent volume claim` is bound, and a file system path in the pod is created that maps to persistent storage.
 
+<a name="Immutable_Images"></a>
 ## Immutable Images
 
 Use immutable images to ensure what your run in production is what you have tested, except for environment specific customizations.
@@ -289,6 +299,7 @@ Note that in this scenario, namespaces are used to segregate the different stage
 
 Use `configmaps` or `secrets` to customize your image for the different stages. For our example, we are using a `configmap` to store the location of the database for the different environments. Use `secrets` if you need to store sensitive data, such as passwords and keys. The contents of `configmaps` and `secrets` may be mapped automatically to environment variables or local files for use by the application.
 
+<a name="Automation"></a>
 ## Automation
 
 As a WebSphere administrator, you likely have been using wsadmin scripts in conjunction with other tools to automate your environment. With Openshift, there is no single tool that everyone uses.  Therefore, in this section, we will only present central automation concepts, and list example tools.
@@ -336,3 +347,32 @@ Providing IDE environments remotely has several advantages:
 - No need to manage the developer desktop environment. The remote IDE is accessible through a browser.
 - The same Openshift interface is used to manage the developer environment.
 - Certified developer images may be developed once, after which it is very easy to create new environments for developers.
+
+<a name="Comparision_Kubernetes"></a>
+## Comparision With Kubernetes
+
+|          | Kubernetes  | Openshift|
+| ---------|-------------| ---------|
+| basics   | framework   |  product |
+|          |             |  installer           |
+|          |             |  support
+|          |             |  upstream OKD open source without support |
+| Usability| basic dashboard | Full Fledged UI      |
+|          |  kubectl     | oc, kubectl
+| security | configure your own | Secure out of box
+|          |             | Pods may not run as root by default
+|          |             | built-in security to infrastructure, such Prometheus, Tekton, Jenkins, etc
+|Additional features|           | project: namespace + default security policy + quotas
+|           |               | built-in image registry
+|          |  |  
+|         |             |   Prometheus, ELK
+|          |            |  Openshift Pipelines
+|         |             | Codeready Workspaces
+
+
+<a name="CP4A"></a>
+## Cloud Pak For Applications
+
+For those currently using WebSphere, the natural transition is from WebSphere Application Server to Cloud Pak For Applications. It enables you to run both traditional WebSphere workload and new containerized workloads on top of Opneshift. Both WebSphere Liberty and WebSphere Traditional Base container images are available.
+
+![Cloud Pak For Aplications](CP4A.jpg)
