@@ -18,7 +18,7 @@ If you are participating in this lab as part of Liberty Virtual Proof of Technol
 
 If you are installing Liberty not as part of Liberty Virtual POT, proceed to [Installing On Your Own](#SelfInstall).
 
-If you are installing Liberty as part of Liberty Virtual POT, proceed to [Installing as part of VirtualPOD](#InstallVirtualPOT).
+If you are installing Liberty as part of Liberty Virtual POT, proceed to [Installing as part of VirtualPOT](#InstallVirtualPOT).
 
 <a name="InstallVirtualPOT"></a>
 ### Installing as part of Virtual POT
@@ -79,7 +79,9 @@ This allows you to pick up the Java that is part of your zip install.
 <a name="SelfInstall"></a>
 ### Installing On Your Own
 
-Install the latest version of Eclipse IDE for Java EE Developers from [eclipse.org](http://www.eclipse.org). You will have option to download either an installer, or a zip file. Follow the instructions to download install Eclipse.
+- If you don't already have Eclipse IDE for Java EE Developers, install the latest version from [eclipse.org](http://www.eclipse.org). You will have option to download either an installer, or a zip file. Follow the instructions to download install Eclipse.
+
+- Install `IBM Liberty Developer Tools`. You can find the tool on [Eclipse Market Place](https://marketplace.eclipse.org)
 
 - Point your browser to [wasdev website](https://developer.ibm.com/wasdev), and click on `Download Latest Stable Release`
 
