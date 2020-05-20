@@ -79,7 +79,7 @@ This allows you to pick up the Java that is part of your zip install.
 <a name="SelfInstall"></a>
 ### Installing On Your Own
 
-- If you don't already have Eclipse IDE for Java EE Developers, install the latest version from [eclipse.org](http://www.eclipse.org). You will have option to download either an installer, or a zip file. Follow the instructions to download install Eclipse.
+- If you don't already have Eclipse IDE for Enterprise Java Developers, install the latest version from [eclipse.org](http://www.eclipse.org). Click `Download`, followed by `Download packges`.  Locate the packages for Eclipse IDE for Enterprise Java Developers.
 
 - Install `IBM Liberty Developer Tools`. You can find the tool on [Eclipse Market Place](https://marketplace.eclipse.org)
 
