@@ -450,7 +450,7 @@ Run the commands to tag the latest `app` image for different versions:
  ```
 
 Note that all the different tags are currently associated with the same image, as they have the same image ID.
-After tagging, the command `docker run app:<version>` or `docker pull app:<version>` resolves the available versions as follows:
+After tagging, the command `docker run app:<version> ...` or `docker pull app:<version> ...` resolves the available versions as follows:
 
 - `app:1` resolves to the latest 1.x.x version, which in this case is `1.3.5`.
 - `app:1.3` resolves to the latest 1.3.x version, which in this case is the `1.3.5`
