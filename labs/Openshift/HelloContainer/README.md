@@ -248,8 +248,9 @@ because there is already another copy running in the background that is bound to
 
 ## Build and Run Your Own Image
 
-We use a `Containerfile`, which contains the instructions to create the new layers of your image.
-Recall an image contains the entire file system that you want to use to run your virtual process in a container.
+We use a `Containerfile`, which contains the instructions to create the new layers of your image. 
+For those familiar with docker, the `Containerfile` is equivalent to `Dockerfile`.
+Recall that an image contains the entire file system that you want to use to run your virtual process in a container.
 For this sample, we are building a new image for a Java EE web application ServletApp.war.
 It is configured to run on the WebSphere Liberty Runtime. 
 The configuration file for the server is in the server.xml.
@@ -413,76 +414,97 @@ The configuration file for the server is in the server.xml.
     - cd `/liberty/wlp/usr/servers/defaultServer` to find the server configuration. 
     - cd `/opt/ibm/wlp/output/defaultServer` to find the workarea files required by the server runtime.
     - Exit from the container: `exit`
-
-1. Managing image versions. 
-There is no built-in versioning for container images. 
-However, you may use a tagging convention to version your images. 
-The convention is to use `major.minor.patch`, such as `1.3.5`.
-The default tag if you don't specify one `latest`, which is always the most recent.
-    
-    Run the command to tag for the different versions:
-    ```
-    docker tag app app:1
-    docker tag app app:1.3
-    docker tag app app:1.3.5
-    ```
-    List the images again:
-    ```
-    docker images
-    ```
-
-    And the output:
-    ```
-    REPOSITORY                 TAG                        IMAGE ID            CREATED             SIZE
-    app                        1                          d98cbdf82a0d        21 hours ago        542MB
-    app                        1.3                        d98cbdf82a0d        21 hours ago        542MB
-    app                        1.3.5                      d98cbdf82a0d        21 hours ago        542MB
-    app                        latest                     d98cbdf82a0d        21 hours ago        542MB
-    ```
-
-    Note that all the different tags are currently associated with the same image ID. 
-    When you pull or run an image, you may specify the tag, based on your versioning requirements. For example, 
-    - `docker run app:1 ...` matches the latest 1.x.x version.
-    - `docker run app:1.3 ...` matches the latest 1.3.x version.
-    - `docker run app:1.3.5 ...` matches only 1.3.5.
-
-    After you build a new patch version of the image, you will create a new latest version. Tag it as follows:
-    ```
-    docker tag app app:1
-    docker tag app app:1.3
-    docker tag app app:1.3.6
-    ```
-
-    This means that:
-    - `docker run app:1 ...` matches the new version
-    - `docker run app:1.3 ...` matches the new version
-    - `docker run app:1.3.5 ...` uses the exact version.
-    - `docker run app:1.3.6 ...` uses the exact version.
-
-    When you build a new minor version of the image, you will tag the new version as follows:
-    ```
-    docker tag app app:1
-    docker tag app app:1.4
-    docker tag app app:1.4.0
-    ```
-
-    This means that:
-    - `docker run app:1 ...` matches the new version
-    - `docker run app:1.3 ...` matches the old version
-    - `docker run app:1.4 ...` uses the new version
-    - `docker run app:1.3.5 ...` uses the exact version.
-    - `docker run app:1.4.0 ...` uses the exact version.
-
-1. Cleanup: 
+1. Cleanup:
     - `docker stop app-instance`
     - `docker rm app-instance`
 
-1. For extra credit:
-    - Search the internet for information about multi-stage build. In a single stage build, the final image contains both build and runtime artifacts. A multi-stage build allows you to build with one base image, and copy the result of the build to another base image. The gives you even more control over the output of the build, and the size of the final image.
-    - Start another instances of the image for vertical scaling, but with different port numbers on the host.
-    - Point your browser to `hub.docker.com`, click "Explore" and explore the millions of available images.
-    - Think about how you would tag a new image at a major version, `2.0.0`.
-    - Think about what would be required to manage containers across multiple machines to support horizontal scaling.
+## Managing Image Versions
+
+There is no built-in versioning for container images. 
+However, you may use a tagging convention to version your images. 
+The convention is to use `major.minor.patch`, such as `1.3.5`.
+The default tag if you don't specify one is `latest`.
+    
+Run the commands to tag the latest `app` image for different versions:
+
+ ```
+ docker tag app app:1
+ docker tag app app:1.3
+ docker tag app app:1.3.5
+ ```
+
+ List the images again:
+
+ ```
+ docker images
+ ```
+
+ And the output:
+
+ ```
+ REPOSITORY                 TAG                        IMAGE ID            CREATED             SIZE
+ app                        1                          d98cbdf82a0d        21 hours ago        542MB
+ app                        1.3                        d98cbdf82a0d        21 hours ago        542MB
+ app                        1.3.5                      d98cbdf82a0d        21 hours ago        542MB
+ app                        latest                     d98cbdf82a0d        21 hours ago        542MB
+ ```
+
+Note that all the different tags are currently associated with the same image, as they have the same image ID.
+After tagging, the command `docker run app:<version>` or `docker pull app:<version>` resolves the available versions as follows:
+
+- `app:1` resolves to the latest 1.x.x version, which in this case is `1.3.5`.
+- `app:1.3` resolves to the latest 1.3.x version, which in this case is the `1.3.5`
+- `app:1.3.5` resolves to the exact version `1.3.5`.
+
+After you build a new patch image containing defect fixes, you want to manage the tags for the new image so that a
+new `docker run app:<version> ...` or `docker pull app:<version> ...` command resolves the images as follows:
+
+- `app:1.3.5`: resolves to the existing `1.3.5` image.
+- `app:1.3.6`: resolves to the new image
+- `app:1.3`: resolves to the new image.
+- `app:1`: resolves to the new image
+
+Build a new image. Tag it as follows :
+
+```
+docker tag app app:1
+docker tag app app:1.3
+docker tag app app:1.3.6
+```
+
+Optionally verify that these are the same images: `app:1`, `app:1.3`, `app:1.3.6`.
+
+
+A new minor version involves compatible changes beyond just bug fixes. After you build a new minor version image, you want to manage the tags such that:
+
+- `app:1.3.5`: resolves to the existing `1.3.5` image.
+- `app:1.3.6`: resolves to the existing `1.3.6` image
+- `app:1.4.0`: resolves to the new image
+- `app:1.3`: resolves to the existing `1.3.6` image.
+- `app:1.4`: resolves to the new image.
+- `app:1`: resolves to the new image
+
+Build a new image, and tag it as  follows:
+
+```
+docker tag app app:1
+docker tag app app:1.4
+docker tag app app:1.4.0
+```
+
+Optionally verify that 
+
+- `1`, `1.4`, and `1.4.0` are the same image
+- `1.3` and `1.3.6` are the same image
+
+
+## Extra Credit
+
+- Search the internet for information about multi-stage build. In a single stage build, the final image contains both build and runtime artifacts. A multi-stage build allows you to build with one base image, and copy the result of the build to another base image. The gives you even more control over the output of the build, and the size of the final image.
+- Start another instances of the image for vertical scaling, but with different port numbers on the host.
+- Point your browser to `hub.docker.com`, click "Explore" and explore the millions of available images.
+- Think about how you would tag a new image at a major version, `2.0.0`.
+- Think about what would be required to manage containers across multiple machines to support horizontal scaling.
     
 
 Congratulations! You have completed the **Introduction to Containerization** lab.
