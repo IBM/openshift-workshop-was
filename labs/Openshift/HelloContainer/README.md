@@ -160,6 +160,7 @@ If you need more background on containers: https://www.docker.com/resources/what
     - The `-d` option runs the command in the background as a daemon
     - The `-p` option maps the port on the host to the port in the container. Through virtual networking, the port within the container is always the same for all running instances. But to support multiple concurrent running instances, the actual port on the host must be different for each instance. When you start the container, you may assign a new port on the host dynamically.
     - The output of the command is the container ID for the running container.
+    - If the container starts successfully, the executable specified by the `Entrypoint` in the metadata is run. For our sample, it is `/hello-openshift`.
   
 1. Access the application in the container.
     - If you are running in a server, or the web terminal, try `curl http://localhost:8080`.
