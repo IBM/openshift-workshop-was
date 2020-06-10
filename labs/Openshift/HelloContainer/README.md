@@ -158,7 +158,7 @@ If you need more background on containers: https://www.docker.com/resources/what
    Note that:
     - The `--name` option gives the container a name.
     - The `-d` option runs the command in the background as a daemon
-    - The `-p` command maps the port on the host to the port in the container. Through virtual networking, the port within the container is always the same for all running instances. But to support multiple concurrent running instances, the actual port on the host must be different for each instance. When you start the container, you may assign a new port on the host dynamically.
+    - The `-p` option maps the port on the host to the port in the container. Through virtual networking, the port within the container is always the same for all running instances. But to support multiple concurrent running instances, the actual port on the host must be different for each instance. When you start the container, you may assign a new port on the host dynamically.
     - The output of the command is the container ID for the running container.
   
 1. Access the application in the container.
@@ -184,7 +184,7 @@ If you need more background on containers: https://www.docker.com/resources/what
 
 1. View the logs: 
    ```
-   docker logs hello1`
+   docker logs hello1
    ```
 
    And the output:
@@ -196,7 +196,7 @@ If you need more background on containers: https://www.docker.com/resources/what
 
 1. View the logs on the second container: 
    ```
-   docker logs hello2`. 
+   docker logs hello2
    ```
 
    And the output:
@@ -309,7 +309,9 @@ The configuration file for the server is in the server.xml.
     root@lab-tools-6d4cbb56b6-cn2k5:/openshift-workshop-was/labs/Openshift/HelloContainer# ls -l 
     total 32
     -rw-r--r--. 1 root root   203 Apr  9 01:13 Containerfile
-    -rw-r--r--. 1 root root 18484 Apr  9 01:13 README.md
+    -rw-r--r--. 1 root root   239 Apr  9 01:13 Containerfile1
+    -rw-r--r--. 1 root root   271 Apr  9 01:13 Containerfile2
+    -rw-r--r--. 1 root root 23779 Apr  9 01:13 README.md
     -rw-r--r--. 1 root root  2519 Apr  9 01:13 ServletApp.war
     -rw-r--r--. 1 root root   342 Apr  9 01:13 server.xml
     ```
@@ -497,7 +499,7 @@ Let's assume that the first version we will build for our environment is 1.3.5. 
  app                        latest                     d98cbdf82a0d        21 hours ago        542MB
  ```
 
-Note that all the different tags are currently associated with the same image, they have the same image ID.
+Note that all the different tags are currently associated with the same image, as they have the same image ID.
 After tagging, the command `docker run app:<version> ...` or `docker pull app:<version> ...` resolves the available versions as follows:
 
 - `app:1` resolves to the latest 1.x.x version, which in this case is `1.3.5`.
@@ -527,7 +529,7 @@ docker tag app app:1.3
 docker tag app app:1.3.6
 ```
 
-Optionally verify that these are the same images: `app:1`, `app:1.3`, `app:1.3.6`.
+Verify that these are the same images: `app:1`, `app:1.3`, `app:1.3.6`.
 
 
 A new minor version involves compatible changes beyond just bug fixes. After you build a new minor version image, you want to manage the tags such that:
@@ -552,7 +554,7 @@ docker tag app app:1.4
 docker tag app app:1.4.0
 ```
 
-Optionally verify that 
+Verify that 
 
 - `1`, `1.4`, and `1.4.0` are the same image
 - `1.3` and `1.3.6` are the same image
