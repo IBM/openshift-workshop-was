@@ -1,5 +1,17 @@
 # Introduction to Containerization
 
+## Table of Contents
+
+- [Background](#Background)
+- [Prerequisites](#Prerequisites)
+- [What is a Container](#What_is_Container)
+- [Check Your Environment](#Check_Environment)
+- [Run a Pre-built Image](#Run_Prebuilt)
+- [Build and Run Your Own Image](#Build_Your_Own)
+- [Managing Image Versions](#Versions)
+- [Extra Credit](#Extra_Credit)
+
+<a name="Background"> </a>
 ## Background
 
 If you are expecting a lab about `docker`, you are at the right place.
@@ -24,6 +36,7 @@ The web terminal runs in a container.
 In order to run this lab within the web terminal, we need a container that runs in a container.
 We have not yet been able to configure `podman` to run inside a container.
 
+<a name="Prerequisites"> </a>
 ## Prerequisites
 
 - You have `podman` or `docker` installed.
@@ -35,6 +48,7 @@ git clone https://github.com/IBM/openshift-workshop-was.git
 cd openshift-workshop-was/labs/Openshift/HelloContainer
 ```
 
+<a name="What_is_Container"> </a>
 ## What is a Container
 
 Compared to virtual machines, containers supports virtualization at the process level. 
@@ -55,19 +69,27 @@ For example, docker hub, or registry.access.redhat.com, or your own internal reg
 If you need more background on containers: https://www.docker.com/resources/what-container
 
 
+<a name="Check_Environment"> </a>
 ## Check your environment
 
 1. List version of docker: `docker --version`
 
+<a name="Run_Prebuilt"> </a>
 ## Run a pre-built image
 
-1. List available local images: `docker images`
+1. Container images must be available locally before they can be run. To list available local images: `docker images`
 
     ```
     REPOSITORY   TAG   IMAGE ID   CREATED   SIZE
     ```
 
-1. Pull a test image from docker hub:  `docker pull openshift/hello-openshift`
+1. Images are hosted in container registries. The default container registry for docker is docker hub, located at https://hub.docker.com.  Let's pull a test image from docker hub:  
+
+    ```
+    docker pull openshift/hello-openshift
+    ```
+
+    And the output:
 
     ```
     Using default tag: latest
@@ -86,7 +108,11 @@ If you need more background on containers: https://www.docker.com/resources/what
     openshift/hello-openshift   latest              7af3297a3fb4        2 years ago         6.09MB
     ```
 
-1. Inspect the image: `docker inspect openshift/hello-openshift` and note that:
+1. Inspect the image metadata:
+   ```
+   docker inspect openshift/hello-openshift
+   ``` 
+   Note that:
     - It exposes two ports: 8080 and  8088
     - It runs as user 1001
     - The entry point executable is /hello-openshift
@@ -125,21 +151,22 @@ If you need more background on containers: https://www.docker.com/resources/what
     ]
     ```
 
-1. Run the image: 
+1. Run the image in an container:
    ```
    docker run --name hello1 -d -p 8080:8080 -p 8888:8888 openshift/hello-openshift
    ```
    Note that:
     - The `--name` option gives the container a name.
     - The `-d` option runs the command in the background as a daemon
-    - The `-p` command maps the host port to the port in the container. Through virtual network, the port in the container may be fixed, When you run the container, you may assign a new port on the host dynamically.
+    - The `-p` command maps the port on the host to the port in the container. Through virtual networking, the port within the container is always the same for all running instances. But to support multiple concurrent running instances, the actual port on the host must be different for each instance. When you start the container, you may assign a new port on the host dynamically.
+    - The output of the command is the container ID for the running container.
   
 1. Access the application in the container.
     - If you are running in a server, or the web terminal, try `curl http://localhost:8080`.
     - If you are running on a desktop, point your browser to `http://localhost:8080`
     - Also try port 8888
 
-1. Run another instance of the same image: 
+1. Run another instance of the same image. Note that this new instance is assigned new port numbers 8081 and 8889 on the host. This is so that they don't conflict with the ports 8080 and 8888 already allocated to the first instance.
    ```
    docker run --name hello2 -d -p 8081:8080 -p 8889:8888 openshift/hello-openshift
    ```
@@ -155,41 +182,59 @@ If you need more background on containers: https://www.docker.com/resources/what
     c9d49aaa01b7        openshift/hello-openshift   "/hello-openshift"   4 minutes ago        Up 4 minutes        0.0.0.0:8080->8080/tcp, 0.0.0.0:8888->8888/tcp   hello1
     ```
 
-1. View the logs: `docker logs hello1`
+1. View the logs: 
+   ```
+   docker logs hello1`
+   ```
+
+   And the output:
 
     ```
     serving on 8888
     serving on 8080
     ```
 
-1. View the logs on the second container: `docker logs hello2`. 
+1. View the logs on the second container: 
+   ```
+   docker logs hello2`. 
+   ```
 
-    ```
-    serving on 8888
-    serving on 8080
-    ```
+   And the output:
 
-    Note: they each think they have their own machine, and have opened the same ports.
+   ```
+   serving on 8888
+   serving on 8080
+   ```
 
-1. To export the file system of a running container: `docker export hello1 > hello1.tar`
+   Note: within the container, each instance behaves as if it's running in its own virtual environment, and has opened the same ports. Outside of the container, different ports are opened.
 
-1. List the files on the file system: `tar -tvf hello1.tar`. Note that this is a very small image.
+1. To export the file system of a running container: 
+   ```
+   docker export hello1 > hello1.tar`
+   ```
 
-    ```
-    -rwxr-xr-x 0/0               0 2020-04-29 16:48 .dockerenv
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/
-    -rwxr-xr-x 0/0               0 2020-04-29 16:48 dev/console
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/pts/
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/shm/
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 etc/
-    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hostname
-    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hosts
-    lrwxrwxrwx 0/0               0 2020-04-29 16:48 etc/mtab -> /proc/mounts
-    -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/resolv.conf
-    -rwxr-xr-x 0/0         6089990 2018-04-18 10:22 hello-openshift
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 proc/
-    drwxr-xr-x 0/0               0 2020-04-29 16:48 sys/
-    ```
+1. List the files on the file system: 
+   ```
+   tar -tvf hello1.tar`
+   ``` 
+   
+   Note that this is a very small image.
+
+   ```
+   -rwxr-xr-x 0/0               0 2020-04-29 16:48 .dockerenv
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/
+   -rwxr-xr-x 0/0               0 2020-04-29 16:48 dev/console
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/pts/
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 dev/shm/
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 etc/
+   -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hostname
+   -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/hosts
+   lrwxrwxrwx 0/0               0 2020-04-29 16:48 etc/mtab -> /proc/mounts
+   -rwxr-xr-x 0/0               0 2020-04-29 16:48 etc/resolv.conf
+   -rwxr-xr-x 0/0         6089990 2018-04-18 10:22 hello-openshift
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 proc/
+   drwxr-xr-x 0/0               0 2020-04-29 16:48 sys/
+   ```
 
 1. Run another command in the running container. 
 You can reach into the running container to run another command. 
@@ -246,10 +291,12 @@ because there is already another copy running in the background that is bound to
     ```
  
 
+<a name="Build_Your_Own"> </a>
 ## Build and Run Your Own Image
 
 We use a `Containerfile`, which contains the instructions to create the new layers of your image. 
 For those familiar with docker, the `Containerfile` is equivalent to `Dockerfile`.
+
 Recall that an image contains the entire file system that you want to use to run your virtual process in a container.
 For this sample, we are building a new image for a Java EE web application ServletApp.war.
 It is configured to run on the WebSphere Liberty Runtime. 
@@ -275,7 +322,7 @@ The configuration file for the server is in the server.xml.
     ```
 
 
-   - The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
+   - To create a new image, you almost always start with a pre-existing image. The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
 
    - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
@@ -418,6 +465,7 @@ The configuration file for the server is in the server.xml.
     - `docker stop app-instance`
     - `docker rm app-instance`
 
+<a name="Versions"> </a>
 ## Managing Image Versions
 
 There is no built-in versioning for container images. 
@@ -425,7 +473,7 @@ However, you may use a tagging convention to version your images.
 The convention is to use `major.minor.patch`, such as `1.3.5`.
 The default tag if you don't specify one is `latest`.
     
-Run the commands to tag the latest `app` image for different versions:
+Let's assume that the first version we will build for our environment is 1.3.5. (The earlier versions are built in a different environment.) Run the commands to tag the latest `app` image for our first version:
 
  ```
  docker tag app app:1
@@ -449,7 +497,7 @@ Run the commands to tag the latest `app` image for different versions:
  app                        latest                     d98cbdf82a0d        21 hours ago        542MB
  ```
 
-Note that all the different tags are currently associated with the same image, as they have the same image ID.
+Note that all the different tags are currently associated with the same image, they have the same image ID.
 After tagging, the command `docker run app:<version> ...` or `docker pull app:<version> ...` resolves the available versions as follows:
 
 - `app:1` resolves to the latest 1.x.x version, which in this case is `1.3.5`.
@@ -464,7 +512,14 @@ new `docker run app:<version> ...` or `docker pull app:<version> ...` command re
 - `app:1.3`: resolves to the new image.
 - `app:1`: resolves to the new image
 
-Build a new image. Tag it as follows :
+
+Let's simulate a defect fix by building a new image using `Containerfile1` instead of `Containerfile`:
+```
+docker build -t app -f Containerfile1 .
+```
+
+
+Tag it as follows :
 
 ```
 docker tag app app:1
@@ -484,7 +539,12 @@ A new minor version involves compatible changes beyond just bug fixes. After you
 - `app:1.4`: resolves to the new image.
 - `app:1`: resolves to the new image
 
-Build a new image, and tag it as  follows:
+Build a new image using `Containerfile2`:
+```
+docker build -t app -f Containerfile1 .
+```
+
+Tag it as  follows:
 
 ```
 docker tag app app:1
@@ -498,10 +558,11 @@ Optionally verify that
 - `1.3` and `1.3.6` are the same image
 
 
+<a name="Extra_Credit"> </a>
 ## Extra Credit
 
 - Search the internet for information about multi-stage build. In a single stage build, the final image contains both build and runtime artifacts. A multi-stage build allows you to build with one base image, and copy the result of the build to another base image. The gives you even more control over the output of the build, and the size of the final image.
-- Start another instances of the image for vertical scaling, but with different port numbers on the host.
+- Start another instances of the `app` image for vertical scaling, but with different port numbers on the host.
 - Point your browser to `hub.docker.com`, click "Explore" and explore the millions of available images.
 - Think about how you would tag a new image at a major version, `2.0.0`.
 - Think about what would be required to manage containers across multiple machines to support horizontal scaling.
