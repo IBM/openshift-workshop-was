@@ -325,7 +325,7 @@ The configuration file for the server is in the server.xml.
     ```
 
 
-   - To create a new image, you almost always start with a pre-existing image. The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
+   - To create a new image, you start with a pre-existing image. The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
 
    - The second line `COPY`  is a straight copy of the file `server.xml` from the local directory to `/config/server.xml` in the image. This adds a new layer to the image with the actual server configuration to be used.
    
@@ -544,7 +544,7 @@ A new minor version involves compatible changes beyond just bug fixes. After you
 
 Build a new image using `Containerfile2`:
 ```
-docker build -t app -f Containerfile1 .
+docker build -t app -f Containerfile2 .
 ```
 
 Tag it as  follows:
