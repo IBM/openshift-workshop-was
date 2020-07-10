@@ -253,19 +253,19 @@ A service enables the pods we just created to be load balanced within the Opensh
 
 1. Update the YAML parameters as follows:
     
-    (Before)
+    (Before update)
     ![Create Service Params Before](images/CreateService_before.jpg)
     
     - Under spec.selector, 
-      change `app: MyApp` to `app: hello-openshift`. 
-      This is how the service will find the pods to load balance. Therefore, it matches the labels (`spec.selector.matchLabels`) that we used when creating the deployment for the hello-openshift application.
+      - change `MyApp` to `hello-openshift`. 
+      - This is how the service will find the pods to load balance. Therefore, it matches the labels (`spec.selector.matchLabels`) that we used when creating the deployment for the hello-openshift application.
     - Under spec.ports, 
-      change `port: 80` to `port: 8080` and 
-      change `targetPort: 9376` to `targetPort: 8080` (the same ports we used previously).
+      - change `80` to `8080` and 
+      - change `9376` to `8080` (the same ports we used previously).
     - Click `Create`
 
-    (After)
-    ![Create Service Params](images/CreateServiceParams.jpg)
+    (After update)
+    ![Create Service Params After](images/CreateService_after.jpg)
 
 
 1. After the service is created, click on the YAML tab:
