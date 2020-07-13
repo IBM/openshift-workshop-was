@@ -16,7 +16,7 @@ You will be given a URL specific to your workshop (e.g. `https://<workshop name>
 
 You can sign up for an IBM Cloud account by using your existing IBMid or by creating a new IBMid.
 To sign up for IBM Cloud with an IBMid:
-- Go to the [IBM Cloud login page](https://cloud.ibm.com), and click **Create an IBM Cloud account**.
+- Go to the [IBM Cloud login page](https://cloud.ibm.com), and click **Create an account**.
 - Enter your IBMid email address. If you don't have an existing IBMid, an ID is created based on the email that you enter.
 - Complete the remaining fields with your information, and click **Create account**.
 - Confirm your account by clicking the link in the confirmation email that's sent to your provided email address.

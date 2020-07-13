@@ -73,6 +73,7 @@ If you need more background on containers: https://www.docker.com/resources/what
 ## Check your environment
 
 1. List version of docker: `docker --version`
+   - For more background on docker command line: https://docs.docker.com/engine/reference/commandline/cli/
 
 <a name="Run_Prebuilt"> </a>
 ## Run a pre-built image
@@ -113,7 +114,7 @@ If you need more background on containers: https://www.docker.com/resources/what
    docker inspect openshift/hello-openshift
    ``` 
    Note that:
-    - It exposes two ports: 8080 and  8088
+    - It exposes two ports: 8080 and  8888
     - It runs as user 1001
     - The entry point executable is /hello-openshift
   
