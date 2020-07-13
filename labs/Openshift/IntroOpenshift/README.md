@@ -123,7 +123,7 @@ The typical artifacts you will need to run an application in Openshift are:
 1. Let's review this resource:
 
     - Every resource in Openshift has a group, version, and kind. For the `Deployment` resource:
-      - The group is `app`
+      - The group is `apps`
       - The version is `v1`
       - The kind is `Deployment`
     - The metadata specifies data that is needed for the runtime:

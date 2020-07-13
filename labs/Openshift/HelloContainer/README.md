@@ -211,12 +211,12 @@ If you need more background on containers: https://www.docker.com/resources/what
 
 1. To export the file system of a running container: 
    ```
-   docker export hello1 > hello1.tar`
+   docker export hello1 > hello1.tar
    ```
 
 1. List the files on the file system: 
    ```
-   tar -tvf hello1.tar`
+   tar -tvf hello1.tar
    ``` 
    
    Note that this is a very small image.
