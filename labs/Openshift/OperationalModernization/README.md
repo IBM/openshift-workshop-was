@@ -342,5 +342,5 @@ Congratulations! You've completed the **Operational Modernization** lab. You con
 
 ## Next
 Please follow the link to the next lab **Runtime Modernization**:
-- [Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization).
+- [Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization)
 

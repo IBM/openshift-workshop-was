@@ -579,6 +579,6 @@ Congratulations! You have completed the **Introduction to Containerization** lab
 
 ## Next
 Please follow the link to do the next lab **Introduction to Container Orchestration using Openshift**:
-- [Introduction to Container Orchestration using Openshift](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift).
+- [Introduction to Container Orchestration using Openshift](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift)
 
 

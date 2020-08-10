@@ -553,5 +553,5 @@ Congratulations! You've completed **Runtime Modernization** lab! This applicatio
 
 ## Next
 Please follow the link to the next lab **Application Management**:
-- [Application Management](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/ApplicationManagement).
+- [Application Management](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/ApplicationManagement)
 

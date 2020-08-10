@@ -905,3 +905,9 @@ nodes                                 no                                        
     - `oc get pods`.  You may have to do this a few times, to wait for the pods to be deleted.
 
 Congratulations, you have deployed your first application to Openshift via the command line.
+
+
+## Next
+
+Please follow the link to the next lab **Operational Modernization**:
+- [Operational Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/OperationalModernization)
