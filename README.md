@@ -47,7 +47,10 @@ The administrator sections are:
 
 These labs require that you have access to a Openshift 4.x environment.
 
-- [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift). 
+- [Introduction to Container Orchestration using Openshift](labs/Openshift/IntroOpenshift)
+- [Runtime Modernizattion using traditional WebSphere images](labs/Openshift/RuntimeModernization)
+- [Operational Modernization using Liberty images](labs/Openshift/OperationalModernization)
+- [Tools to Manage Your Environment](labs/Openshift/ApplicationManagement)
 
 
 ### Liberty Labs
