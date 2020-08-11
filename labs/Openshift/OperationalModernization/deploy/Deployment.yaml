@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cos-was
+  namespace: apps-was
+spec:
+  selector:
+    matchLabels:
+      app: cos-was
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cos-was
+    spec:
+      containers:
+      - name: cos-was
+        image: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+        ports:
+          - containerPort: 9080
+        livenessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 30
+          failureThreshold: 6
+          initialDelaySeconds: 90
+        readinessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - mountPath: /etc/websphere
+          name: authdata
+          readOnly: true
+      volumes:
+      - name: authdata
+        secret:
+            secretName: authdata
