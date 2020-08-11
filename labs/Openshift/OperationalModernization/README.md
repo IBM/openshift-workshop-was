@@ -12,7 +12,8 @@
 
 ## Introduction
 
-**Operational modernization** gives an operations team the opportunity to embrace modern operations best practices without putting change requirements on the development team. Modernizing from WebSphere Network Deployment (ND) to the **traditional WebSphere Application Server Base V9 runtime** in a container allows the application to be moved to the cloud without code changes.
+**Operational modernization** gives an operations team the opportunity to embrace modern operations best practices without putting change requirements on the development team. 
+Modernizing from WebSphere Network Deployment (ND) to the **traditional WebSphere Application Server Base V9 runtime** in a container allows the application to be moved to the cloud without code changes.
 
 The scaling, routing, clustering, high availability and continuous availability functionality that WebSphere ND previously provided will be handled by containers orchestrator Red Hat OpenShift and allows the operations team to run cloud-native and older applications in the same environment with the same standardized logging, monitoring and security frameworks.
 
@@ -22,11 +23,14 @@ While traditional WebSphere isn't a 'built for the cloud' runtime like Liberty, 
 
 This repository holds a solution that is the result of an **operational modernization** for an existing WebSphere Java EE application that was moved from WebSphere ND v8.5.5 to the traditional WebSphere Base v9 container and is deployed by the IBM Cloud Pak for Applications to RedHat OpenShift.
 
-In this workshop, we'll use **Customer Order Services** application as an example. In order to modernize, the application will go through **analysis**, **build** and **deploy** phases. Click [here](extras/application.md) and get to know the application, its architecture and components.
+In this lab, we'll use **Customer Order Services** application as an example. In order to modernize, the application will go through **analysis**, **build** and **deploy** phases. Click [here](extras/application.md) and get to know the application, its architecture and components.
 
-## Analysis
+## Analysis (Background reading only)
 
-IBM Cloud Transformation Advisor helps you to analyze your on-premises workloads for modernization. It determines the complexity of your applications, estimates a development cost to perform the move to the cloud, and recommends the best target environment. It was used to analyze the existing Customer Order Services application running in the WebSphere ND environment. The steps taken were:
+IBM Cloud Transformation Advisor was used to analyze the Customer Order Service Application running in the WebSphere ND environment. 
+The Transformation Advisor helps you to analyze your on-premises workloads for modernization. 
+It determines the complexity of your applications, estimates a development cost to perform the move to the cloud, and recommends the best target environment. 
+The stesp taken to analyze the existing Customer Order Services application were:
 
 1. Used the IBM Cloud Transformation Advisor available as part of IBM Cloud Pak for Applications. Transformation Advisor Local (Beta) can also be used. 
 
@@ -43,17 +47,16 @@ IBM Cloud Transformation Advisor helps you to analyze your on-premises workloads
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on traditional WebSphere Base v9.
 
-Building this image could take around ~8 minutes (since the image is around 2GB and starting/stopping the WAS server as part of the build process takes few minutes). So, let's kick that process off and then come back to learn what you did. The image will be built by the time you complete this section.
+Building this image could take around ~8 minutes (since the image is around 2GB and starting/stopping the WAS server as part of the build process takes few minutes). So, let's kick that process off and before explaining what you did. The image should be built by the time you complete this section.
 
 1. You'll need the web terminal (the same one from lab setup). If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
 1. You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
 
-1. Clone the GitHub repo with the lab artifacts and list the files. Run the following commands on your web terminal:
+1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following commands on your web terminal:
     ```
-    cd / && mkdir was90 && cd was90
-    git clone --branch was90 https://github.com/IBM/teaching-your-monolith-to-dance.git
-    cd teaching-your-monolith-to-dance
+    git clone git@github.com:IBM/openshift-workshop-was.git
+    cd openshift-workshop-was/labs/Openshift/OperationalModernization
     ls
     ```
 
@@ -62,30 +65,35 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
     oc new-project apps-was
     ```
 
-1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (which indicates current directory). This command will be explained later in the _Build image_ section. While the image is building (takes ~8 minutes) continue with rest of the lab:
+1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (which indicates current directory). This command will be explained later in the _Build image_ section. While the image is building continue with rest of the lab:
     ```
     docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
     ```
 
-### Application artifacts
+### Managing Build artifacts
 
-As per container's best practices, you should always build immutable images. Injecting environment specific values at deployment time is necessary most of the times and is the only exception to this rule. 
+As per container's best practices, you should always build immutable images. 
+You should create a new image which adds a single application and corresponding configuration. 
+You should avoid configuring the image manually (after it is built) via Admin Console or wsadmin (unless it is for debugging purposes) because such changes won't be present if you spawn a new container from the image. 
 
-You should create a new image which adds a single application and the corresponding configuration. You should avoid configuring the image manually (after it started) via Admin Console or wsadmin (unless it is for debugging purposes) because such changes won't be present if you spawn a new container from the image. 
+There are two ways to modify the configuration of the traditional WebSphere image during the build:
+- via `wsadmin` scripting
+- via `properties file based configuration`.
 
-We started with the `wsadmin` script that is used by existing Customer Order Services running on-prem. This script enables application security, creates users and creates JDBC provider for a DB2 database.
+First review the wsadmin script, based on an existing Customer Order Services script running on-prem. 
+The contents of the script is found [here](config/cosConfig.py).
+This script enables application security, creates users and JDBC provider for a DB2 database. 
+It also enables JPA 2.0 and JAX-RS 1.1, which are not defaults on WebSphere 9.0.
 
-Since this is a legacy application, it runs on older frameworks: most notably it uses JPA 2.0 and JAX-RS 1.1. These are not the default in WAS v9 (as they are in WAS v8.5.5), but they are supported. To avoid making application code changes at this time, we modified these settings in the scripts.
-For example, older JAX-RS specification is configured by adding:
-```
-AdminTask.modifyJaxrsProvider(Server, '[ -provider 1.1]')
-```
+- `AdminTask.modifyJPASpecLevel(Server, '[ -specLevel 2.0]')`
+- `AdminTask.modifyJaxrsProvider(Server, '[ -provider 1.1]')`
 
-Review the contents of the [wsadmin script](https://github.com/IBM/teaching-your-monolith-to-dance/blob/was90/config/cosConfig.py).
+For `properties file based configuration`, review the properties file found [here](config/app-update.props).
+This properties file is used to install the application, which is an alternate way to install applications or apply configurations. 
+The application could also have been installed using the wsadmin scripting, but we chose to use the properties file to show the second methods of configurations.
 
-We are going to install the application using a properties file, which is an alternative way to install the application, or apply any configuration. The application could also be installed using the `wsadmin` jython script, but we chose to use the properties file to show the two methods configurations can be applied at build time.
 
-Let's review the contents of the [properties file](https://github.com/IBM/teaching-your-monolith-to-dance/blob/was90/config/app-update.props). The first block specifies Application resource type, followed by the property values, including the location of the ear file:
+The first block of the properties file specifies Application resource type, followed by the property values, including the location of the ear file:
 
 ```
 ResourceType=Application
@@ -99,7 +107,7 @@ TargetNode=!{nodeName}
 EarFileLocation=/work/apps/CustomerOrderServicesApp.ear
 ```
 
-Some environment variables are specified towards the end:
+The values of the properties file variables are specified towards the end:
 
 ```
 cellName=DefaultCell01
@@ -135,11 +143,11 @@ RUN /work/configure.sh
 
 - Specify a password for the wsadmin user at `/tmp/PASSWORD`. This is optional. A password will be automatically generated if one is not provided. This password can be used to login to Admin Console (should be for debugging purposes only).
 
-- We copy `cosConfig.py` jython script and the `app-update.props` file into `/work/config/` folder, so they are run during container creation.
+- We copy `cosConfig.py` jython script and the `app-update.props` file into `/work/config/` folder, so they are run automatically during image creation.
 
 - Then we copy application ear to the `EarFileLocation` referenced in `app-update.props`
 
-- Then we run the `/work/configure.sh` which will start the server and run the scripts and apply the properties file configuration.  
+- Then we run the `/work/configure.sh` which will start the server and run the scripts and apply the properties file configuration to new image.
 
 Each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
@@ -153,13 +161,17 @@ docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos
 
 It instructs docker to build the image following the instructions in the Dockerfile in current directory (indicated by the `"."` at the end).
 
-A specific name to tag the built image with is also specified. The value `image-registry.openshift-image-registry.svc:5000` in the tag is the default address of the internal image registry provided by OpenShift. Image registry is a content server that can store and serve container images. The registry is accessible within the cluster using the `Service`. Note the format of a Service address: _name_._namespace_._svc_. So in this case, the image registry is named `image-registry` and it's in namespace `openshift-image-registry`.
-
-5000 is the port, which is followed by namespace and name for the image. Later when we push the image to OpenShift's internal image registry, we'll refer to the image by the same values.
+A specific name to tag the built image with is also specified. 
+The value `image-registry.openshift-image-registry.svc:5000` in the tag is the default address of the internal image registry provided by OpenShift. 
+Image registry is a content server that can store and serve container images. 
+The registry is accessible within the cluster via its exposed `Service`. 
+The format of a Service address: _name_._namespace_._svc_. 
+In this case, the image registry is named `image-registry` and it's in namespace `openshift-image-registry`.
+The port is 5000.
+Later when we push the image to OpenShift's internal image registry, we'll refer to the image by the same values.
 
 
 Go back to the web terminal to check on the image build.
-
 You should see the following message if image was successfully built. Please wait if it's still building.
 
 ```
@@ -182,13 +194,11 @@ ibmcom/websphere-traditional                                           9.0.5.0-u
 
 You built the image and verified that it's available locally.
 
-Let's push the image into OpenShift's internal image registry. First, login to the image registry by running the following command in web terminal. A session token is obtained using the `oc whoami -t` command and used as the password to login.
+Push the image into OpenShift's internal image registry. First, login to the image registry by running the following command in web terminal. A session token is obtained using the `oc whoami -t` command and used as the password to login.
 
 ```
 docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
 ```
-
-[comment]: <> (Specify how to create a project in OpenShift - is it needed?)
 
 Now, push the image into OpenShift's internal image registry, which will take 1-2 minutes:
 
@@ -221,120 +231,162 @@ You can also use the OpenShift console (UI) to see the _ImageStream_. From the p
 
 The following steps will deploy the modernized Customer Order Services application in a traditional WebSphere Base container to a RedHat OpenShift cluster.
 
-Customer Order Services application uses DB2 as its database. You can connect to an on-prem database that already exists or migrate the database to cloud. Since migrating the database is not the focus of this particular workshop and to save time, the database needed by the application is already configured in the OpenShift cluster you are using.
+Customer Order Services application uses DB2 as its database. 
+You can connect to an on-prem database that already exists or migrate the database to cloud. 
+Since migrating the database is not the focus of this particular workshop and to save time, the database needed by the application is already configured in the OpenShift cluster you are using.
 
-### Operator
 
-Operators are a method of packaging, deploying, and managing a Kubernetes application. Conceptually, Operators take human operational knowledge and encode it into software that is more easily shared with consumers. Essentially, Operators are pieces of software that ease the operational complexity of running another piece of software. They act like an extension of the software vendor’s engineering team, watching over a Kubernetes environment (such as OpenShift Container Platform) and using its current state to make decisions in real time.
 
-We'll use Appsody Operator, available as part of IBM Cloud Pak for Applications, to deploy the application you containerized. Appsody Operator is capable of deploying any application image with consistent, production-grade Quality of service (QoS).
+### Deploy application
 
-[comment]: <> (Explain what an operator is and what Appsody Operator does specifically)
+Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
 
-We'll use the following `AppsodyApplication` custom resource (CR), to deploy the Customer Order Services application:
+```
+oc apply -f deploy
+```
+
+The directory `deploy` contains the following yaml files:
+
+- Deployment.yaml:  the specification for creating a Kubernetes deployment
+- Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
+- Route.yaml: the specification to expose the service as a route visible outside of the cluster.
+- Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
+
+The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
 
 ```yaml
-apiVersion: appsody.dev/v1beta1
-kind: AppsodyApplication
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: cos-was
   namespace: apps-was
 spec:
-  applicationImage: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
-  service:
-    port: 9080
-  readinessProbe:
-    httpGet:
-      path: /CustomerOrderServicesWeb/index.html
-      port: 9080
-    periodSeconds: 10
-    failureThreshold: 3
-  livenessProbe:
-    httpGet:
-      path: /CustomerOrderServicesWeb/index.html
-      port: 9080
-    periodSeconds: 30
-    failureThreshold: 6
-    initialDelaySeconds: 90
-  expose: true
-  route:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
+  selector:
+    matchLabels:
+      app: cos-was
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cos-was
+    spec:
+      containers:
+      - name: cos-was
+        image: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+        ports:
+          - containerPort: 9080
+        livenessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 30
+          failureThreshold: 6
+          initialDelaySeconds: 90
+        readinessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - mountPath: /etc/websphere
+          name: authdata
+          readOnly: true
+      volumes:
+      - name: authdata
+        secret:
+            secretName: authdata
 ```
 
-  - The `apiVersion` and the `kind` specifies the custom resource to create. `AppsodyApplication` in this case.
+Note:
 
-  - The metadata specifies a name for the instance of `AppsodyApplication` custom resource (CR) and the namespace to deploy to.
+- The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
+- The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
+- You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
+When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
+For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
+After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
+  - For volumeMounts:
+    - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
+    - the name, `authdata`, specifies the name of the volume
+  - For volumes:
+    - the secretName specifies the name of the secret whose contents are to be bound.
 
-  - The image you pushed to internal registry is specified for `applicationImage` parameter.
+The file `Secret.yaml` looks like:
 
-  - The port for service is specified as 9080.
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authdata
+  namespace: apps-was
+type: Opaque
+stringData:
+  authdata.props: |-
+    #
+    # Configuration properties file for cells/DefaultCell01|security.xml#JAASAuthData_1597094577206#
+    # Extracted on Tue Aug 11 15:30:36 UTC 2020
+    #
 
-  - Readiness probe specifies when the application, running inside the pod, is ready to accept traffic. Traffic will not be sent to it unless it's in `Ready` state.
+    #
+    # Section 1.0 ## Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+    #
 
-  - Liveness probe specifies the ongoing health of the running container. The container will be restarted when liveness probe failures exceed the specified threshold. The hope is that the problem will be resolved with restart.
+    #
+    # SubSection 1.0.0 # JAASAuthData Section
+    #
+    ResourceType=JAASAuthData
+    ImplementingResourceType=GenericType
+    ResourceId=Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+    AttributeInfo=authDataEntries
+    #
 
-  - For probes, we are using the main page `/CustomerOrderServicesWeb/index.html`, which is not the best indication that the app is fully functional. Since the application was not modified, it's the best option. When we modernize the application later, we'll implement better mechanisms.
+    #
+    #Properties
+    #
+    password="{xor}Oz1tNjEsK24=" #required
+    alias=DBUser #required
+    userId=db2inst1 #required
+    description=
 
-  - The settings on probes are:
-    - `periodSeconds`: how often (in seconds) to perform the probe
-    - `failureThreshold` - When a Pod starts and the probe fails, Kubernetes will try this many times before giving up. Giving up in case of liveness probe means restarting the container. In case of readiness probe the Pod will be marked _unready_.
-    - `initialDelaySeconds`: Number of seconds after the container has started before probes is initiated. Allows the application to complete initial setups.
+    #
+    # End of Section 1.0# Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+    #
+    #
+    #
+    EnvironmentVariablesSection
+    #
+    #
+    #Environment Variables
+    cellName=DefaultCell01
+```
 
-  - The `expose` field is a simple toggle to enable Route (proxy) - to expose your application outside the cluster. 
+The attribute `authdata.properties` contains the properties file based configure used to update the database userId and password for the JAASAuthData whose alias is DBUser. 
+The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdata.properties` during container startup so that the application server startup script can automatically configures the server with these entries. 
 
-  - The termination policy specified under `route` configures a secured route.
-
-### Deploy application
-
-1. In OpenShift console, from the panel on left-side, click on **Operators** > **Installed Operators**.
-
-1. From the `Project` drop-down menu, select `apps-was`. 
-
-1. You'll see `Appsody Operator` on the list. From the `Provided APIs` column, click on `Appsody Application`.
-
-1. Click on `Create AppsodyApplication` button.
-
-1. Replace the content of default template with the above `AppsodyApplication` custom resource (CR).
-
-1. Click on `Create` button.
-
-1. Click on `cos-was` from the list. 
-
-1. Navigate down to `Conditions` section and wait for `Reconciled` type to display `True` in _Status_ column. This means Appsody Operator had processed the configurations you specified.
-
-1. Click on the `Resources` tab. The resources that the operator created will be listed: _Deployment_, _Service_ and _Route_. 
-    - The operator will continue to watch over these resources. If anything changes unexpectedly in the cluster and as a result these resources are no longer in the desired state you defined in `AppsodyApplication` CR then it'll take necessary actions to reach the desired state.
-
-1. On the row with `Deployment` as `Kind`, click on `cos-was` to get to the _Deployment_.
-
-1. Click on `Pods` tab. 
-
-1. Wait until the `Status` column displays _Running_ and `Readiness` column displays _Ready_ (as shown in the screenshot below). It may take 1-2 minutes. These indicate that the application within the container is running and is ready to handle traffic. 
-
-    _Troubleshoot_: : If you see the Pod with a status of `ImagePullBackOff` or `ErrImagePull` (instead of the expected `Running` status) then an intermittent error has occurred. Try deleting the Pod. Click on the menu option on the right-side of where the pod is listed and click on `Delete Pod`. On the prompt, click on `Delete` to confirm. You will see that the old Pod will be terminating as another Pod is created. If you encounter the same issue with the new Pod, please inform the host to get help.
-
-    ![Dev Running](extras/images/pod-status.png)
-
-  [comment]: <> (Optional exercise: delete the pod. Another pod should be created, but takes awhile for it to be ready. Shows that traditional WAS is slow, but Liberty as they'll see later is faster)
-
+Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
 
 ## Access the application
 
-1. From the left-panel, select **Networking** > **Routes**.
+First, ensure the pod is running:
+```
+oc get pod
+```
 
-1. Note that the URL, listed under the `Location` column, is in the format _application_name_-_project_name_._your_cluster_url
+If the status is not running, wait a while, checking status periodically:
 
-1. Click on the Route URL. 
-    - Note: since there isn't an application served at server context root `/`, it's expected to get a message stating _SRVE0255E: A WebGroup/Virtual Host to handle / has not been defined_. 
+```
+NAME                       READY   STATUS    RESTARTS   AGE
+cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
+```
 
-1. The username and password to login to the application are `skywalker` and `force` respectively. Add `/CustomerOrderServicesWeb` to the end of the URL in the browser to access the application. 
+Get the host/port of your  route:
 
-1. Click on the `Account` tab to see user details. This information is retrieved from the database.
+```
+oc get route cos-was  --template='{{ .spec.host }}'
+```
 
-1. From the `Shop` tab, add few items to the cart as illustrated in the screen recording below. Click on an item and then drag and drop the item into the shopping cart. Add at least 5 items to the cart. As the items are added, they'll be shown under _Current Shopping Cart_ (on the right side).
-
-    ![Adding item to cart](extras/images/add-item-to-cart.gif)
+Point your browser to: `http:<host>//CustomerOrderServicesWeb`. Login as user `skywalker` and password `force`.
 
 ## Summary
 
@@ -342,5 +394,5 @@ Congratulations! You've completed the **Operational Modernization** lab. You con
 
 ## Next
 Please follow the link to the next lab **Runtime Modernization**:
-- [Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization)
+- [Runtime Modernization](../RuntimeModernization)
 
