@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Analysis](#analysis) (Reading)
+- [Analysis](#analysis) (Reading only)
 - [Build](#build) (Hands-on)
 - [Deploy](#deploy) (Hands-on)
 - [Access the Application](#access-the-application) (Hands-on)
@@ -18,13 +18,17 @@ Liberty however doesn't support all of the legacy Java EE and WebSphere propriet
 
 **This path gets the application on to a cloud-ready runtime container which is easy to use and portable. In addition to the necessary library changes, some aspects of the application was modernized. However, it has not been 'modernized' to a newer architecture such as micro-services**.
 
-This repository holds a solution that is the result of a **runtime modernization** for an existing WebSphere Java EE application that was moved from WebSphere ND v8.5.5 to Liberty and deployed by the IBM Cloud Pak for Applications to RedHat OpenShift.
+This lab demonstrates **runtime modernization**.
+It uses the **Customer Order Services** application, which originates from WebSphere ND V8.5.5. 
+Click [here](extras/application.md) and get to know the application, its architecture and components.
+The application will go through **analysis**, **build** and **deploy** phases. 
+It is modernized to run on the Liberty runtime, and
+deployed via the IBM Cloud Pak for Applications to RedHat OpenShift.
 
-In this workshop, we'll use **Customer Order Services** application as an example. In order to modernize, the application will go through **analysis**, **build** and **deploy** phases. Click [here](extras/application.md) and get to know the application, its architecture and components.
 
-## Analysis
+## Analysis (Background reading only)
 
-As before, IBM Cloud Transformation Advisor was used to analyze the existing Customer Order Services application and the WebSphere ND runtime. The steps taken were:
+IBM Cloud Transformation Advisor was used to analyze the existing Customer Order Services application and the WebSphere ND runtime. The steps taken were:
 
 1. Used the IBM Cloud Transformation Advisor available as part of IBM Cloud Pak for Applications. Transformation Advisor Local (Beta) can also be used.
 
@@ -53,17 +57,18 @@ As before, IBM Cloud Transformation Advisor was used to analyze the existing Cus
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on Liberty.
 
-Building this image could take around ~3 minutes (multi-stage build that compiles the code, which takes extra time). As before, let's kick that process off and then come back to learn what you did.
+Building this image could take around ~3 minutes (multi-stage build that compiles the code, which takes extra time). 
+Let's kick that process off and then come back to learn what you did.
 
 You'll need the web terminal (same as the one from previous lab). If it's not open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
 You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
 
-Clone the GitHub repo with the lab artifacts for Liberty (these are different from the artifacts cloned in last lab). Run the following commands on your web terminal:
+Clone the GitHub repository with the lab artifacts, if you have not already done so. Run the following commands on your web terminal:
 ```
 cd / && mkdir liberty && cd liberty
-git clone --branch liberty https://github.com/IBM/teaching-your-monolith-to-dance.git
-cd teaching-your-monolith-to-dance
+git clone https://github.com/IBM/opneshift-workshop-was.git
+cd labs/Openshift/RuntimeModernization
 ls
 ```
 
@@ -73,7 +78,7 @@ Run the following command to start building the image. Make sure to copy the ent
 docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
 ```
 
-### Library changes
+### Library changes (for reading only)
 
 - Made the simple code changes required for the EJB lookups which were recommended by IBM Cloud Transformation Advisor. The three Java classes that should be modified to look up Enterprise JavaBeans differently are shown in the detailed analysis view of IBM Cloud Transformation Advisor:
 
@@ -115,7 +120,7 @@ The application will have to run on many different environments. So it's importa
 
 MicroProfile Config separates the configuration from code. You can inject the external configuration into services in the containers without repackaging them. Applications can use MicroProfile Config as a single API to retrieve configuration information from different sources such as system properties, system environment variables, properties files, XML files, or data sources. Of course, you can do all this by yourself, but it'll be a lot of work and code. Add few MicroProfile Config annotations and you'll make your life easier and code a lot cleaner.
 
-We used MicroProfile Config to [inject information](https://github.com/IBM/teaching-your-monolith-to-dance/blob/6e197f03b8663813ba806b6f321cb9e5ce92c6f6/app/CustomerOrderServicesWeb/src/org/pwte/example/resources/JWTConfigResource.java#L21) about the application's authenticator (Keycloak in this case). For example, added these 3 lines and at runtime the variable will automatically get the value injected by MicroProfile Config:
+We used MicroProfile Config to [inject information](app/CustomerOrderServicesWeb/src/org/pwte/example/resources/JWTConfigResource.java#L21) about the application's authenticator (Keycloak in this case). For example, added these 3 lines and at runtime the variable will automatically get the value injected by MicroProfile Config:
 
   ```java
   @Inject
@@ -130,7 +135,7 @@ In the last lab, we used `/CustomerOrderServicesWeb/index.html` for readiness an
 MicroProfile Health provides a common REST endpoint format to determine whether a microservice (or in our case a monolith application) is healthy or not. Health can be determined by the service itself and might be based on the availability of necessary resources (for example, a database) and services. The service itself might be running but considered unhealthy if the things it requires for normal operation are unavailable. All of the checks are performed periodically and the result is served as a simple UP or DOWN at `/health/ready` and `/health/live` which can be used for readiness and liveness probes.
 
 We implemented the following health checks:
-- [ReadinessCheck](https://github.com/IBM/teaching-your-monolith-to-dance/blob/6e197f03b8663813ba806b6f321cb9e5ce92c6f6/app/CustomerOrderServicesWeb/src/org/pwte/example/health/ReadinessCheck.java#L17): Keycloak is required to authenticate users. Application should only accept traffic if Keycloak client is up and running.
+- [ReadinessCheck](app/CustomerOrderServicesWeb/src/org/pwte/example/health/ReadinessCheck.java#L17): Keycloak is required to authenticate users. Application should only accept traffic if Keycloak client is up and running.
 
   ```java
   URL url = new URL(keycloakURI);
@@ -143,7 +148,7 @@ We implemented the following health checks:
   return HealthCheckResponse.named("Readiness").up().build();
   ```
 
-- [LivenessCheck](https://github.com/IBM/teaching-your-monolith-to-dance/blob/f2e9358735a39c5134907e15ae62ba8cb16ad122/app/CustomerOrderServicesWeb/src/org/pwte/example/health/LivenessCheck.java#L15): The requests should be processed within a reasonable amount of time. Monitor thread block times to identify potential deadlocks which can cause the application to hang.
+- [LivenessCheck](app/CustomerOrderServicesWeb/src/org/pwte/example/health/LivenessCheck.java#L15): The requests should be processed within a reasonable amount of time. Monitor thread block times to identify potential deadlocks which can cause the application to hang.
 
     ```java
     ThreadMXBean tBean = ManagementFactory.getThreadMXBean();
@@ -175,7 +180,7 @@ MicroProfile Metrics is used to gather metrics about the time it takes to add an
 
 ### Liberty server configuration
 
-The Liberty runtime configuration file `server.xml` was created from the template provided by IBM Cloud Transformation Advisor. Have a look at the final version of the file available [here](https://github.com/IBM/teaching-your-monolith-to-dance/tree/liberty/config/server.xml).
+The Liberty runtime configuration file `server.xml` was created from the template provided by IBM Cloud Transformation Advisor. Have a look at the final version of the file available [here](config/server.xml).
 
   - The necessary features, including those for MicroProfile, are enabled (e.g. `jdbc-4.2, jaxrs-2.1, mpHealth-2.1`).
 
@@ -188,16 +193,19 @@ The Liberty runtime configuration file `server.xml` was created from the templat
 
   - Application with appropriate security role and classloader visibility is specified by `application` element.
 
-  - Database is configured using the `dataSource` element. Note that Liberty variables are used for certain attributes (e.g. `serverName="${DB_HOST}"`). This will allow the containerized application to be deployed to different environments (e.g. production database vs testing database).
+  - Database is configured using the `dataSource` element. Note that Liberty variables are used for certain attributes (e.g. `serverName="${DB_HOST}"`). 
+  This allows the same image to be instainated in different environments (e.g. production vs testing). Specifically for this lab, the values of `DB_USER` and `DB_PASSWORD` are configured via Kuberntes secrets. 
+  When the container starts, thery are injected into the container as environment variables for the Liberty runtime to pick up. How this works is explained later.
 
   - The configuration to process the MicroProfile JWT token is defined using `mpJWT` element.
 
-  - `quickStartSecurity` element allows to secure endpoints such as _/metrics_
+  - `quickStartSecurity` provides an easy way to define an internal user registry with just one user. It is used to secure endpoints such as _/metrics_.
 
 
 ### Build instructions
 
-The `Dockerfile` required to build the immutable image containing the application and Liberty runtime was created from the template provided by IBM Cloud Transformation Advisor. Here is the final version of the file:
+The `Dockerfile` required to build the immutable image containing the application and Liberty runtime was created from the template provided by IBM Cloud Transformation Advisor. 
+Here is the final version of the file:
 
   ```dockerfile
   ## Build stage
@@ -229,15 +237,14 @@ The `Dockerfile` required to build the immutable image containing the applicatio
 
   - Then copy application ear, produced by the first build stage. This is indicated by the `--from=builder`.
 
-  - As last step run `/configure.sh` which will grow image to be fit-for-purpose.
+  - As last step run `/configure.sh` which will install required features, and populate shared classes cache to create a fit-for-purpose image.
 
   Remember that each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
 
 ### Build image
 
-Go back to the web terminal to check on the image build.
-
+Go back to the web terminal to check the build you started earlier.
 You should see the following message if image was built successfully. Please wait if it's still building:
 
 ```
@@ -258,7 +265,9 @@ image-registry.openshift-image-registry.svc:5000/apps/cos            latest     
 openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
 ```
 
-Before we push the image to OpenShift's internal image registry, create a separate project named `apps`. Use the OpenShift console this time to create a project.
+Before we push the image to OpenShift's internal image registry, create a separate project named `apps`. 
+
+Use the OpenShift console this time to create a project.
 - Click on **Home** > **Projects**. 
 - Click on `Create Project` button.
 - Enter `apps` for the _Name_ field and click on `Create`.
@@ -355,7 +364,7 @@ Let's create the secret for Liberty using the OpenShift command-line interface (
 In web terminal, run the following command:
 
   ```
-  oc apply -f https://raw.githubusercontent.com/IBM/teaching-your-monolith-to-dance/liberty/deploy/secret-liberty-creds.yaml
+  oc apply -f deploy/secret-liberty-creds.yaml
   ```
 
 The `-f` option can specify a file, directory or a URL (as in this case) to use to create the resource. This is the content of the file referenced above:
@@ -450,7 +459,7 @@ spec:
       app-monitoring: 'true'
 ```
 
-- Notice that the parameters are similar to the `AppsodyApplication` custom resource (CR) you used in the operational modernization lab. `OpenLibertyApplication` in addition allows Liberty specific configurations (day-2 operations, single sign-on).
+- The `OpenLibertyApplication` is a custom resource supported by the Open Liberty Operator, which is deisgned to help you with Liberty deployment. It allows you to provide Liberty specific configurations (day-2 operations, single sign-on).
 
 - The application image you pushed earlier to internal image registry is specified for `applicationImage` parameter.
 
@@ -553,5 +562,5 @@ Congratulations! You've completed **Runtime Modernization** lab! This applicatio
 
 ## Next
 Please follow the link to the next lab **Application Management**:
-- [Application Management](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/ApplicationManagement)
+- [Application Management](../ApplicationManagement)
 

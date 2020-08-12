@@ -1,0 +1,63 @@
+apiVersion: openliberty.io/v1beta1
+kind: OpenLibertyApplication
+metadata:
+  name: cos
+  namespace: apps
+spec:
+  applicationImage: 'image-registry.openshift-image-registry.svc:5000/apps/cos'
+  pullPolicy: Always
+  readinessProbe:
+    httpGet:
+      path: /health/ready
+      port: 9443
+      scheme: HTTPS
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: 9443
+      scheme: HTTPS
+  service:
+    annotations:
+      service.beta.openshift.io/serving-cert-secret-name: cos-tls
+    certificateSecretRef: cos-tls
+    port: 9443
+  expose: true
+  route:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  env:
+    - name: SEC_TLS_TRUSTDEFAULTCERTS
+      value: 'true'
+    - name: SSO_REALM
+      value: Galaxy
+    - name: SSO_CLIENT_ID
+      value: cos_app
+    - name: SSO_URI
+      value: >-
+        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/
+    - name: JWT_ISSUER
+      value: >-
+        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy
+    - name: JWT_JWKS_URI
+      value: >-
+        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy/protocol/openid-connect/certs
+    - name: DB_HOST
+      value: cos-db-liberty.db.svc
+  envFrom:
+  - secretRef:
+      name: db-creds
+  monitoring:
+    endpoints:
+      - basicAuth:
+          password:
+            key: password
+            name: liberty-creds
+          username:
+            key: username
+            name: liberty-creds
+        interval: 5s
+        scheme: HTTPS
+        tlsConfig:
+          insecureSkipVerify: true
+    labels:
+      app-monitoring: 'true'

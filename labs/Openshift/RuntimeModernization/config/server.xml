@@ -1,0 +1,63 @@
+<server description="new server">
+
+	<!-- Enable features -->
+	<featureManager>
+		<feature>ejbLite-3.2</feature>
+		<feature>localConnector-1.0</feature>
+		<feature>cdi-2.0</feature>
+		<feature>appSecurity-3.0</feature>
+		<feature>jaxrs-2.1</feature>
+		<feature>jpa-2.2</feature>
+		<feature>jdbc-4.2</feature>
+		<feature>transportSecurity-1.0</feature>
+		<feature>jsonb-1.0</feature>
+		<feature>mpOpenAPI-1.1</feature>
+		<feature>mpMetrics-2.0</feature>
+		<feature>mpHealth-2.1</feature>
+		<feature>mpJwt-1.1</feature>
+		<feature>monitor-1.0</feature>
+	</featureManager>
+
+	<httpEndpoint httpPort="-1" httpsPort="9443" accessLoggingRef="accessLogging" id="defaultHttpEndpoint"/>
+
+	<httpAccessLogging id="accessLogging"/>
+
+	<applicationMonitor updateTrigger="mbean"/>
+	<application id="customerOrderServicesApp" location="CustomerOrderServicesApp.ear" name="CustomerOrderServicesApp.ear" type="ear">
+		<classloader apiTypeVisibility="spec, ibm-api, third-party,stable"/>
+		<application-bnd>
+			<security-role name="SecureShopper">
+				<special-subject type="ALL_AUTHENTICATED_USERS"></special-subject>
+			</security-role>
+		</application-bnd>
+	</application>
+
+	<library id="DB2Lib">
+		<fileset dir="${shared.resource.dir}/db2" includes="db2jcc4.jar db2jcc_license_cu.jar"/>
+	</library>
+
+	<dataSource id="OrderDS" jndiName="jdbc/orderds" type="javax.sql.XADataSource">
+		<jdbcDriver libraryRef="DB2Lib"/>
+		<properties.db2.jcc databaseName="ORDERDB" password="${DB_PASSWORD}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}"/>
+		<connectionManager agedTimeout="-1" connectionTimeout="180" maxIdleTime="1800" maxPoolSize="10" minPoolSize="1" reapTime="180"/>
+	</dataSource>	
+	
+	<mpJwt id="keycloak"
+		jwksUri="${JWT_JWKS_URI}"
+		issuer="${JWT_ISSUER}" userNameAttribute="preferred_username">
+		<audiences>account</audiences>
+		<authFilter>
+			<requestUrl urlPattern="jaxrs"></requestUrl>
+		</authFilter>
+	</mpJwt>
+	
+	<variable name="DB_HOST" defaultValue="localhost"/>
+	<variable name="DB_PORT" defaultValue="50000"/>
+	<variable name="DB_USER" defaultValue="unknown"/>
+	<variable name="DB_PASSWORD" defaultValue="unknown"/>
+	<variable name="JWT_JWKS_URI" defaultValue=""/>
+	<variable name="JWT_ISSUER" defaultValue=""/>
+	
+	<quickStartSecurity userName="admin" userPassword="admin"></quickStartSecurity>
+
+</server>
