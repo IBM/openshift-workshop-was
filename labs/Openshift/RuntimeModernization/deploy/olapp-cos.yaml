@@ -25,25 +25,9 @@ spec:
   route:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
-  env:
-    - name: SEC_TLS_TRUSTDEFAULTCERTS
-      value: 'true'
-    - name: SSO_REALM
-      value: Galaxy
-    - name: SSO_CLIENT_ID
-      value: cos_app
-    - name: SSO_URI
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/
-    - name: JWT_ISSUER
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy
-    - name: JWT_JWKS_URI
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy/protocol/openid-connect/certs
-    - name: DB_HOST
-      value: cos-db-liberty.db.svc
   envFrom:
+  - configmapRef:
+      name: cos-config
   - secretRef:
       name: db-creds
   monitoring:
