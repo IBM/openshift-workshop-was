@@ -7,9 +7,11 @@
 - [Build](#build) (Hands-on)
 - [Deploy](#deploy) (Hands-on)
 - [Access the Application](#access-the-application) (Hands-on)
+- [Alternate Deployment via Runtime Component Operator](#deploy-rco) (Hands-on)
 - [Summary](#summary)
 - [Next](#next)
 
+<a name="introduction"></a>
 ## Introduction
 
 **Operational modernization** gives an operations team the opportunity to embrace modern operations best practices without putting change requirements on the development team. 
@@ -25,6 +27,7 @@ This repository holds a solution that is the result of an **operational moderniz
 
 In this lab, we'll use **Customer Order Services** application as an example. In order to modernize, the application will go through **analysis**, **build** and **deploy** phases. Click [here](extras/application.md) and get to know the application, its architecture and components.
 
+<a name="analysis"></a>
 ## Analysis (Background reading only)
 
 IBM Cloud Transformation Advisor was used to analyze the Customer Order Service Application running in the WebSphere ND environment. 
@@ -43,6 +46,7 @@ The stesp taken to analyze the existing Customer Order Services application were
 4. Analyzed the **Detailed Migration Analysis Report**. In summary, no code changes are required to move this application to the traditional WebSphere Base v9 runtime, and the decision was to proceed with the operational modernization.
 
 
+<a name="build"></a>
 ## Build
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on traditional WebSphere Base v9.
@@ -226,7 +230,7 @@ oc get imagestreams -n apps-was
 
 You can also use the OpenShift console (UI) to see the _ImageStream_. From the panel on left-side, click on **Builds** > **Image Streams**. Then select `apps-was` from the _Project_ drop-down menu. Click on `cos-was` from the list. Scroll down to the bottom to see the image that you pushed. 
 
-
+<a name="deploy"></a>
 ## Deploy
 
 The following steps will deploy the modernized Customer Order Services application in a traditional WebSphere Base container to a RedHat OpenShift cluster.
@@ -366,6 +370,7 @@ The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdat
 
 Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
 
+<a name="access-the-application"></a>
 ## Access the application
 
 First, ensure the pod is running:
@@ -394,7 +399,8 @@ Remove your deployment:
 od delete -f deploy
 ```
 
-### Alternate Deployment Via Runtime Component Operator
+<a name="deploy-rco"></a>
+## Alternate Deployment Via Runtime Component Operator
 
 Another way to deploy the application is via the Runtime Component Operator. It is a generic operator used to deploy different types of application images. 
 The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment  of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
@@ -515,10 +521,12 @@ oc get Service
 oc get Route 
 ```
 
+<a name="summary"></a>
 ## Summary
 
 Congratulations! You've completed the **Operational Modernization** lab. You containerized and deployed a monolith application to cloud!
 
+<a name="next"></a>
 ## Next
 Please follow the link to the next lab **Runtime Modernization**:
 - [Runtime Modernization](../RuntimeModernization)
