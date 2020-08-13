@@ -26,6 +26,7 @@ It is modernized to run on the Liberty runtime, and
 deployed via the IBM Cloud Pak for Applications to RedHat OpenShift.
 
 
+<a name="analysis"></a>
 ## Analysis (Background reading only)
 
 IBM Cloud Transformation Advisor was used to analyze the existing Customer Order Services application and the WebSphere ND runtime. The steps taken were:
@@ -66,8 +67,13 @@ You also need to be logged into the OpenShift CLI (command-line interface) using
 
 Clone the GitHub repository with the lab artifacts, if you have not already done so. Run the following commands on your web terminal:
 ```
-cd / && mkdir liberty && cd liberty
 git clone https://github.com/IBM/opneshift-workshop-was.git
+```
+
+
+Change to the lab's directory:
+```
+cd openshift-workshop-was
 cd labs/Openshift/RuntimeModernization
 ls
 ```
@@ -265,14 +271,22 @@ image-registry.openshift-image-registry.svc:5000/apps/cos            latest     
 openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
 ```
 
-Before we push the image to OpenShift's internal image registry, create a separate project named `apps`. 
+Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  Choose one of two ays:
+- Via command line: 
+  ```
+  oc new-project apps
+  ```
+- Via the console: 
+  - Click on **Home** > **Projects**. 
+  - Click on `Create Project` button.
+  - Enter `apps` for the _Name_ field and click on `Create`.
+  - Go back to web terminal. 
 
-Use the OpenShift console this time to create a project.
-- Click on **Home** > **Projects**. 
-- Click on `Create Project` button.
-- Enter `apps` for the _Name_ field and click on `Create`.
+Switch the current project in the command line to `apps`:
+```
+oc project apps
+```
 
-Go back to web terminal. 
 
 Login to the image registry again by running the following command in web terminal:
 
@@ -298,7 +312,19 @@ The application image you just pushed should be listed:
 image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
 ```
 
-In OpenShift console, from the left-panel, click on **Builds** > **Image Streams**. Then select `apps` from the _Project_ drop-down list. Click on `cos` from the list. Scroll down to the bottom to see the image that you pushed.
+Verify the imagestream is also created:
+
+```
+oc get imagestreams -n apps
+```
+
+And the output:
+```
+NAME   IMAGE REPOSITORY                                            TAGS     UPDATED
+cos    image-registry.openshift-image-registry.svc:5000/apps/cos   latest   2 minutes ago
+```
+
+You may also check from the console: from the left-panel, click on **Builds** > **Image Streams**. Then select `apps` from the _Project_ drop-down list. Click on `cos` from the list. Scroll down to the bottom to see the image that you pushed.
 
 
 ## Deploy
@@ -334,6 +360,75 @@ Let's setup a client in Keycloak to handle user authentication for the Customer 
 1. Click on `Create`. Enter _cos_app_ for `Client ID` field. Click on `Save`.
 
 That concludes the Keycloak setup for now. After we deploy the application, we'll come back to add the route URL of the application as a valid redirect URI. Leave the Keycloak tab open for now.
+
+### Deploy
+
+First, enable monitoring by adding the necessary label to the `apps` namespace. Choose either commandline or the console:
+- For command line:
+   ```
+   oc label namespace apps app-monitoring=true
+   ```
+- For console, from the left-panel, click on **Administration** > **Namespaces**. Click on the menu-options for `apps` namespace and click on `Edit Labels`. Copy and paste `app-monitoring=true` into the text box and click `Save`.
+
+    ![Add label to namespace](extras/images/add-monitor-label.gif)
+
+
+Next,  substitue keycloak URL to the relevant configuration file. 
+Take a look at the contents of deploy/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
+
+```
+
+cat deploy/configmap.yaml
+```
+
+Make a subsitution with the actual URL of your keycloak instance:
+```
+sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/configmap.yaml
+cat deploy/configmap.yaml
+```
+
+Deploy the yaml files:
+
+```
+oc apply -f deploy
+```
+
+### Complete Keycloak setup
+
+1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
+
+1. Ensure that `apps` is selected from the _Project_ drop-down list. Right-click on the Route URL and copy link address. 
+
+1. Go back to Keycloak console. If you had closed the Keycloak tab then select `keycloak` from the _Project_ drop-down list and click on the route URL. If prompted, enter `admin` for both username and password.
+
+1. From the left-panel, click on `Clients`. Click on _cos_app_ under `Client ID` column.
+
+1. Paste the route URL into `Valid Redirect URIs` field and add `*` at the end of the value. Ensure that the value ends with `/*` (as shown below).
+
+1. Enter `+` into `Web Origins` field. This is necessary to enable Cross-Origin Resource Sharing (CORS).
+
+    ![create secret](extras/images/keycloak-valid-uri.png)
+
+1. Apply the changes by clicking on the `Save` button at the bottom.
+
+
+### Access the application
+
+1. Click on the route URL for the application.
+
+1. Add `/CustomerOrderServicesWeb` to the end of the URL.
+
+1. You'll be taken to the login form. Click on `Register` to register as a new user. Enter the information. Remember your username and password.
+
+1. Click on `Register`. Once a user registers with a realm, they can be granted access to different applications that are authenticated by the same realm. This is useful for managing user authentication for multiple applications within your enterprise.
+
+1. Now you'll be taken back to the _Customer Order Service_ application.
+
+1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. Add at least 5 items to the cart.
+
+1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
+
+[comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
 ### Create Secrets
 
@@ -516,43 +611,6 @@ spec:
     ![delete route](extras/images/delete-route.gif)
 
     Open Liberty Operator monitors the resources it creates and takes necessary actions if they are not in the desired state you defined in `OpenLibertyApplication` CR. In this case, you requested to expose your application outside the cluster by setting `expose: true` and the operator created the Route resource to achieve that. When it detected that the Route resource was deleted, it instantly created another one. Open Liberty Operator acts as a guardian angel, always watching over your application. Awesome, isn't it?
-
-### Complete Keycloak setup
-
-1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
-
-1. Ensure that `apps` is selected from the _Project_ drop-down list. Right-click on the Route URL and copy link address. 
-
-1. Go back to Keycloak console. If you had closed the Keycloak tab then select `keycloak` from the _Project_ drop-down list and click on the route URL. If prompted, enter `admin` for both username and password.
-
-1. From the left-panel, click on `Clients`. Click on _cos_app_ under `Client ID` column.
-
-1. Paste the route URL into `Valid Redirect URIs` field and add `*` at the end of the value. Ensure that the value ends with `/*` (as shown below).
-
-1. Enter `+` into `Web Origins` field. This is necessary to enable Cross-Origin Resource Sharing (CORS).
-
-    ![create secret](extras/images/keycloak-valid-uri.png)
-
-1. Apply the changes by clicking on the `Save` button at the bottom.
-
-
-### Access the application
-
-1. Click on the route URL for the application.
-
-1. Add `/CustomerOrderServicesWeb` to the end of the URL.
-
-1. You'll be taken to the login form. Click on `Register` to register as a new user. Enter the information. Remember your username and password.
-
-1. Click on `Register`. Once a user registers with a realm, they can be granted access to different applications that are authenticated by the same realm. This is useful for managing user authentication for multiple applications within your enterprise.
-
-1. Now you'll be taken back to the _Customer Order Service_ application.
-
-1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. Add at least 5 items to the cart.
-
-1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
-
-[comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
 
 ## Summary
