@@ -7,6 +7,8 @@
 - [Build](#build) (Hands-on)
 - [Deploy](#deploy) (Hands-on)
 - [Access the Application](#access-the-application) (Hands-on)
+- [Review Deployment](#review-deployment)
+- [Cleanup](#cleanup)
 - [Summary](#summary)
 - [Next](#next)
 
@@ -335,9 +337,11 @@ Customer Order Services application uses DB2 as its database. To deploy it to Li
 
 ### Keycloak setup
 
-Keycloak runs on your cluster and will handle authenticating users. It'll also handle registering & storing user account information. Keycloak is the upstream project for Red Hat Single Sign-On (RH-SSO), which is supported as part of IBM Cloud Pak for Applications.
+Keycloak is an OpenID Connect provider that runs on your cluster. 
+It handles user registration, and authentication. 
+Keycloak is the upstream project for Red Hat Single Sign-On (RH-SSO), which is supported as part of IBM Cloud Pak for Applications.
 
-Let's setup a client in Keycloak to handle user authentication for the Customer Order Services application.
+Let's setup Keycloak to handle user authentication for the Customer Order Services application.
 
 1. In OpenShift console, from the left-panel, click on **Networking** > **Routes**.. Then select `keycloak` from the _Project_ drop-down list.
 
@@ -363,7 +367,8 @@ That concludes the Keycloak setup for now. After we deploy the application, we'l
 
 ### Deploy
 
-First, enable monitoring by adding the necessary label to the `apps` namespace. Choose either commandline or the console:
+First, enable monitoring by adding the necessary label to the `apps` namespace. 
+Choose either commandline or the console option:
 - For command line:
    ```
    oc label namespace apps app-monitoring=true
@@ -377,11 +382,10 @@ Next,  substitue keycloak URL to the relevant configuration file.
 Take a look at the contents of deploy/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
 ```
-
 cat deploy/configmap.yaml
 ```
 
-Make a subsitution with the actual URL of your keycloak instance:
+Substitute with the actual URL of your keycloak instance:
 ```
 sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/configmap.yaml
 cat deploy/configmap.yaml
@@ -414,79 +418,98 @@ oc apply -f deploy
 
 ### Access the application
 
-1. Click on the route URL for the application.
+1. Ensure the pod is ready:
 
-1. Add `/CustomerOrderServicesWeb` to the end of the URL.
+   ```
+   oc get pod
+   ```
 
-1. You'll be taken to the login form. Click on `Register` to register as a new user. Enter the information. Remember your username and password.
+   If the status does not show 1/1 READY, check periodically. If after 1 minute, the pod is still not ready:
+   - Go back and double check your keycloak configuration. This is the most common cause for the pod not being ready.
+   - After fixing keycloak configuration, delete the pod so another one gets started:
+     ```
+     oc delete pod <pod-name>
+     ```
 
-1. Click on `Register`. Once a user registers with a realm, they can be granted access to different applications that are authenticated by the same realm. This is useful for managing user authentication for multiple applications within your enterprise.
+1. Run the following command to get the URL of your application:
+```
+echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+```
+
+1. Point your browser to the above URL. You'll be taken to the login form. Click on `Register` to register as a new user. 
+
+1. Enter the information. Remember your username and password.
+Click on `Register`. Once a user registers with a realm, they can be granted access to different applications that are authenticated by the same realm. This is useful for managing user authentication for multiple applications within your enterprise.
 
 1. Now you'll be taken back to the _Customer Order Service_ application.
 
-1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. Add at least 5 items to the cart.
+1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. 
 
 1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
-### Create Secrets
+## Review Deployment
 
-Specifying credentials and tokens in plain text is not secure. `Secrets` are used to store sensitive information. The stored data can be referenced by other resources. Special care is taken by OpenShift when handling data from secrets. For example, they will not be logged or shown anywhere. 
+Let's review the configuration files used for our deployment.
 
-Let's create 2 secrets, one to store database credentials and another for storing Liberty metrics credentials, which is needed to access the `/metrics` endpoint.
+```
+ls deploy
+```
 
-In OpenShift console, you can click on the `+` icon on the top panel to quickly create a resource (as shown below). 
+And the output shows these files:
+```
+configmap.yaml  
+olapp-cos.yaml  
+secret-db-creds.yaml  
+secret-liberty-creds.yaml
+```
 
-  ![create secret](extras/images/create-secret.gif)
+### Secrets
+
+Specifying credentials and tokens in plain text is not secure. 
+`Secrets` are used to store sensitive information. 
+The stored data can be referenced by other resources. 
+Special care is taken by OpenShift when handling data from secrets. 
+For example, they will not be logged or shown anywhere. 
+
+There are two secrets, one for database credentials and another for Liberty metrics credentials, which is needed to access the `/metrics` endpoint.
 
 
-Create a `Secret` for database. Click on the `+` icon and paste the following content and click on `Create`.
-```yaml
-kind: Secret
-apiVersion: v1
-metadata:
-  name: db-creds
-  namespace: apps
-data:
-  DB_USER: ZGIyaW5zdDE=
-  DB_PASSWORD: ZGIyaW5zdDE=
-type: Opaque
-``` 
+The file `secret-db-creds.yaml` contains the credentials for database.  It is injected into the container as environment variable via the `secretRef` specification for the Open Liberty Operator in the section. 
 
-Let's create the secret for Liberty using the OpenShift command-line interface (CLI) `oc`. So you are familiar with both UI and CLI.
+```
+cat deploy/secret-db-creds.yaml
+```
 
-In web terminal, run the following command:
+The file `secret-liberty-creds.yaml` contains the secret to access liberty server.
 
-  ```
-  oc apply -f deploy/secret-liberty-creds.yaml
-  ```
-
-The `-f` option can specify a file, directory or a URL (as in this case) to use to create the resource. This is the content of the file referenced above:
-
-```yaml
-kind: Secret
-apiVersion: v1
-metadata:
-  name: liberty-creds
-  namespace: apps
-stringData:
-  username: admin
-  password: admin
-type: Opaque
+```
+cat deploy/secret-liberty-creds.yaml
 ```
 
 Note that the first `Secret` provides the credentials in base64 encoded format using the `data` field. The second one provides in plain text using `stringData` field. OpenShift will automatically convert the credentials to base64 format and place the information under `data` field. Click on the `YAML` tab of `liberty-creds` secret. The `data` field should contain the credentials in encoded form.
 
 As anyone can decode the credentials, administrators should ensure that only authenticated users have access to `Secrets` using Role-based access control (RBAC).
 
-You've completed the pre-requisite steps for deploying the application. 
+
+### Configmap
+
+Configmaps allows you to store name/value pairs that can be inject into your container when it starts.
+For our example, the values of the `configmap.yaml` are injected as environment variables  in the `configMapRef` specification on the _Open Liberty Operator_ in the next section.
+
+```
+cat deploy/configmap.yaml
+```
 
 ### Open Liberty Operator
 
-We'll use Open Liberty Operator, available as part of IBM Cloud Pak for Applications, to deploy the application. Open Liberty Operator provides all functionalities of Appsody Operator in addition to Open Liberty runtime specific capabilities, such as day-2 operations (gather trace & dumps) and single sign-on (SSO).
+We could have created our Deployment, Service, and Route resources to deploy the Liberty image. 
+However, for this lab we will use the Open Liberty Operator instead. 
+Open Liberty Operator provides all functionalities of Runtime Component Operator used when deploying traditional WebSphere images in a previous lab. 
+In addition, it also offers Open Liberty specific capabilities, such as day-2 operations (gather trace & dumps) and single sign-on (SSO).
 
-Use the following `OpenLibertyApplication` custom resource (CR), to deploy the Customer Order Services application.
+The file `deploy/olapp-cos.yaml` looks like:
 
 ```yaml
 apiVersion: openliberty.io/v1beta1
@@ -517,24 +540,9 @@ spec:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
   env:
-    - name: SSO_REALM
-      value: Galaxy
-    - name: SSO_CLIENT_ID
-      value: cos_app
-    - name: SSO_URI
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/
-    - name: JWT_ISSUER
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy
-    - name: JWT_JWKS_URI
-      value: >-
-        https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy/protocol/openid-connect/certs
-    - name: SEC_TLS_TRUSTDEFAULTCERTS
-      value: 'true'
-    - name: DB_HOST
-      value: cos-db-liberty.db.svc
   envFrom:
+  - configMapRef:
+      name: cos-config
   - secretRef:
       name: db-creds
   monitoring:
@@ -562,56 +570,35 @@ spec:
 
 - Secured service and route are configured with necessary certificates.
 
-- Environment variables have been defined to be passed on to the running container. Information for the Keycloak client you setup previously is specified using environment variables (e.g. `SSO_REALM`). Before deploying, you'll replace `ENTER_YOUR_ROUTER_HOSTNAME_HERE` (within the URLs) with the hostname of the router in your cluster.
+- The `configMapRef` surfaces all entries of the  ConfigMap `cos-config`  as environment variables. These contain database host and other settings.
 
-- The host of the database is specified using its _Service_ address `cos-db-liberty.db.svc` and its credentials are passed in using the _Secret_ `db-creds` you created earlier. The `envFrom` parameter is used to define all of the Secret’s data as environment variables. The key from the _Secret_ becomes the environment variable name.
+- The `secretRef` surfaces the entries in the Secret `db-creds` as environment variables. These are the database user and password.
 
 - Enabled application monitoring so that Prometheus can scrape the information provided by MicroProfile Metric's `/metrics` endpoint in Liberty. The `/metrics` endpoint is protected, hence the credentials are provided using the _Secret_ `liberty-creds` you created earlier.
 
 
-### Deploy application
+## Cleanup
 
-1. Before deploying the application, enable monitoring by adding the necessary label to namespace as shown below in the screen recording. In OpenShift console, from the left-panel, click on **Administration** > **Namespaces**. Click on the menu-options for `apps` namespace and click on `Edit Labels`. Copy and paste `app-monitoring=true` into the text box and click `Save`.
+The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects.
 
-    ![Add label to namespace](extras/images/add-monitor-label.gif)
+```
+oc get deployment
+oc get service
+oc get route
+```
 
-1. From the left-panel, click on **Operators** > **Installed Operators**.
+To clean up:
+```
+oc delete -f deploy
+```
 
-1. Ensure that `apps` is selected from the `Project` drop-down list. 
+Double check the correspdoning Deployment, Service, and Route objects are deleted:
 
-1. You should see `Open Liberty Operator` on the list. From the `Provided APIs` column, click on `Open Liberty Application`.
-
-1. Click on `Create OpenLibertyApplication` button.
-
-1. Delete the default template. Copy and paste the above `OpenLibertyApplication` custom resource (CR). Under `env` variables, replace the 3 instances of `ENTER_YOUR_ROUTER_HOSTNAME_HERE` (within the URLs) with the hostname of the router in your cluster. To get just the hostname, run the following command in web terminal and then copy the output value:
-
-    ```
-    oc get route -n keycloak -o yaml | grep Hostname | sed "s/^.*: //"
-    ```
-
-    - The hostname is stored inside the route. Above command finds the line with hostname and retrieves its value.
-    - Example hostname value: _leojc-wug-cluster-c53a941250098acc3d804eba23ee3789-0000.tor01.containers.appdomain.cloud_ 
-
-1. Click on `Create` button.
-
-1. Click on `cos` from the list. 
-
-1. Navigate down to `Conditions` section and wait for `Reconciled` type to display `True` in Status column. This means Open Liberty Operator had processed the configurations you specified.
-
-1. Click on the `Resources` tab. The resources that the operator created will be listed: _Deployment_, _Service_ and _Route_.
-
-1. On the row with `Deployment` as `Kind`, click on `cos` to get to the Deployment.
-
-1. Click on `Pods` tab. 
-
-1. Wait until the `Status` column displays _Running_ and `Readiness` column displays _Ready_. These indicate that the application within the container is running and is ready to handle traffic.
-
-1. In OpenShift console, from the left-panel, select **Networking** > **Routes**. Ensure that `apps` is selected from the _Project_ drop-down list. You should see the _Route_ named `cos`. As shown in the screen recording below, click on the menu option on the right-side and click on `Delete Route`. On the prompt, click on `Delete` to confirm. You will see that the Route is deleted. But within a split second, another instance of the Route is created. 
-
-    ![delete route](extras/images/delete-route.gif)
-
-    Open Liberty Operator monitors the resources it creates and takes necessary actions if they are not in the desired state you defined in `OpenLibertyApplication` CR. In this case, you requested to expose your application outside the cluster by setting `expose: true` and the operator created the Route resource to achieve that. When it detected that the Route resource was deleted, it instantly created another one. Open Liberty Operator acts as a guardian angel, always watching over your application. Awesome, isn't it?
-
+```
+oc get deployment
+oc get service
+oc get route
+```
 
 ## Summary
 
@@ -619,6 +606,6 @@ Congratulations! You've completed **Runtime Modernization** lab! This applicatio
 
 
 ## Next
-Please follow the link to the next lab **Application Management**:
+Follow the link to the next lab **Application Management**:
 - [Application Management](../ApplicationManagement)
 
