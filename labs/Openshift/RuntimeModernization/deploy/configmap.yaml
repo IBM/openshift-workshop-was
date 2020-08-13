@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cos-config
+  namespace: apps
+data:
+  SEC_TLS_TRUSTDEFAULTCERTS: "true"
+  SSO_REALM : "Galaxy"
+  SSO_CLIENT_ID : "cos_app"
+  SSO_URI : "https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/"
+  JWT_ISSUER : "https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy"
+  JWT_JWKS_URI : "https://keycloak-keycloak.ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy/protocol/openid-connect/certs"
+  DB_HOST : "cos-db-liberty.db.svc"
