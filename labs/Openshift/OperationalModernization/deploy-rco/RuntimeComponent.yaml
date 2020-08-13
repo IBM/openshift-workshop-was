@@ -1,0 +1,34 @@
+apiVersion: app.stacks/v1beta1
+kind: RuntimeComponent
+metadata:
+  name: cos-was-rco
+  namespace: apps-was
+spec:
+  applicationImage: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+  service:
+    port: 9080
+  readinessProbe:
+    httpGet:
+      path: /CustomerOrderServicesWeb/index.html
+      port: 9080
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /CustomerOrderServicesWeb/index.html
+      port: 9080
+    periodSeconds: 30
+    failureThreshold: 6
+    initialDelaySeconds: 90
+  expose: true
+  route:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  volumeMounts:
+    - mountPath: /etc/websphere
+      name: authdata-rco
+      readOnly: true
+  volumes:
+    - name: authdata-rco
+      secret:
+          secretName: authdata-rco

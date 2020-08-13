@@ -386,7 +386,134 @@ Get the URL of your application:
 echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
 ```
 
-Point your browser to output of the above command. Login as user `skywalker` and password `force`.
+Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
+
+Remove your deployment:
+
+```
+od delete -f deploy
+```
+
+### Alternate Deployment Via Runtime Component Operator
+
+Another way to deploy the application is via the Runtime Component Operator. It is a generic operator used to deploy different types of application images. 
+The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment  of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
+
+
+For this lab, we will only use the Runtime Component Operator to deploy the same Customer Order Service application image:
+```
+oc apply -f deploy-rco
+```
+
+Check pod status:
+```
+oc get pod
+```
+
+If the status does not show `1/1` ready, wait a while, checking status periodically. Note the prefix name for the pod is `cos-was-rco`.
+```
+NAME                           READY   STATUS    RESTARTS   AGE
+cos-was-rco-6779784fc8-pz92m   1/1     Running   0          2m59s
+```
+
+
+Get the URL of your application: 
+
+```
+echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+```
+
+Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
+
+
+Let's review what we just did. First, list the contents of the deploy-rco directory:
+
+```
+ls deploy-rco
+```
+
+The output shows there are only two yaml files:
+```
+RuntimeComponent.yaml  Secret.yaml
+```
+
+Review Secret.yaml: 
+```
+cat deploy-rco/Secret.yaml
+```
+
+Note that it is the same as the Secret.yaml in the `deploy` directory, except the name has been changed to authdata-rco.  It servers the same purpose for this new deployment, to override the database user/password.
+
+
+Review RuntimeComponent.yaml:
+```
+cat deploy-rco/RuntimeComponent.yaml
+```
+
+And the output:
+```
+apiVersion: app.stacks/v1beta1
+kind: RuntimeComponent
+metadata:
+  name: cos-was-rco
+  namespace: apps-was
+spec:
+  applicationImage: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+  service:
+    port: 9080
+  readinessProbe:
+    httpGet:
+      path: /CustomerOrderServicesWeb/index.html
+      port: 9080
+    periodSeconds: 10
+    failureThreshold: 3
+  livenessProbe:
+    httpGet:
+      path: /CustomerOrderServicesWeb/index.html
+      port: 9080
+    periodSeconds: 30
+    failureThreshold: 6
+    initialDelaySeconds: 90
+  expose: true
+  route:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  volumeMounts:
+    - mountPath: /etc/websphere
+      name: authdata-rco
+      readOnly: true
+  volumes:
+    - name: authdata-rco
+      secret:
+          secretName: authdata-rco
+```
+
+Note that:
+- The Kind is `RuntimeComponent`
+- The `expose` attribute is set to `true` to expose a route
+- The attributes within the yaml file are essentially the same information that you provided for the `Service`, `Route`, and `Deployment` resources in the `deploy` directory.
+
+The controller for the RuntimeComponent custom resource reacts to changes in the above specification, and creates the corresponding `Service`, `Route`, and `Deployment` objects. Issue the following commands to view what the controller has created:
+
+```
+oc get Deployment cos-was-rco -o yaml
+oc get Service cos-was-rco -o yaml
+oc get Route cos-was-rco -o yaml
+```
+
+Remove the deployment:
+
+```
+oc delete -f deploy-rco
+```
+
+Verify that the corresponding `Service`, `Route`, and `Deployment` have also been deleted:
+
+```
+oc get Deployment 
+oc get Service 
+oc get Route 
+```
 
 ## Summary
 
