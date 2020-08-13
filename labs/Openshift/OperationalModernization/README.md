@@ -55,7 +55,7 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
 
 1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following commands on your web terminal:
     ```
-    git clone git@github.com:IBM/openshift-workshop-was.git
+    git clone https://github.com/IBM/openshift-workshop-was.git
     cd openshift-workshop-was/labs/Openshift/OperationalModernization
     ls
     ```
@@ -373,20 +373,20 @@ First, ensure the pod is running:
 oc get pod
 ```
 
-If the status is not running, wait a while, checking status periodically:
+If the status does not show `1/1` ready, wait a while, checking status periodically:
 
 ```
 NAME                       READY   STATUS    RESTARTS   AGE
 cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
 ```
 
-Get the host/port of your  route:
+Get the URL of your application: 
 
 ```
-oc get route cos-was  --template='{{ .spec.host }}'
+echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
 ```
 
-Point your browser to: `http:<host>//CustomerOrderServicesWeb`. Login as user `skywalker` and password `force`.
+Point your browser to output of the above command. Login as user `skywalker` and password `force`.
 
 ## Summary
 
