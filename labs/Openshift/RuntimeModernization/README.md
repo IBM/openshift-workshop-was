@@ -188,7 +188,16 @@ MicroProfile Metrics is used to gather metrics about the time it takes to add an
 
 ### Liberty server configuration
 
-The Liberty runtime configuration file `server.xml` was created from the template provided by IBM Cloud Transformation Advisor. Have a look at the final version of the file available [here](config/server.xml).
+The Liberty runtime configuration files are based on a template provided by IBM Cloud Transformation Advisor.  
+For this lab, instead of using a single server.xml, the configurations have been split into multiple configuration files and placed into [config/configDropins/overrides directory](config/configDropins/overrides).
+
+- You may place configuration files into configDropins/overrides directory to override pre-existing configurations.
+- You may define separate template configurations that reflect the resources in your environment, and copy them into the configDropsins/overrides directory only for those applications that need them. For example,
+  - separate configuration files for each database. (Our sample application only uses one.)
+  - separate configuration files for each messaigng provider
+  - separate configuration files for different security requirements. 
+
+Have a look at the configuration files and note:
 
   - The necessary features, including those for MicroProfile, are enabled (e.g. `jdbc-4.2, jaxrs-2.1, mpHealth-2.1`).
 
@@ -197,7 +206,7 @@ The Liberty runtime configuration file `server.xml` was created from the templat
     <httpEndpoint httpPort="-1" httpsPort="9443" accessLoggingRef="accessLogging" id="defaultHttpEndpoint"/>
     ```
   
-  - Note that access logging is enabled to record all inbound client requests handled by HTTP endpoint. We'll visualize this data later in dashboard to identify and analyze potential problems. 
+  - Access logging is enabled to record all inbound client requests handled by HTTP endpoint. We'll visualize this data later in dashboard to identify and analyze potential problems. 
 
   - Application with appropriate security role and classloader visibility is specified by `application` element.
 
@@ -227,6 +236,8 @@ Here is the final version of the file:
   COPY --chown=1001:0 resources/ /opt/ol/wlp/usr/shared/resources/
 
   COPY --chown=1001:0 config/server.xml /config/
+
+  COPY --chown=1001:0 config/configDropins/overrides/*.xml /config/configDropins/overrides/
   
   COPY --from=builder --chown=1001:0 CustomerOrderServicesApp/target/CustomerOrderServicesApp-0.1.0-SNAPSHOT.ear /config/apps/CustomerOrderServicesApp.ear
 
@@ -241,11 +252,13 @@ Here is the final version of the file:
   
   - For security, Liberty containers run as non-root. This is in fact a requirement for running certified containers in OpenShift. The `COPY` instruction by default copies as root. So change user and group using `--chown=1001:0` command.
 
-  - Next, copy Liberty's configuration file `server.xml`.
+  - Next, copy empty configuration file into `/config/server.xml`.
+
+  - Then copy the actual configuration files into `/config/configDropsins/overrides` directory.
 
   - Then copy application ear, produced by the first build stage. This is indicated by the `--from=builder`.
 
-  - As last step run `/configure.sh` which will install required features, and populate shared classes cache to create a fit-for-purpose image.
+  - As last step run `/configure.sh` which will populate shared classes cache to create a fit-for-purpose image.
 
   Remember that each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
@@ -368,7 +381,7 @@ That concludes the Keycloak setup for now. After we deploy the application, we'l
 ### Deploy
 
 First, enable monitoring by adding the necessary label to the `apps` namespace. 
-Choose either commandline or the console option:
+Choose one of two options:
 - For command line:
    ```
    oc label namespace apps app-monitoring=true
@@ -379,22 +392,22 @@ Choose either commandline or the console option:
 
 
 Next,  substitue keycloak URL to the relevant configuration file. 
-Take a look at the contents of deploy/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
+Take a look at the contents of deploy/overlay-apps/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
 ```
-cat deploy/configmap.yaml
+cat deploy/overlay-apps/configmap.yaml
 ```
 
 Substitute with the actual URL of your keycloak instance:
 ```
-sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/configmap.yaml
-cat deploy/configmap.yaml
+sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
+cat deploy/overlay-apps/configmap.yaml
 ```
 
-Deploy the yaml files:
+We will use the -k, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. Deploy the yaml files:
 
 ```
-oc apply -f deploy
+oc apply -k deploy/overlay-apps
 ```
 
 ### Complete Keycloak setup
