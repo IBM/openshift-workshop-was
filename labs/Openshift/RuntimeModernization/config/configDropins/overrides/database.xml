@@ -1,0 +1,23 @@
+<server description="new server">
+
+	<!-- Enable features -->
+	<featureManager>
+		<feature>jdbc-4.2</feature>
+	</featureManager>
+
+	<library id="DB2Lib">
+		<fileset dir="${shared.resource.dir}/db2" includes="db2jcc4.jar db2jcc_license_cu.jar"/>
+	</library>
+
+	<dataSource id="OrderDS" jndiName="jdbc/orderds" type="javax.sql.XADataSource">
+		<jdbcDriver libraryRef="DB2Lib"/>
+		<properties.db2.jcc databaseName="ORDERDB" password="${DB_PASSWORD}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}"/>
+		<connectionManager agedTimeout="-1" connectionTimeout="180" maxIdleTime="1800" maxPoolSize="10" minPoolSize="1" reapTime="180"/>
+	</dataSource>	
+	
+	<variable name="DB_HOST" defaultValue="localhost"/>
+	<variable name="DB_PORT" defaultValue="50000"/>
+	<variable name="DB_USER" defaultValue="unknown"/>
+	<variable name="DB_PASSWORD" defaultValue="unknown"/>
+
+</server>

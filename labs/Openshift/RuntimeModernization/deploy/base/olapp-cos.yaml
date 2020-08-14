@@ -2,7 +2,6 @@ apiVersion: openliberty.io/v1beta1
 kind: OpenLibertyApplication
 metadata:
   name: cos
-  namespace: apps
 spec:
   applicationImage: 'image-registry.openshift-image-registry.svc:5000/apps/cos'
   pullPolicy: Always

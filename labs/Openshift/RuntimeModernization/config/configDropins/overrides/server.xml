@@ -1,0 +1,28 @@
+<server description="new server">
+
+	<!-- Enable features -->
+	<featureManager>
+		<feature>ejbLite-3.2</feature>
+		<feature>localConnector-1.0</feature>
+		<feature>cdi-2.0</feature>
+		<feature>jaxrs-2.1</feature>
+		<feature>jpa-2.2</feature>
+		<feature>jsonb-1.0</feature>
+		<feature>monitor-1.0</feature>
+	</featureManager>
+
+	<httpEndpoint httpPort="-1" httpsPort="9443" accessLoggingRef="accessLogging" id="defaultHttpEndpoint"/>
+
+	<httpAccessLogging id="accessLogging"/>
+
+	<applicationMonitor updateTrigger="mbean"/>
+	<application id="customerOrderServicesApp" location="CustomerOrderServicesApp.ear" name="CustomerOrderServicesApp.ear" type="ear">
+		<classloader apiTypeVisibility="spec, ibm-api, third-party,stable"/>
+		<application-bnd>
+			<security-role name="SecureShopper">
+				<special-subject type="ALL_AUTHENTICATED_USERS"></special-subject>
+			</security-role>
+		</application-bnd>
+	</application>
+
+</server>

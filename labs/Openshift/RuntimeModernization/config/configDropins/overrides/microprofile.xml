@@ -1,0 +1,23 @@
+<server description="new server">
+
+	<!-- Enable features -->
+	<featureManager>
+		<feature>mpOpenAPI-1.1</feature>
+		<feature>mpMetrics-2.0</feature>
+		<feature>mpHealth-2.1</feature>
+		<feature>mpJwt-1.1</feature>
+		<feature>monitor-1.0</feature>
+	</featureManager>
+	
+	<mpJwt id="keycloak"
+		jwksUri="${JWT_JWKS_URI}"
+		issuer="${JWT_ISSUER}" userNameAttribute="preferred_username">
+		<audiences>account</audiences>
+		<authFilter>
+			<requestUrl urlPattern="jaxrs"></requestUrl>
+		</authFilter>
+	</mpJwt>
+	
+	<variable name="JWT_JWKS_URI" defaultValue=""/>
+	<variable name="JWT_ISSUER" defaultValue=""/>
+</server>

@@ -30,6 +30,129 @@ As you modernize your applications, some workload would still be running on trad
 
 Application Navigator also provides links to other dashboards that you already use and are familiar with. You can also define your own custom resources using the extension mechanism provided by Application Navigator.
 
+## Application Logging
+
+Pod processes running in OpenShift frequently produce logs. To effectively manage this log data and ensure no loss of log data occurs when a pod terminates, a log aggregation tool should be deployed on the cluster. Log aggregation tools help users persist, search, and visualize the log data that is gathered from the pods across the cluster. Let's look at application logging with log aggregation using EFK (Elasticsearch, Fluentd, and Kibana). Elasticsearch is a search and analytics engine. Fluentd to receive, clean and parse the log data. Kibana lets users visualize data with charts and graphs in Elasticsearch.
+
+### Launch Kibana
+
+1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
+
+1. From the _Project_ drop-down list, select `openshift-logging`. 
+
+1. Click on the route URL (listed under the _Location_ column).
+
+1. Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
+
+1. The following steps are illustrated  in the screen recording at the end of this section. In Kibana console, from the left-panel, click on `Management`.
+
+1. Click on `Index Patterns`. Click on `project.*`. 
+    - This index contains only a set of default fields and does not include all of the fields from the deployed application’s JSON log object. Therefore, the index needs to be refreshed to have all the fields from the application’s log object available to Kibana. 
+
+1. Click on the refresh icon and then click on `Refresh fields`.
+
+    ![refresh index patterns](extras/images/refresh-index-patterns.gif)
+
+### Import dashboards
+
+The following steps to import dashboards into Kibana are illustrated  in the screen recording at the end of this section:
+
+1. Download [zip file](https://ibm.box.com/s/ppp7yc69e2r6o3mlm0xg5zpml5ma532z) containing dashboards to your computer and unzip to a local directory.
+
+1. Let's import dashboards for Liberty and WAS. From the left-panel, click on `Management`. Click on `Saved Objects` tab and then click on `Import`.
+
+1. Navigate to the _kibana_ sub-directory and select `ibm-open-liberty-kibana5-problems-dashboard.json` file. When prompted, click `Yes, overwrite all` option. It'll take few seconds for the dashboard to show up on the list.
+
+1. Repeat the steps to import `ibm-open-liberty-kibana5-traffic-dashboard.json` and `ibm-websphere-traditional-kibana5-dashboard.json`.
+
+    ![import Kibana dashboards](extras/images/import-kibana-dashboards.gif)
+
+### Explore dashboards
+
+In Kibana console, from the left-panel, click on `Dashboard`. You'll see 3 dashboards on the list. The first 2 are for Liberty. The last one is for WAS traditional. Read the description next to each dashboard.
+
+#### Liberty applications
+
+The following steps to visualize problems with applications are illustrated  in the screen recording below:
+
+1. Click on _Liberty-Problems-K5-20191122_. This dashboard visualizes message, trace and FFDC information from Liberty applications.
+
+1. By default, data from the last 15 minutes are rendered. Adjust the time-range (from the top-right corner), so that it includes data from when you tried the Open Liberty application.
+
+1. Once the data is rendered, you'll see some information about the namespace, pod, containers where events/problems occurred along with a count for each. 
+
+1. Scroll down to `Liberty Potential Problem Count` section which lists the number of ERROR, FATA, SystemErr and WARNING events. You'll likely see some WARNING events.
+
+1. Below that you'll see `Liberty Top Message IDs`. This helps to quickly identify most occurring events and their timeline.
+
+1. Scroll-up and click on the number below WARNING. Dashboard will change other panels to show just the events for warnings. Using this, you can determine: whether the failures occurred on one particular pod/server or in multiple instances, whether they occurred around the same or different time.
+
+1. Scroll-down to the actual warning messages. In this case some files from dojo were not found. Even though they are warnings, it'll be good to fix them by updating the application (we won't do that as part of this workshop).
+
+    ![Liberty problems dashboard](extras/images/liberty-problems-dashboard.gif)
+
+1. The following steps to visualize traffic to applications are illustrated  in the screen recording at the end of this section: Go back to the list of dashboards and click on _Liberty-Traffic-K5-20191122_. This dashboard helps to identify failing or slow HTTP requests on Liberty applications.
+
+1. As before, adjust the time-range as necessary if no data is rendered.
+
+1. You'll see some information about the namespace, pod, containers for the traffic along with a count for each. 
+
+1. Scroll-down to `Liberty Error Response Code Count` section which lists the number of requests failed with HTTP response codes in 400s and 500s ranges.
+
+1. Scroll-down to `Liberty Top URLs` which lists the most frequently accessed URLs
+    - The _/health_ and _/metrics_ endpoints are running on the same server and are queried frequently for readiness/liveness probes and for scraping metrics information. It's possible to add a filter to include/exclude certain applications.
+
+1. On the right-hand side, you'll see list of endpoints that had the slowest response times.
+
+1. Scroll-up and click on the number listed below 400s. Dashboard will change other panels to show just the traffic with response code in 400s. You can see the timeline and the actual messages below. These are related to warnings from last dashboard about dojo files not being found (response code 404).
+
+    ![Liberty traffic dashboard](extras/images/liberty-traffic-dashboard.gif)
+
+#### Traditional WebSphere applications
+
+1. Go back to the list of dashboards and click on _WAS-traditional-Problems-K5-20190609_. Similar to the first dashboard for Liberty, this dashboard visualizes message and trace information for WebSphere Application Server traditional.
+
+1. As before, adjust the time-range as necessary if no data is rendered.
+
+1. Explore the panels and filter through the events to see messages corresponding to just those events.
+
+## Application Monitoring
+
+Building observability into applications externalizes the internal status of a system to enable operations teams to monitor systems more effectively. It is important that applications are written to produce metrics. When the Customer Order Services application was modernized, we used MicroProfile Metrics and it provides a `/metrics` endpoint from where you can access all metrics emitted by the JVM, Open Liberty server and deployed applications. Operations teams can gather the metrics and store them in a database by using tools like Prometheus. The metrics data can then be visualized and analyzed in dashboards, such as Grafana.
+
+### Grafana dashboard
+
+1. Custom resource [GrafanaDashboard](https://github.com/IBM/teaching-your-monolith-to-dance/blob/liberty/deploy/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
+    ```
+    oc apply -f https://raw.githubusercontent.com/IBM/teaching-your-monolith-to-dance/liberty/deploy/grafana-dashboard-cos.yaml
+    ```
+
+1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
+
+1. From the _Project_ drop-down list, select `app-monitoring`. 
+
+1. Click on the route URL (listed under the _Location_ column).
+
+1. Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
+
+1. In Grafana, from the left-panel, hover over the dashboard icon and click on `Manage`.
+
+1. You should see `Liberty-Metrics-Dashboard` on the list. Click on it.
+
+1. Explore the dashboards. The first 2 are for Customer Order Services application. The rest are for Liberty.
+
+1. Click on `Customer Order Services - Shopping Cart`. By default, it'll show the data for the last 15 minutes. Adjust the time-range from the top-right as necessary. 
+
+1. You should see the frequency of requests, number of requests, pod information, min/max request times.
+
+1. Scroll-down to expand the `CPU` section. You'll see information about process CPU time, CPU system load for pods.
+
+1. Scroll-down to expand the `Servlets` section. You'll see request count and response times for application servlet as well as health and metrics endpoints.
+
+1. Explore the other sections.
+
+    ![requesting server dump](extras/images/monitoring-dashboard.gif)
+
 ## Application Monitoring
 
 Building observability into applications externalizes the internal status of a system to enable operations teams to monitor systems more effectively. It is important that applications are written to produce metrics. When the Customer Order Services application was modernized, we used MicroProfile Metrics and it provides a `/metrics` endpoint from where you can access all metrics emitted by the JVM, Open Liberty server and deployed applications. Operations teams can gather the metrics and store them in a database by using tools like Prometheus. The metrics data can then be visualized and analyzed in dashboards, such as Grafana.
