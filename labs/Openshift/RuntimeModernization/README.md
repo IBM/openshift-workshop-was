@@ -9,6 +9,7 @@
 - [Access the Application](#access-the-application) (Hands-on)
 - [Review Deployment](#review-deployment)
 - [Cleanup](#cleanup)
+- [Extra Credit](#extra-credit)
 - [Summary](#summary)
 - [Next](#next)
 
@@ -189,7 +190,7 @@ MicroProfile Metrics is used to gather metrics about the time it takes to add an
 ### Liberty server configuration
 
 The Liberty runtime configuration files are based on a template provided by IBM Cloud Transformation Advisor.  
-For this lab, instead of using a single server.xml, the configurations have been split into multiple configuration files and placed into [config/configDropins/overrides directory](config/configDropins/overrides).
+For this lab, instead of using a single server.xml, the configurations have been split into multiple configuration files and placed into [config/configDropins/overrides](config/configDropins/overrides) directory.
 
 - You may place configuration files into configDropins/overrides directory to override pre-existing configurations.
 - You may define separate template configurations that reflect the resources in your environment, and copy them into the configDropsins/overrides directory only for those applications that need them. For example,
@@ -438,11 +439,12 @@ oc apply -k deploy/overlay-apps
    ```
 
    If the status does not show 1/1 READY, check periodically. If after 1 minute, the pod is still not ready:
-   - Go back and double check your keycloak configuration. This is the most common cause for the pod not being ready.
-   - After fixing keycloak configuration, delete the pod so another one gets started:
+   - Delete the pod so another one gets started:
      ```
      oc delete pod <pod-name>
      ```
+   - If that still does not work, go back and double check your keycloak configuration. 
+   - After fixing keycloak configuration, delete the pod so another one gets started:
 
 1. Run the following command to get the URL of your application:
 ```
@@ -464,18 +466,92 @@ Click on `Register`. Once a user registers with a realm, they can be granted acc
 
 ## Review Deployment
 
-Let's review the configuration files used for our deployment.
+Let's review the configuration files used for our deployment. 
+Our configuration files are structured for the -k, or `kustomize` option of Openshift CLI.
+Kustomize is a separate tool that has been integrated into Openshift CLI.
+It allows you to customize yaml without using variables.
+You can define a base directory, and one one more override directories to customize the base directory0
 
 ```
 ls deploy
 ```
 
-And the output shows these files:
+And the output shows that we have one base directory, and one override directory:
+```
+base
+overlay-apps
+```
+
+Take a look at what's in the base directory:
+```
+ls deploy/base
+```
+
+And the output:
+```
+kustomization.yaml  olapp-cos.yaml
+```
+
+Each directory used for kustomization contains one `kustomization.yaml`
+
+```
+cat deploy/base/kustomization.yaml
+```
+
+This is a simple kustomization directory that lists just the yaml files to be deployed.
+```
+resources:
+- olapp-cos.yaml
+```
+
+The file `olapp-cos.yaml` contains the custom resource definition to deploy the application. 
+It will be covered in detail later.
+It is placed in the base directory since it is common for all stages of the application, for example, dev, test, prod.
+
+Take a look at the files in the `overlay-apps` directory. 
+
+```
+ls deploy/overlay-apps
+```
+
+And the output:
 ```
 configmap.yaml  
-olapp-cos.yaml  
+kustomization.yaml
 secret-db-creds.yaml  
 secret-liberty-creds.yaml
+```
+
+Take a look at the kustomization.yaml in the overlay-apps directory:
+```
+cat deploy/overlay-apps/kustomization.yaml
+```
+
+And the output:
+
+```
+namespace: apps
+resources:
+- configmap.yaml
+- secret-db-creds.yaml
+- secret-liberty-creds.yaml
+bases:
+- ./../base
+```
+
+Note that:
+- The namespace is defined. This means that all resource that originate from this directory will be applied to the `apps` namespace.
+- Resources from the base directory will also be included.
+- You may define additional overlay directories for different environments, each with a different namespace. For example, overlay-test, overlay-prod.
+- The configurations in this directory contain the overrides specific to this environment. 
+- It is possible to override configurations in the base directory. But that is beyond the scope of this lab.
+- These configuration files are meant to be stored in source control so that you can version and re-apply them as needed. This is the basic concept of `git-ops`. Full coverage of gitops is beyond the scope of this lab.
+- For a real environment, DO NOT store the secret yamls into source control. It is a security expsoure.  See extra credit section on how to secure your secrets.
+
+To preview the resources that will be applied for a specific override directory, use the `kustomize` option of the Openshift command line. For example,
+
+```
+oc kustomize deploy/overlay-apps
 ```
 
 ### Secrets
@@ -492,13 +568,13 @@ There are two secrets, one for database credentials and another for Liberty metr
 The file `secret-db-creds.yaml` contains the credentials for database.  It is injected into the container as environment variable via the `secretRef` specification for the Open Liberty Operator in the section. 
 
 ```
-cat deploy/secret-db-creds.yaml
+cat deploy/overlay-apps/secret-db-creds.yaml
 ```
 
 The file `secret-liberty-creds.yaml` contains the secret to access liberty server.
 
 ```
-cat deploy/secret-liberty-creds.yaml
+cat deploy/overlay-apps/secret-liberty-creds.yaml
 ```
 
 Note that the first `Secret` provides the credentials in base64 encoded format using the `data` field. The second one provides in plain text using `stringData` field. OpenShift will automatically convert the credentials to base64 format and place the information under `data` field. Click on the `YAML` tab of `liberty-creds` secret. The `data` field should contain the credentials in encoded form.
@@ -512,7 +588,7 @@ Configmaps allows you to store name/value pairs that can be inject into your con
 For our example, the values of the `configmap.yaml` are injected as environment variables  in the `configMapRef` specification on the _Open Liberty Operator_ in the next section.
 
 ```
-cat deploy/configmap.yaml
+cat deploy/overlay-apps/configmap.yaml
 ```
 
 ### Open Liberty Operator
@@ -522,7 +598,7 @@ However, for this lab we will use the Open Liberty Operator instead.
 Open Liberty Operator provides all functionalities of Runtime Component Operator used when deploying traditional WebSphere images in a previous lab. 
 In addition, it also offers Open Liberty specific capabilities, such as day-2 operations (gather trace & dumps) and single sign-on (SSO).
 
-The file `deploy/olapp-cos.yaml` looks like:
+The file `deploy/base/olapp-cos.yaml` looks like:
 
 ```yaml
 apiVersion: openliberty.io/v1beta1
@@ -602,7 +678,7 @@ oc get route
 
 To clean up:
 ```
-oc delete -f deploy
+oc delete -k deploy/overlay-apps
 ```
 
 Double check the correspdoning Deployment, Service, and Route objects are deleted:
@@ -612,6 +688,10 @@ oc get deployment
 oc get service
 oc get route
 ```
+
+## Extra Credit
+
+- Read about how to protect your gitops secrets: https://www.openshift.com/blog/gitops-secret-management
 
 ## Summary
 
