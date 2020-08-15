@@ -68,7 +68,7 @@ You'll need the web terminal (same as the one from previous lab). If it's not op
 
 You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
 
-Clone the GitHub repository with the lab artifacts, if you have not already done so. Run the following commands on your web terminal:
+Clone the GitHub repository with the lab artifacts, **only if you have not already done so**. Run the following commands on your web terminal:
 ```
 git clone https://github.com/IBM/opneshift-workshop-was.git
 ```
@@ -297,14 +297,13 @@ Before we push the image to OpenShift's internal image registry, create a separa
   - Click on `Create Project` button.
   - Enter `apps` for the _Name_ field and click on `Create`.
   - Go back to web terminal. 
+  - Switch the current project in the command line to `apps` 
+    ```
+    oc project apps
+    ```
 
-Switch the current project in the command line to `apps`:
-```
-oc project apps
-```
 
-
-Login to the image registry again by running the following command in web terminal:
+Login to the image registry by running the following command in web terminal:
 
 ```
 docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
@@ -593,7 +592,7 @@ cat deploy/overlay-apps/configmap.yaml
 
 ### Open Liberty Operator
 
-We could have created our Deployment, Service, and Route resources to deploy the Liberty image. 
+We could have created Deployment, Service, and Route resources to deploy the Liberty image. 
 However, for this lab we will use the Open Liberty Operator instead. 
 Open Liberty Operator provides all functionalities of Runtime Component Operator used when deploying traditional WebSphere images in a previous lab. 
 In addition, it also offers Open Liberty specific capabilities, such as day-2 operations (gather trace & dumps) and single sign-on (SSO).
@@ -668,6 +667,8 @@ spec:
 
 ## Cleanup
 
+** DO NOT perform cleanup until you have completed the Application Management lab. You may then optionally come back to clean up **
+
 The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects.
 
 ```
@@ -675,8 +676,6 @@ oc get deployment
 oc get service
 oc get route
 ```
-
-**If you are continuing to the next lab, skip the cleanup.**
 
 To clean up:
 ```
@@ -690,15 +689,6 @@ oc get deployment
 oc get service
 oc get route
 ```
-
-**If you had accidentally performed the clean up step, and wish to proceed to the enxt lab, simply re-apply the resources**
-
-```
-oc apply -k deploy/overlay-apps
-```
-
-Verify that your pod is running correctly.
-
 
 ## Extra Credit
 

@@ -60,6 +60,10 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
 1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following commands on your web terminal:
     ```
     git clone https://github.com/IBM/openshift-workshop-was.git
+    ```
+
+1. Change directory to where this lab is located:
+    ```
     cd openshift-workshop-was/labs/Openshift/OperationalModernization
     ls
     ```
@@ -141,9 +145,9 @@ RUN /work/configure.sh
 
 - The base image for our application image is `ibmcom/websphere-traditional`, which is the official image for traditional WAS Base in container. The tag `9.0.5.0-ubi` indicates the version of WAS and that this image is based on Red Hat's Universal Base Image (UBI). We recommend using UBI images.
 
-- For security, traditional WebSphere Base containers run as non-root. This is in fact a requirement for running certified containers in OpenShift. The `COPY` instruction by default copies as root. So, change user and group using `--chown=1001:0` command.
-
 - We need to copy everything that the application needs into the container. So, we copy the db2 drivers which are referenced in the wsadmin jython script. 
+
+- For security, traditional WebSphere Base containers run as non-root. This is in fact a requirement for running certified containers in OpenShift. The `COPY` instruction by default copies as root. So, change user and group using `--chown=1001:0` command.
 
 - Specify a password for the wsadmin user at `/tmp/PASSWORD`. This is optional. A password will be automatically generated if one is not provided. This password can be used to login to Admin Console (should be for debugging purposes only).
 
@@ -165,7 +169,7 @@ docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos
 
 It instructs docker to build the image following the instructions in the Dockerfile in current directory (indicated by the `"."` at the end).
 
-A specific name to tag the built image with is also specified. 
+A specific name to tag the built image is also specified. 
 The value `image-registry.openshift-image-registry.svc:5000` in the tag is the default address of the internal image registry provided by OpenShift. 
 Image registry is a content server that can store and serve container images. 
 The registry is accessible within the cluster via its exposed `Service`. 
@@ -378,7 +382,7 @@ First, ensure the pod is running:
 oc get pod
 ```
 
-If the status does not show `1/1` ready, wait a while, checking status periodically:
+If the status does not show `1/1` READY, wait a while, checking status periodically:
 
 ```
 NAME                       READY   STATUS    RESTARTS   AGE
@@ -396,7 +400,7 @@ Point your browser to the output of the above command. Login as user `skywalker`
 Remove your deployment:
 
 ```
-od delete -f deploy
+oc delete -f deploy
 ```
 
 <a name="deploy-rco"></a>
@@ -410,26 +414,6 @@ For this lab, we will only use the Runtime Component Operator to deploy the same
 ```
 oc apply -f deploy-rco
 ```
-
-Check pod status:
-```
-oc get pod
-```
-
-If the status does not show `1/1` ready, wait a while, checking status periodically. Note the prefix name for the pod is `cos-was-rco`.
-```
-NAME                           READY   STATUS    RESTARTS   AGE
-cos-was-rco-6779784fc8-pz92m   1/1     Running   0          2m59s
-```
-
-
-Get the URL of your application: 
-
-```
-echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
-```
-
-Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
 
 
 Let's review what we just did. First, list the contents of the deploy-rco directory:
@@ -507,7 +491,31 @@ oc get Service cos-was-rco -o yaml
 oc get Route cos-was-rco -o yaml
 ```
 
-Remove the deployment:
+Check pod status:
+```
+oc get pod
+```
+
+If the status does not show `1/1` READY, wait a while, checking status periodically. Note the prefix name for the pod is `cos-was-rco`.
+```
+NAME                           READY   STATUS    RESTARTS   AGE
+cos-was-rco-6779784fc8-pz92m   1/1     Running   0          2m59s
+```
+
+Get the URL of your application: 
+
+```
+echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+```
+
+Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
+
+
+## Cleanup
+
+**Do not perform cleanup until you have completed the Application Management Lab. You may then optionally come back to cleanup.**
+
+To remove the deployment:
 
 ```
 oc delete -f deploy-rco
