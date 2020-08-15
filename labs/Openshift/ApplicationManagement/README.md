@@ -64,7 +64,7 @@ Pod processes running in OpenShift frequently produce logs. To effectively manag
 
 The following steps to import dashboards into Kibana are illustrated  in the screen recording at the end of this section:
 
-1. Download [zip file](dashboards/dashboard.zip) containing dashboards to your computer and unzip to a local directory.
+1. Download [zip file](dashboards/dashboards.zip) containing dashboards to your computer and unzip to a local directory. (Look for the `download` button on the page.)
 
 1. Let's import dashboards for Liberty and WAS. From the left-panel, click on `Management`. Click on `Saved Objects` tab and then click on `Import`.
 
