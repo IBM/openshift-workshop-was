@@ -14,7 +14,10 @@ In the previous labs, you learned to containerize and deploy modernized applicat
 
 ## IBM Application Navigator
 
-IBM Application Navigator provides a single dashboard to manage your applications running on cloud as well as on-prem, so you don't leave legacy applications behind. At a glance, you can see all the resources (Deployment, Service, Route, etc.) that are part of an application and monitor their state. 
+IBM Application Navigator provides a single dashboard to manage your applications running on cloud as well as on-prem, so you don't leave legacy applications behind. 
+It gives you an aplication centric view your environment.
+Starting with applications, you can drill down to view their dependent resources, such as Deployment, Service, Route, and their state. 
+When configured, it also allows you to view your legacy traditional WebSphere ND cells in the same console.
 
 1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
 
@@ -24,15 +27,19 @@ IBM Application Navigator provides a single dashboard to manage your application
 
 1. Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
 
-1. Notice the list of applications you deployed. Click on them to see the resources that are part of the applications.
+1. Notice the list of application(s) you deployed. Click on them to see the resources that are part of the applications.
 
-As you modernize your applications, some workload would still be running on traditional environments. IBM Application Navigator, included as part of IBM Cloud Pak for Applications, supports adding WebSphere Network Deployment (ND) environments. So they can be managed from the same dashboard. Importing an existing WebSphere Application Server ND cell creates a custom resource to represent the cell. Application Navigator automatically discovers enterprise applications that are deployed on the cell and creates custom resources to represent those applications. Application Navigator periodically polls the cell to keep the state of the resources synchronized with the cell. 
+As you modernize your applications, some workload would still be running on traditional environments. 
+IBM Application Navigator, included as part of IBM Cloud Pak for Applications, supports adding WebSphere Network Deployment (ND) environments, so they can be managed from the same dashboard. 
+Though out of the scope for this lab, you may import an existing WebSphere Application Server ND cell as a custom resource. 
+Application Navigator automatically discovers enterprise applications that are deployed on the cell and creates custom resources to represent those WebSphere ND applications. 
+Application Navigator periodically polls the cell to keep the state of the resources synchronized with the cell. 
 
 Application Navigator also provides links to other dashboards that you already use and are familiar with. You can also define your own custom resources using the extension mechanism provided by Application Navigator.
 
 ## Application Logging
 
-Pod processes running in OpenShift frequently produce logs. To effectively manage this log data and ensure no loss of log data occurs when a pod terminates, a log aggregation tool should be deployed on the cluster. Log aggregation tools help users persist, search, and visualize the log data that is gathered from the pods across the cluster. Let's look at application logging with log aggregation using EFK (Elasticsearch, Fluentd, and Kibana). Elasticsearch is a search and analytics engine. Fluentd to receive, clean and parse the log data. Kibana lets users visualize data with charts and graphs in Elasticsearch.
+Pod processes running in OpenShift frequently produce logs. To effectively manage this log data and ensure no loss of log data occurs when a pod terminates, a log aggregation tool should be deployed on the cluster. Log aggregation tools help users persist, search, and visualize the log data that is gathered from the pods across the cluster. Let's look at application logging with log aggregation using EFK (Elasticsearch, Fluentd, and Kibana). Elasticsearch is a search and analytics engine. Fluentd receives, cleans and parses the log data. Kibana lets users visualize data with charts and graphs in Elasticsearch.
 
 ### Launch Kibana
 
@@ -57,7 +64,7 @@ Pod processes running in OpenShift frequently produce logs. To effectively manag
 
 The following steps to import dashboards into Kibana are illustrated  in the screen recording at the end of this section:
 
-1. Download [zip file](https://ibm.box.com/s/ppp7yc69e2r6o3mlm0xg5zpml5ma532z) containing dashboards to your computer and unzip to a local directory.
+1. Download [zip file](dashboards/dashboard.zip) containing dashboards to your computer and unzip to a local directory.
 
 1. Let's import dashboards for Liberty and WAS. From the left-panel, click on `Management`. Click on `Saved Objects` tab and then click on `Import`.
 
