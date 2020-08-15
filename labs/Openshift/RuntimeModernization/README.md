@@ -470,7 +470,7 @@ Let's review the configuration files used for our deployment.
 Our configuration files are structured for the -k, or `kustomize` option of Openshift CLI.
 Kustomize is a separate tool that has been integrated into Openshift CLI.
 It allows you to customize yaml without using variables.
-You can define a base directory, and one one more override directories to customize the base directory0
+You can define a base directory, and one one more override directories to customize the base directory
 
 ```
 ls deploy
@@ -676,6 +676,8 @@ oc get service
 oc get route
 ```
 
+**If you are continuing to the next lab, skip the cleanup.**
+
 To clean up:
 ```
 oc delete -k deploy/overlay-apps
@@ -688,6 +690,15 @@ oc get deployment
 oc get service
 oc get route
 ```
+
+**If you had accidentally performed the clean up step, and wish to proceed to the enxt lab, simply re-apply the resources**
+
+```
+oc apply -k deploy/overlay-apps
+```
+
+Verify that your pod is running correctly.
+
 
 ## Extra Credit
 
