@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
 - [IBM Application Navigator](#ibm-application-navigator) (Hands-on)
 - [Application Monitoring](#application-monitoring) (Hands-on)
 - [Day-2 Operations](#day-2-operations) (Hands-on)
@@ -11,6 +12,12 @@
 ## Introduction
 
 In the previous labs, you learned to containerize and deploy modernized applications to OpenShift. In this section, you'll learn about managing your running applications efficiently using various tools available to you as part of IBM Cloud Pak for Applications.
+
+## Prerequisites
+
+You must have completed these two labs, and left your applications running:
+- [Operational Modernization](../OperationalModernization)
+- [Runtime Modernization](../RuntimeModernization)
 
 ## IBM Application Navigator
 

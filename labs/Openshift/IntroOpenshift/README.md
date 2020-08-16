@@ -327,7 +327,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
     ![Create Route](images/CreateRouteAccessRouteResult.jpg)
 
 
-**Note: If you are unable to access your application, you probably made typos along the way. For the sake of time, we recommend that you proceed to complete the rest of lab. The deployment steps are repeated in a different project in the command line portion fo this lab. You will be using the command line a lot more to manage your resources in the long run.**
+**Note: If you are unable to access your application, you probably made typos along the way. For the sake of time, we recommend that you proceed to complete the rest of the lab. The deployment steps are repeated in a different project in the command line portion fo this lab. In the long run, you will be using the command line more ferquently to manage your resources.**
 
 
 ### Changing Replica Instances
@@ -875,7 +875,7 @@ nodes                                 no                                        
     ```
 
 1. To reduce the number of pods, we can patch the resource in one of two ways:
-   - Scripted patch Using the `patch` option of the command line:
+   - Scripted patch using the `patch` option of the command line:
     ```
     oc patch deployment example -p '{ "spec": { "replicas": 1 } }'
     ```
