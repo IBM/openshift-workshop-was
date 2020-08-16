@@ -129,9 +129,9 @@ Building observability into applications externalizes the internal status of a s
 
 ### Grafana dashboard
 
-1. Custom resource [GrafanaDashboard](https://github.com/IBM/teaching-your-monolith-to-dance/blob/liberty/deploy/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
+1. Custom resource [GrafanaDashboard](dashboards/grafana/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
     ```
-    oc apply -f https://raw.githubusercontent.com/IBM/teaching-your-monolith-to-dance/liberty/deploy/grafana-dashboard-cos.yaml
+    oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
     ```
 
 1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
@@ -306,11 +306,14 @@ The generated trace and dump files should now be in the persistent volume. You u
 
 The following steps to access the files are illustrated in the screen recording below:
 
-1. From the left-panel, click on **Workloads** > **Pods**. Click on the pod and then click on `Terminal` tab. 
+1. Remote shell to your pod via one of two ways:
+  - From web terminal:
+    ```
+    oc rsh <pod-name>
+    ```
+  - From console: click on **Workloads** > **Pods**. Click on the pod and then click on `Terminal` tab. 
 
 1. Enter `ls -R serviceability/apps` to list the files. The shared volume is mounted at `serviceability` folder. The sub-folder `apps` is the namespace of the Pod. You should see a zip file for dumps and trace log files. These are produced by the day-2 operations you performed.
-
-1. Using Open Liberty Operator, you learned to perform day-2 operations on a Liberty server running inside a container, which is deployed to a Pod.
 
     ![day-2 files](extras/images/day2-files.gif)
 

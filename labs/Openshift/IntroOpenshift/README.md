@@ -327,6 +327,9 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
     ![Create Route](images/CreateRouteAccessRouteResult.jpg)
 
 
+**Note: If you are unable to access your application, you probably made typos along the way. For the sake of time, we recommend that you proceed to complete the rest of lab. The deployment steps are repeated in a different project in the command line portion fo this lab. You will be using the command line a lot more to manage your resources in the long run.**
+
+
 ### Changing Replica Instances
 
 1. Click on `Projects` from the left navigation, then click on `myproject`:
@@ -842,16 +845,10 @@ nodes                                 no                                        
     route.route.openshift.io/example created
     ```
 
-1. Find the URL for the route: `oc get route example`.
-
-    ```
-    NAME      HOST/PORT
-    PATH   SERVICES   PORT   TERMINATION   WILDCARD
-    example   example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud
-           example    8080                 None
-    ```
-
-1. Check that application is accessible by pointing your browser to the URL. For the example above it is: `http://example-project1.mycluster-871213-4c666281ea4dfbebe4821a4891d29f22-0000.us-south.containers.appdomain.cloud`
+1. Generate the URL for the route, and point your browser to it: 
+   ```
+   echo http://$(oc get route example --template='{{ .spec.host }}')
+   ```
 
 ### Changing Replica Instance
 
@@ -877,18 +874,23 @@ nodes                                 no                                        
     example-75778c488-rhjrx   1/1     Running   0          28s
     ```
 
-1. To reduce the number of pods, we need to change the specification through `vi` editor using the following command:
+1. To reduce the number of pods, we can patch the resource in one of two ways:
+   - Scripted patch Using the `patch` option of the command line:
     ```
-    oc edit deployment example
+    oc patch deployment example -p '{ "spec": { "replicas": 1 } }'
     ```
-    and under the `spec` section (not under the `status` section), change `replicas: 2` to `replicas: 1`, and save the change (by `:wq`).
+   - Interactive patch using the `edit` option of he commandline through `vi` editor:
+      ```
+      oc edit deployment example
+      ```
+      and under the `spec` section (not under the `status` section), change `replicas: 2` to `replicas: 1`, and save the change (by `:wq`).
 
-    The output:
-    ```
-    deployment.extensions/example edited
-    ```
+      The output:
+      ```
+      deployment.extensions/example edited
+      ```
 
-    Note: The above edits the copy that is stored in Openshift. You may also edit your local copy of `Deployment.yaml` and re-apply it.
+      Note: The above edits the copy that is stored in Openshift. You may also edit your local copy of `Deployment.yaml` and re-apply it.
 
 1. List the pods to show only 1 pod is running: `oc get pods`
 
