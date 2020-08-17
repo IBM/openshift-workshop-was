@@ -318,7 +318,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     Note that we are ignoring TLS configuration just for the purpose of this lab.  Security will be addressed in a different lab.
 
-1. Access the route at the link provided:
+1. Access the route at the link provided under Location:
 
     ![Create Route](images/CreateRouteAccessRoute.jpg)
 
