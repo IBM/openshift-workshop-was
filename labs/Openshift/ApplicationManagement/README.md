@@ -19,6 +19,25 @@ You must have completed these two labs, and left your applications running:
 - [Operational Modernization](../OperationalModernization)
 - [Runtime Modernization](../RuntimeModernization)
 
+
+You'll need the web terminal (same as the one from previous lab). If it's not open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
+
+You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
+
+Clone the GitHub repository with the lab artifacts, **only if you have not already done so**. Run the following commands on your web terminal:
+```
+git clone https://github.com/IBM/opneshift-workshop-was.git
+```
+
+
+Change to the lab's directory:
+```
+cd openshift-workshop-was
+cd labs/Openshift/ApplicationManagement
+ls
+```
+
+
 ## IBM Application Navigator
 
 IBM Application Navigator provides a single dashboard to manage your applications running on cloud as well as on-prem, so you don't leave legacy applications behind. 
