@@ -90,7 +90,7 @@ The typical artifacts you will need to run an application in Openshift are:
 
     ![Create Deployment](images/CreateDeployment.jpg)
 
-1. Note that the console shows you the YAML file for the deployment.  Change the number of replicas to 2, then click **Create**:
+1. Note that the console shows you the YAML file for the deployment.  Change the number of replicas from default 3 to **2**, then click **Create**:
 
     ![Deployment Replicas](images/DeploymentReplicas.jpg)
 
@@ -318,7 +318,7 @@ A route exposes your internal endpoints outside your cluster's built-in firewall
 
     Note that we are ignoring TLS configuration just for the purpose of this lab.  Security will be addressed in a different lab.
 
-1. Access the route at the link provided:
+1. Access the route at the link provided under Location:
 
     ![Create Route](images/CreateRouteAccessRoute.jpg)
 
