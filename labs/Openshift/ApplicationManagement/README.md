@@ -26,7 +26,7 @@ You also need to be logged into the OpenShift CLI (command-line interface) using
 
 Clone the GitHub repository with the lab artifacts, **only if you have not already done so**. Run the following commands on your web terminal:
 ```
-git clone https://github.com/IBM/opneshift-workshop-was.git
+git clone https://github.com/IBM/openshift-workshop-was.git
 ```
 
 
