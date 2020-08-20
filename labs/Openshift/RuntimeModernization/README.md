@@ -362,7 +362,7 @@ Let's setup Keycloak to handle user authentication for the Customer Order Servic
 
 1. Click on `Administration Console`. Enter `admin` for both username and password.
 
-1. As illustrated in the screen recording below, from the menu options on the left, hover over `Master` and click on `Add realm`. Enter _Galaxy_ for the `Name` field and click on `Create`.
+1. As illustrated in the screen recording below, from the menu options on the left, hover over `Master` and click on `Add realm`. Enter `Galaxy` for the `Name` field and click on `Create`. **Note: Enter Galaxy instead of GALAXY. Case matters.**
     - A realm manages a set of users, credentials, roles, and groups. A user belongs to and logs into a realm. Realms are isolated from one another and can only manage and authenticate the users that they control.
 
       ![Keycloak realm](extras/images/keycloak-realm.gif)
@@ -457,7 +457,7 @@ Click on `Register`. Once a user registers with a realm, they can be granted acc
 
 1. Now you'll be taken back to the _Customer Order Service_ application.
 
-1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. 
+1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. **Note: You should add multiple items to trigger more logging data to be visualized in the next lab.**
 
 1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
 
@@ -667,7 +667,7 @@ spec:
 
 ## Cleanup
 
-** DO NOT perform cleanup until you have completed the Application Management lab. You may then optionally come back to clean up **
+**Note: DO NOT cleanup until you have completed the Application Management lab. You may then optionally come back to clean up.**
 
 The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects.
 
@@ -692,7 +692,7 @@ oc get route
 
 ## Extra Credit
 
-- Read about how to protect your gitops secrets: https://www.openshift.com/blog/gitops-secret-management
+- Read about how to protect your secrets: https://www.openshift.com/blog/gitops-secret-management
 
 ## Summary
 
