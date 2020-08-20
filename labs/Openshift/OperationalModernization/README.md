@@ -200,21 +200,31 @@ image-registry.openshift-image-registry.svc:5000/apps-was/cos-was      latest   
 ibmcom/websphere-traditional                                           9.0.5.0-ubi         898f9fd79b36        12 minutes ago      1.86GB
 ```
 
-You built the image and verified that it's available locally.
+Note that `docker images` only lists those images that are cached locally.
+The name of the image also contains the host name where the image is hosted. 
+If there is no host name, the image is hosted on docker hub.
+For example:
+- The image `ibmcom/websphere-traditional` has no host name. It is hosted on docker hub.
+- The image we just built, `image-registry.openshift-image-registry.svc:5000/apps-was/cos-was`, has host name `image-registry.openshift-image-registry.svc`. It is to be hosted in the Openshift image registry for your lab cluster.
 
-Push the image into OpenShift's internal image registry. First, login to the image registry by running the following command in web terminal. A session token is obtained using the `oc whoami -t` command and used as the password to login.
+If you change an image, or build a new image, the changes are only available locally. 
+You must `push` the image to propagate the changes to the remote registry.
+
+Let's push the image you just built to your OpenShift cluster's built-in image registry. 
+First, login to the image registry by running the following command in the web terminal. 
+A session token is obtained using the `oc whoami -t` command and used as the password to login.
 
 ```
 docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
 ```
 
-Now, push the image into OpenShift's internal image registry, which will take 1-2 minutes:
+Now, push the image into OpenShift cluster's internal image registry, which will take 1-2 minutes:
 
 ```
 docker push image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
 ```
 
-Verify that the image is in image registry. The following command will get the images in the registry. OpenShift stores various images needed for its operations and used by its templates in the registry. Filter through the results to only get the image you pushed. Run the following command:
+Verify that the image is in the image registry. The following command will get the images in the registry. OpenShift stores various images needed for its operations and used by its templates in the registry. Filter through the results to only get the image you pushed. Run the following command:
 
 ```
 oc get images | grep apps-was/cos-was
