@@ -5,7 +5,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [IBM Application Navigator](#ibm-application-navigator) (Hands-on)
-- [Application Monitoring](#application-monitoring) (Hands-on)
+- [Application Logging](#application-monitoring) (Hands-on)
+- [Application Monitoring](#application-logging) (Hands-on)
 - [Day-2 Operations](#day-2-operations) (Hands-on)
 - [Summary](#summary)
 
