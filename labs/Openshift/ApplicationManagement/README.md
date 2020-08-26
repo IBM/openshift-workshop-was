@@ -5,8 +5,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [IBM Application Navigator](#ibm-application-navigator) (Hands-on)
-- [Application Logging](#application-monitoring) (Hands-on)
-- [Application Monitoring](#application-logging) (Hands-on)
+- [Application Logging](#application-logging) (Hands-on)
+- [Application Monitoring](#application-monitoring) (Hands-on)
 - [Day-2 Operations](#day-2-operations) (Hands-on)
 - [Summary](#summary)
 
@@ -187,42 +187,6 @@ Building observability into applications externalizes the internal status of a s
 
     ![requesting server dump](extras/images/monitoring-dashboard.gif)
 
-## Application Monitoring
-
-Building observability into applications externalizes the internal status of a system to enable operations teams to monitor systems more effectively. It is important that applications are written to produce metrics. When the Customer Order Services application was modernized, we used MicroProfile Metrics and it provides a `/metrics` endpoint from where you can access all metrics emitted by the JVM, Open Liberty server and deployed applications. Operations teams can gather the metrics and store them in a database by using tools like Prometheus. The metrics data can then be visualized and analyzed in dashboards, such as Grafana.
-
-### Grafana dashboard
-
-1. Custom resource [GrafanaDashboard](https://github.com/IBM/teaching-your-monolith-to-dance/blob/liberty/deploy/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
-    ```
-    oc apply -f https://raw.githubusercontent.com/IBM/teaching-your-monolith-to-dance/liberty/deploy/grafana-dashboard-cos.yaml
-    ```
-
-1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
-
-1. From the _Project_ drop-down list, select `app-monitoring`. 
-
-1. Click on the route URL (listed under the _Location_ column).
-
-1. Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
-
-1. In Grafana, from the left-panel, hover over the dashboard icon and click on `Manage`.
-
-1. You should see `Liberty-Metrics-Dashboard` on the list. Click on it.
-
-1. Explore the dashboards. The first 2 are for Customer Order Services application. The rest are for Liberty.
-
-1. Click on `Customer Order Services - Shopping Cart`. By default, it'll show the data for the last 15 minutes. Adjust the time-range from the top-right as necessary. 
-
-1. You should see the frequency of requests, number of requests, pod information, min/max request times.
-
-1. Scroll-down to expand the `CPU` section. You'll see information about process CPU time, CPU system load for pods.
-
-1. Scroll-down to expand the `Servlets` section. You'll see request count and response times for application servlet as well as health and metrics endpoints.
-
-1. Explore the other sections.
-
-    ![requesting server dump](extras/images/monitoring-dashboard.gif)
 
 ## Day-2 Operations
 
