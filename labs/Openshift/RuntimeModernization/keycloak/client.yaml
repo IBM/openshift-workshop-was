@@ -2,6 +2,7 @@ apiVersion: keycloak.org/v1alpha1
 kind: KeycloakClient
 metadata:
   name: cos-app
+  namespace: keycloak
   labels:
     app: sso
 spec:
