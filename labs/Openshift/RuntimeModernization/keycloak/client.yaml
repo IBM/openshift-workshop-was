@@ -1,0 +1,24 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: cos-app
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: sso
+  client:
+    clientId: cos_app
+    # clientAuthenticatorType: client-secret
+    enabled: true
+    consentRequired: false
+    publicClient: true
+    standardFlowEnabled: true
+    implicitFlowEnabled: false
+    directAccessGrantsEnabled: true
+    redirectUris:
+      - https://ENTER_YOUR_APPCLIATION_HOSTNAME_HERE/*
+    webOrigins:
+      - "+"
+    protocol: openid-connect
