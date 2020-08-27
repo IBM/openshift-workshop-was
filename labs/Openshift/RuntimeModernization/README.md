@@ -287,7 +287,7 @@ image-registry.openshift-image-registry.svc:5000/apps/cos            latest     
 openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
 ```
 
-Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  Choose one of two ays:
+Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  Choose one of two ways:
 - Via command line: 
   ```
   oc new-project apps
@@ -301,6 +301,16 @@ Before we push the image to OpenShift's internal image registry, create a separa
     ```
     oc project apps
     ```
+
+Enable monitoring by adding the necessary label to the `apps` namespace. 
+Choose one of two options:
+- For command line:
+   ```
+   oc label namespace apps app-monitoring=true
+   ```
+- For console, from the left-panel, click on **Administration** > **Namespaces**. Click on the menu-options for `apps` namespace and click on `Edit Labels`. Copy and paste `app-monitoring=true` into the text box and click `Save`.
+
+    ![Add label to namespace](extras/images/add-monitor-label.gif)
 
 
 Login to the image registry by running the following command in web terminal:
@@ -344,54 +354,10 @@ You may also check from the console: from the left-panel, click on **Builds** > 
 
 ## Deploy
 
-Let's complete the pre-requisites for the modernized application with Liberty runtime before we deploy it to OpenShift.
-
 Customer Order Services application uses DB2 as its database. To deploy it to Liberty, a separate instance of the database is already configured in the OpenShift cluster you are using. The database is exposed within the cluster using a _Service_ and the application references database using the address of the _Service_.
 
-### Keycloak setup
-
-Keycloak is an OpenID Connect provider that runs on your cluster. 
-It handles user registration, and authentication. 
-Keycloak is the upstream project for Red Hat Single Sign-On (RH-SSO), which is supported as part of IBM Cloud Pak for Applications.
-
-Let's setup Keycloak to handle user authentication for the Customer Order Services application.
-
-1. In OpenShift console, from the left-panel, click on **Networking** > **Routes**.. Then select `keycloak` from the _Project_ drop-down list.
-
-1. Click on the route URL (under the `Location` column) to launch Keycloak.
-
-1. Click on `Administration Console`. Enter `admin` for both username and password.
-
-1. As illustrated in the screen recording below, from the menu options on the left, hover over `Master` and click on `Add realm`. Enter `Galaxy` for the `Name` field and click on `Create`. **Note: Enter Galaxy instead of GALAXY. Case matters.**
-    - A realm manages a set of users, credentials, roles, and groups. A user belongs to and logs into a realm. Realms are isolated from one another and can only manage and authenticate the users that they control.
-
-      ![Keycloak realm](extras/images/keycloak-realm.gif)
-
-1. Configure the realm that you created. In the following two steps, ensure that you click on `Save` before clicking on another tab. 
-    1. Click on `Login` tab. Turn on `User registration`. Click on `Save`. This provides new users the option to register.
-
-    1. Click on `Tokens` tab. Set `Access Token Lifespan` to _120 minutes_. Click on `Save`. This specifies the maximum time before an access token is expired.
-
-1. From the menu options on the left, select `Clients`.
-
-1. Click on `Create`. Enter _cos_app_ for `Client ID` field. Click on `Save`.
-
-That concludes the Keycloak setup for now. After we deploy the application, we'll come back to add the route URL of the application as a valid redirect URI. Leave the Keycloak tab open for now.
-
-### Deploy
-
-First, enable monitoring by adding the necessary label to the `apps` namespace. 
-Choose one of two options:
-- For command line:
-   ```
-   oc label namespace apps app-monitoring=true
-   ```
-- For console, from the left-panel, click on **Administration** > **Namespaces**. Click on the menu-options for `apps` namespace and click on `Edit Labels`. Copy and paste `app-monitoring=true` into the text box and click `Save`.
-
-    ![Add label to namespace](extras/images/add-monitor-label.gif)
-
-
-Next,  substitue keycloak URL to the relevant configuration file. 
+The OpenID Connector Provider keycloak has already been pre-deployed in the cluster, and a realm named `Galax` created. This is the security realm to be used for our application.  
+First, configure the application by substiting the keycloak URL to the relevant configuration file.
 Take a look at the contents of deploy/overlay-apps/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
 ```
@@ -404,58 +370,73 @@ sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  -
 cat deploy/overlay-apps/configmap.yaml
 ```
 
-We will use the -k, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. Deploy the yaml files:
+We will use the -k, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. 
+
+Preview what will be deployed:
+
+```
+oc kustomize -k deploy/overlay-apps
+```
+
+Deploy the yaml files:
 
 ```
 oc apply -k deploy/overlay-apps
 ```
 
-### Complete Keycloak setup
+Verify that the route is created:
+```
+oc get route cos
+```
 
-1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
+And you should see something like:
+```
+NAME   HOST/PORT                                                                                            PATH   SERVICES   PORT       TERMINATION          WILDCARD
+cos    cos-apps.mchengupdate2-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud          cos        9443-tcp   reencrypt/Redirect   None
+```
 
-1. Ensure that `apps` is selected from the _Project_ drop-down list. Right-click on the Route URL and copy link address. 
+Create keycloak client configuration with the route for this application. First, view the exsiting configuration, and note ENTER_YOUR_APPLICATION_HOST_NAME_HERE:
 
-1. Go back to Keycloak console. If you had closed the Keycloak tab then select `keycloak` from the _Project_ drop-down list and click on the route URL. If prompted, enter `admin` for both username and password.
+```
+cat keycloak/client.yaml
+```
 
-1. From the left-panel, click on `Clients`. Click on _cos_app_ under `Client ID` column.
+Change ENTER_YOUR_APPLICATION_HOSTNAME_HERE to the actual hostname of your application:
 
-1. Paste the route URL into `Valid Redirect URIs` field and add `*` at the end of the value. Ensure that the value ends with `/*` (as shown below).
+```
+sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
+cat keycloak/client.yaml
+```
 
-1. Enter `+` into `Web Origins` field. This is necessary to enable Cross-Origin Resource Sharing (CORS).
+After verifying the correct substituion, apply the changes: 
 
-    ![create secret](extras/images/keycloak-valid-uri.png)
+```
+oc apply -f keycloak/client.yaml
+```
 
-1. Apply the changes by clicking on the `Save` button at the bottom.
+
+Verify your pod is ready:
+
+```
+oc get pod 
+```
+
+And you should see something like:
+```
+NAME                   READY   STATUS    RESTARTS   AGE
+cos-596b4f849f-2fg4h   1/1     Running   0          18m
+```
 
 
 ### Access the application
 
-1. Ensure the pod is ready:
-
-   ```
-   oc get pod
-   ```
-
-   If the status does not show 1/1 READY, check periodically. If after 1 minute, the pod is still not ready:
-   - Delete the pod so another one gets started:
-     ```
-     oc delete pod <pod-name>
-     ```
-   - If that still does not work, go back and double check your keycloak configuration. 
-   - After fixing keycloak configuration, delete the pod so another one gets started:
 
 1. Run the following command to get the URL of your application:
 ```
 echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
 ```
 
-1. Point your browser to the above URL. You'll be taken to the login form. Click on `Register` to register as a new user. 
-
-1. Enter the information. Remember your username and password.
-Click on `Register`. Once a user registers with a realm, they can be granted access to different applications that are authenticated by the same realm. This is useful for managing user authentication for multiple applications within your enterprise.
-
-1. Now you'll be taken back to the _Customer Order Service_ application.
+1. Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
 
 1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. **Note: You should add multiple items to trigger more logging data to be visualized in the next lab.**
 
@@ -664,6 +645,40 @@ spec:
 
 - Enabled application monitoring so that Prometheus can scrape the information provided by MicroProfile Metric's `/metrics` endpoint in Liberty. The `/metrics` endpoint is protected, hence the credentials are provided using the _Secret_ `liberty-creds` you created earlier.
 
+
+## Review Keycloak setup (optional)
+
+Keycloak is an OpenID Connect provider that runs on your cluster. 
+It handles user registration, and authentication. 
+Keycloak is the upstream project for Red Hat Single Sign-On (RH-SSO), which is supported as part of IBM Cloud Pak for Applications.
+
+Get the keycloak admin user name and password that you'll use to login to the keycloak console:
+```
+echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data.ADMIN_USERNAME}}') | base64 -d )
+echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data.ADMIN_PASSWORD}}') | base64 -d )
+```
+
+1. In OpenShift console, from the left-panel, click on **Networking** > **Routes**.. Then select `keycloak` from the _Project_ drop-down list.
+
+1. Click on the route URL (under the `Location` column) to launch Keycloak.
+
+1. Click on `Administration Console`. Enter the user name and password you obtained perviously.
+
+1. As illustrated in the screen recording below, from the menu options on the left, hover over `Master` and click on `Add realm`. Enter `Galaxy` for the `Name` field and click on `Create`. **Note: Enter Galaxy instead of GALAXY. Case matters.**
+    - A realm manages a set of users, credentials, roles, and groups. A user belongs to and logs into a realm. Realms are isolated from one another and can only manage and authenticate the users that they control.
+
+      ![Keycloak realm](extras/images/keycloak-realm.gif)
+
+1. Configure the realm that you created. In the following two steps, ensure that you click on `Save` before clicking on another tab. 
+    1. Click on `Login` tab. Turn on `User registration`. Click on `Save`. This provides new users the option to register.
+
+    1. Click on `Tokens` tab. Set `Access Token Lifespan` to _120 minutes_. Click on `Save`. This specifies the maximum time before an access token is expired.
+
+1. From the menu options on the left, select `Clients`.
+
+1. Click on `Create`. Enter _cos_app_ for `Client ID` field. Click on `Save`.
+
+That concludes the Keycloak setup for now. After we deploy the application, we'll come back to add the route URL of the application as a valid redirect URI. Leave the Keycloak tab open for now.
 
 ## Cleanup
 
