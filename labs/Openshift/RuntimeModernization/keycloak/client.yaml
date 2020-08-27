@@ -18,7 +18,7 @@ spec:
     implicitFlowEnabled: false
     directAccessGrantsEnabled: true
     redirectUris:
-      - https://ENTER_YOUR_APPCLIATION_HOSTNAME_HERE/*
+      - https://ENTER_YOUR_APPLICATION_HOSTNAME_HERE/*
     webOrigins:
       - "+"
     protocol: openid-connect
