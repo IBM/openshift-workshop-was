@@ -375,7 +375,7 @@ We will use the -k, or `kustomize` option of Openshift CLI to deploy the applica
 Preview what will be deployed:
 
 ```
-oc kustomize -k deploy/overlay-apps
+oc kustomize deploy/overlay-apps
 ```
 
 Deploy the yaml files:
