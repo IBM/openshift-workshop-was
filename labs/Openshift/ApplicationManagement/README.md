@@ -26,7 +26,7 @@ Clone the GitHub repository with the lab artifacts, **only if you have not alrea
 git clone https://github.com/IBM/openshift-workshop-was.git
 ```
 
-### Rebuild and deploy the traditional WebSphere application
+### Build and deploy the traditional WebSphere application
 
 Change to the lab's directory:
 ```
@@ -58,7 +58,7 @@ echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrder
 Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, place a few items on the shopping cart, then close the browser.
 
 
-### Rebuild and deploy the liberty application
+### Build and deploy the liberty application
 
 From the top level directory, change to the lab's directory:
 ```
@@ -105,7 +105,7 @@ echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServ
 
 Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
 From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart.  
-Add multiple items to the shopping cart to trigger more logging.
+**Add multiple items to the shopping cart to trigger more logging.**
 
 
 ## IBM Application Navigator

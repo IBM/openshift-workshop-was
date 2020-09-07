@@ -438,7 +438,7 @@ echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServ
 
 1. Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
 
-1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. **Note: You should add multiple items to trigger more logging data to be visualized in the next lab.**
+1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. 
 
 1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
 
