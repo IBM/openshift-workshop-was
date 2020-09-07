@@ -523,8 +523,6 @@ Point your browser to the output of the above command. Login as user `skywalker`
 
 ## Cleanup
 
-**Do not perform cleanup until you have completed the Application Management Lab. You may then optionally come back to cleanup.**
-
 To remove the deployment:
 
 ```

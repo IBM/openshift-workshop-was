@@ -12,13 +12,9 @@
 
 ## Introduction
 
-In the previous labs, you learned to containerize and deploy modernized applications to OpenShift. In this section, you'll learn about managing your running applications efficiently using various tools available to you as part of IBM Cloud Pak for Applications.
+In this lab, you'll learn about managing your running applications efficiently using various tools available to you as part of IBM Cloud Pak for Applications.
 
 ## Prerequisites
-
-You must have completed these two labs, and left your applications running:
-- [Operational Modernization](../OperationalModernization)
-- [Runtime Modernization](../RuntimeModernization)
 
 
 You'll need the web terminal (same as the one from previous lab). If it's not open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
@@ -30,13 +26,86 @@ Clone the GitHub repository with the lab artifacts, **only if you have not alrea
 git clone https://github.com/IBM/openshift-workshop-was.git
 ```
 
+### Rebuild and deploy the traditional WebSphere application
 
 Change to the lab's directory:
 ```
 cd openshift-workshop-was
-cd labs/Openshift/ApplicationManagement
-ls
+cd labs/Openshift/OperationalModernization
 ```
+
+Create and switch over to the project. Note: The first step may fail if the project already exists.
+ ```
+ oc new-project apps-was
+ oc project app-was
+ ```
+
+ Build and deploy the application:
+ ```
+ docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
+ docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
+ docker push image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+ oc apply -f deploy
+ ```
+
+Wait for the pod to be available via `oc get pod`
+
+Get the URL to the application:
+```
+echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+```
+
+Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, place a few items on the shopping cart, then close the browser.
+
+
+### Rebuild and deploy the liberty application
+
+From the top level directory, change to the lab's directory:
+```
+cd openshift-workshop-was
+cd labs/Openshift/RuntimeModernization
+```
+
+Create and switch over to the project. Also enable monitoring for the project. Note: The first step may fail if the project already exists.
+```
+oc new-project apps
+oc project apps
+oc label namespace apps app-monitoring=true
+```
+
+Build and deploy the application. Note the `.` at the end of the first command:
+```
+docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
+docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
+docker push image-registry.openshift-image-registry.svc:5000/apps/cos
+sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
+oc apply -k deploy/overlay-apps
+```
+
+Verify the route for the application is created:
+```
+oc get route cos
+```
+
+Create your keycloak client configuration:
+```
+sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
+oc apply -f keycloak/client.yaml
+```
+
+Verify your pod is ready:
+```
+oc get pod 
+```
+
+Get the application URL:
+```
+echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+```
+
+Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
+From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart.  
+Add multiple items to the shopping cart to trigger more logging.
 
 
 ## IBM Application Navigator

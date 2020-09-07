@@ -658,31 +658,35 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data.ADMIN_PASSWORD}}') | base64 -d )
 ```
 
-1. In OpenShift console, from the left-panel, click on **Networking** > **Routes**.. Then select `keycloak` from the _Project_ drop-down list.
+1. In OpenShift console, from the left-panel, click on **Networking** > **Routes**. Then select `keycloak` from the _Project_ drop-down list.
+
+   ![Keycloak Route](extras/images/KeyCloakRoute.jpg)
 
 1. Click on the route URL (under the `Location` column) to launch Keycloak.
 
-1. Click on `Administration Console`. Enter the user name and password you obtained perviously.
+   ![Keycloak Console](extras/images/KeyCloakConsole.jpg)
 
-1. As illustrated in the screen recording below, from the menu options on the left, hover over `Master` and click on `Add realm`. Enter `Galaxy` for the `Name` field and click on `Create`. **Note: Enter Galaxy instead of GALAXY. Case matters.**
-    - A realm manages a set of users, credentials, roles, and groups. A user belongs to and logs into a realm. Realms are isolated from one another and can only manage and authenticate the users that they control.
+1. Click on `Administration Console`. Enter the user name and password you obtained previously.
 
-      ![Keycloak realm](extras/images/keycloak-realm.gif)
+   ![Keycloak Console Login](extras/images/KeycloakConsoleLogin.jpg)
 
-1. Configure the realm that you created. In the following two steps, ensure that you click on `Save` before clicking on another tab. 
-    1. Click on `Login` tab. Turn on `User registration`. Click on `Save`. This provides new users the option to register.
+1. The next page shows that a realm named `Galaxy` is already created for you.
 
-    1. Click on `Tokens` tab. Set `Access Token Lifespan` to _120 minutes_. Click on `Save`. This specifies the maximum time before an access token is expired.
+   ![Galaxy Realm](extras/images/GalaxyRealm.jpg)
 
-1. From the menu options on the left, select `Clients`.
+1. Click on `Users` and `View All Users`, and note that the user `skywalker` is already created for you.
 
-1. Click on `Create`. Enter _cos_app_ for `Client ID` field. Click on `Save`.
+   ![KeyCloakUsers](extras/images/KeyCloakUsers.jpg)
 
-That concludes the Keycloak setup for now. After we deploy the application, we'll come back to add the route URL of the application as a valid redirect URI. Leave the Keycloak tab open for now.
+1. Click on `Clients` followed by `cos_app`
+
+   ![KeyCloakClients](extras/images/KeyCloakClients.jpg)
+
+1. The custom resource `keycloak/clients.yaml` is used to create the `cos_app` client. Double check the contents of the file with what's on the page.
+
+   ![KeyCloakClientCosApp](extras/images/KeyCloakClientCosApp.jpg)
 
 ## Cleanup
-
-**Note: DO NOT cleanup until you have completed the Application Management lab. You may then optionally come back to clean up.**
 
 The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects.
 
