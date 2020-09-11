@@ -23,7 +23,7 @@ The instruction to access the web console is at: [Lab Setup](https://github.com/
 
     ![Admin Mode](images/admin_dashboard.jpg)
     
-   - if you have a previously opened console page which may land at certain pate such as Networking, to see the Adminstrator view drop-down, scroll the bar up from the left side of navigation, for example, 
+   - if you have a previously opened console page which may land at certain pate such as Networking, to see the `Adminstrator` view drop-down, scroll the bar up from the left side of navigation, for example, 
    
     ![Admin Navigation](images/admin_navigation.jpg)
     
@@ -34,7 +34,7 @@ The instruction to access the web console is at: [Lab Setup](https://github.com/
 
 1. Switch back to `Administrator` view, which gives you access to more options. We will concentrate on administrator view in this lab.
 
-![Admin vs Developer](images/AdminDevToggle.jpg)
+   ![Admin vs Developer](images/AdminDevToggle.jpg)
 
 
 ### Dashboard
