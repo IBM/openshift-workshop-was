@@ -19,17 +19,20 @@ The instruction to access the web console is at: [Lab Setup](https://github.com/
 
 ### Administrator vs Developer View
    
-1. Switch from `**Adminstrator**` to `**Developer**` view from the drop-down when you first log in to access OpenShift Web Console:
+1. Switch from `Adminstrator` to `Developer` view from the drop-down when you first log in to access OpenShift Web Console:
+
     ![Admin Mode](images/admin_dashboard.jpg)
     
    - if you have a previously opened console page which may land at certain pate such as Networking, to see the Adminstrator view drop-down, scroll the bar up from the left side of navigation, for example, 
+   
     ![Admin Navigation](images/admin_navigation.jpg)
     
   and note you have fewer and different options. This view is for developer working with their projects. 
+  
     ![Developer Mode](images/DevMode.jpg)
 
 
-1. Switch back to `**Administrator**` view, which gives you access to more options. We will concentrate on administrator view in this lab.
+1. Switch back to `Administrator` view, which gives you access to more options. We will concentrate on administrator view in this lab.
 
 ![Admin vs Developer](images/AdminDevToggle.jpg)
 
