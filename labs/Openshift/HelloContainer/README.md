@@ -304,19 +304,10 @@ For this sample, we are building a new image for a Java EE web application Servl
 It is configured to run on the WebSphere Liberty Runtime. 
 The configuration file for the server is in the server.xml.
 
-1. Review the provided `Containerfile`:
-   - located in the directory /openshift-workshop-was/labs/Openshift/HelloContainer, where you ran `git clone` command in the lab setup, for example,
+1. Change directory to /openshift-workshop-was/labs/Openshift/HelloContainer 
 
-    ```
-    root@lab-tools-6d4cbb56b6-cn2k5:/openshift-workshop-was/labs/Openshift/HelloContainer# ls -l 
-    total 32
-    -rw-r--r--. 1 root root   203 Apr  9 01:13 Containerfile
-    -rw-r--r--. 1 root root   239 Apr  9 01:13 Containerfile1
-    -rw-r--r--. 1 root root   271 Apr  9 01:13 Containerfile2
-    -rw-r--r--. 1 root root 23779 Apr  9 01:13 README.md
-    -rw-r--r--. 1 root root  2519 Apr  9 01:13 ServletApp.war
-    -rw-r--r--. 1 root root   342 Apr  9 01:13 server.xml
-    ```
+1. Review the provided `Containerfile` from the directory:
+
    - the content of `Containerfile`:
     ```
     FROM ibmcom/websphere-liberty:kernel-java8-ibmjava-ubi
@@ -324,7 +315,6 @@ The configuration file for the server is in the server.xml.
     COPY ServletApp.war /config/dropins/app.war
     RUN /liberty/wlp/bin/installUtility install --acceptLicense /config/server.xml 
     ```
-
 
    - To create a new image, you start with a pre-existing image. The first line `FROM` specifies the existing image to be used as the base.  If this is not in the local registry, it will be pulled from a remote registry such as docker hub. The base image we are using, `ibmcom/websphere-liberty`, is already prepackaged for us and made available on docker hub.
 
