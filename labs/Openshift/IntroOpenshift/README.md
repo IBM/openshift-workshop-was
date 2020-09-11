@@ -27,8 +27,8 @@ The instruction to access the web console is at: [Lab Setup](https://github.com/
    
     ![Admin Navigation](images/admin_navigation.jpg)
     
-  and note you have fewer and different options. This view is for developer working with their projects. 
-  
+1. Note you have fewer and different options. This view is for developer working with their projects. 
+ 
     ![Developer Mode](images/DevMode.jpg)
 
 
