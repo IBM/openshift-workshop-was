@@ -304,7 +304,7 @@ For this sample, we are building a new image for a Java EE web application Servl
 It is configured to run on the WebSphere Liberty Runtime. 
 The configuration file for the server is in the server.xml.
 
-1. Change directory to /openshift-workshop-was/labs/Openshift/HelloContainer 
+1. Change directory to openshift-workshop-was/labs/Openshift/HelloContainer 
 
 1. Review the provided `Containerfile` from the directory:
 
