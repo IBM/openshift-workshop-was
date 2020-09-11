@@ -19,11 +19,11 @@ The instruction to access the web console is at: [Lab Setup](https://github.com/
 
 ### Administrator vs Developer View
    
-1. Switch from `Administrator` to `Developer` view from the drop-down when you first log in to access OpenShift Web Console:
+1. Switch from `Administrator` to `Developer` using the drop-down when you first log in to access OpenShift Web Console:
 
     ![Admin Mode](images/admin_dashboard.jpg)
     
-   - if you have a previously opened console page which may land at certain pate such as Networking, to see the `Administrator` view drop-down, scroll the bar up from the left side of navigation, for example, 
+   - if you have a previously opened console page which may land at certain page such as Networking, to see the `Administrator` view drop-down, scroll the bar up from the left side of navigation, for example, 
    
     ![Admin Navigation](images/admin_navigation.jpg)
     
