@@ -56,9 +56,8 @@ If you insist on deactivation, follow the instructions on the support page for "
 ![clusters](images/Clusters.jpg)
 
 - Click `Openshift Web Console` to get access to the console for your cluster.
-- Ignore the `IBM Cloud Shell` button for now. It gives you a command line terminal to interact with IBM cloud, and may be used for a future lab.
  
-![console](images/Console.jpg)
+![console](images/Console_update.jpg)
 
 ## Access the web terminal
 
