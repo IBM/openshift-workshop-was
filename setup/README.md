@@ -47,7 +47,7 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ![CP4Apps Account](images/CP4AppsAccount.jpg)
 
-- Navigate to IBM CLoud > Resource list
+- From IBM CLoud Navigation Menu (upper left corner) > seclect Resource List
 
 ![Resource list](images/ResourceList.jpg)
 
@@ -55,7 +55,7 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ![clusters](images/Clusters.jpg)
 
-- Click `Openshift Web Console` to get access to the console for your cluster.
+- On the next page with your cluster summary information, cick `Openshift Web Console` (the blue button on the upper right corner) to access to the console for your cluster.
  
 ![console](images/Console_update.jpg)
 
