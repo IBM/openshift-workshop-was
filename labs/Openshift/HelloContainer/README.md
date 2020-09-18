@@ -39,7 +39,7 @@ We have not yet been able to configure `podman` to run inside a container.
 <a name="Prerequisites"> </a>
 ## Prerequisites
 
-- You have `podman` or `docker` installed.
+- You have `podman` or `docker` installed.  Only `docker` is installed for this lab.
 - You have access to the internet.
 - You have cloned this lab from github. If not, follows these steps:
 
