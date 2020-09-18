@@ -55,7 +55,7 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ![clusters](images/Clusters.jpg)
 
-- On the next page with your cluster summary information, cick `Openshift Web Console` (the blue button on the upper right corner) to access to the console for your cluster.
+- On the next page with your cluster summary information, cick `OpenShift web console` (the blue button on the upper right corner) to access to the console for your cluster.
  
 ![console](images/Console_update.jpg)
 
