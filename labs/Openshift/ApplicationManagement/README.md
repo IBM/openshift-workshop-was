@@ -16,15 +16,15 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 ## Prerequisites
 
+1. Open the web terminal (the same one from lab setup) for command line interface. If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
-You'll need the web terminal (same as the one from previous lab). If it's not open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
+1. If you have not log in to OpenShift CLI or if your previous `oc login` session is no longer available (due to OpenShift CLI login token expired, or web termainl session is reopened), then follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login or re-login to OpenShift CLI through issing `oc login` command from the web terminal.
 
-You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
+1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following command on your web terminal:
+    ```
+    git clone https://github.com/IBM/openshift-workshop-was.git
+    ```
 
-Clone the GitHub repository with the lab artifacts, **only if you have not already done so**. Run the following commands on your web terminal:
-```
-git clone https://github.com/IBM/openshift-workshop-was.git
-```
 
 ### Build and deploy the traditional WebSphere application
 
