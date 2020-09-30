@@ -421,10 +421,12 @@ Change directory to:  `openshift-workshop-was/labs/Openshift/IntroOpenshift`
 
     ![Display Token](images/DisplayToken.jpg)
 
-1. Copy the instructions to login to your openshift cluster, then paste it into your command line terminal. The instruction looks like:
+1. Copy the `oc login` line and paste it into your web terminal.
 
     ```
     oc login --token=<TOKEN> --server=<SERVER Address>
+    example:
+    oc login --token=leNc4evUo2H0tGu5ZWkygluw4aew979rZ7VvxillNdI --server=https://c100-e.us-south.containers.cloud.ibm.com:30870
     ```
 
 1. After login, the project last accessed is displayed, and it may or may not be the `default` project shown below:
