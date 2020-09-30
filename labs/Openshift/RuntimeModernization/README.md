@@ -64,28 +64,26 @@ In this section, you'll learn how to build a Docker image for Customer Order Ser
 Building this image could take around ~3 minutes (multi-stage build that compiles the code, which takes extra time). 
 Let's kick that process off and then come back to learn what you did.
 
-You'll need the web terminal (same as the one from previous lab). If it's not open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
+1. Open the web terminal (the same one from lab setup) for command line interface. If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
-You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
+1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.
 
-Clone the GitHub repository with the lab artifacts, **only if you have not already done so**. Run the following commands on your web terminal:
-```
-git clone https://github.com/IBM/openshift-workshop-was.git
-```
+1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following command on your web terminal:
+    ```
+    git clone https://github.com/IBM/openshift-workshop-was.git
+    ```
+    
+1. Change directory to where this lab is located:
+   ```
+   cd openshift-workshop-was
+   cd labs/Openshift/RuntimeModernization
+   ls
+   ```
 
-
-Change to the lab's directory:
-```
-cd openshift-workshop-was
-cd labs/Openshift/RuntimeModernization
-ls
-```
-
-Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end. While the image is building(takes ~3 minutes), continue with rest of the lab:
-
-```
-docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
-```
+1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (indicated as the location of current directory). While the image is building(takes ~3 minutes), continue with rest of the lab:
+   ```
+   docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
+   ```
 
 ### Library changes (for reading only)
 
