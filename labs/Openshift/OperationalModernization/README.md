@@ -53,11 +53,11 @@ In this section, you'll learn how to build a Docker image for Customer Order Ser
 
 Building this image could take around ~8 minutes (since the image is around 2GB and starting/stopping the WAS server as part of the build process takes few minutes). So, let's kick that process off and before explaining what you did. The image should be built by the time you complete this section.
 
-1. You'll need the web terminal (the same one from lab setup). If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
+1. Open the web terminal (the same one from lab setup) for command line interface. If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
-1. You also need to be logged into the OpenShift CLI (command-line interface) using web terminal. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI.
+1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.
 
-1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following commands on your web terminal:
+1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following command on your web terminal:
     ```
     git clone https://github.com/IBM/openshift-workshop-was.git
     ```
