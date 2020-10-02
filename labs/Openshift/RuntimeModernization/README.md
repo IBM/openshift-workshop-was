@@ -430,9 +430,9 @@ cos-596b4f849f-2fg4h   1/1     Running   0          18m
 
 
 1. Run the following command to get the URL of your application:
-```
-echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
-```
+   ```
+   echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+   ```
 
 1. Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
 
