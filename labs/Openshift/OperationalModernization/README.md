@@ -245,7 +245,8 @@ oc get imagestreams -n apps-was
 You can also use the OpenShift console (UI) to see the _ImageStream_:
 - From the panel on left-side, click on **Builds** > **Image Streams**. 
 - Then select `apps-was` from the **Project** drop-down menu. 
-- Click on `cos-was` from the list. Scroll down to the bottom to see the image that you pushed. 
+- Click on `cos-was` from the list. 
+- Scroll down to the bottom to see the image that you pushed. 
 
 <a name="deploy"></a>
 ## Deploy
