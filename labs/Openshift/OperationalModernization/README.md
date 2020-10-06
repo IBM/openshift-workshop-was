@@ -409,7 +409,7 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Point your browser to the output URL of the above command. 
    - Login as user `skywalker` and password `force`.
    - From the Shop tab, click on an item and then drag and drop the item into the shopping cart. 
-   - Add 5 items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
+   - Add few items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
    - Close the browser.
 
 ## Review the application workload flow
