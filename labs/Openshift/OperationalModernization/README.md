@@ -409,7 +409,7 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Point your browser to the output URL of the above command. 
    - Login as user `skywalker` and password `force`.
    - From the Shop tab, click on an item and then drag and drop the item into the shopping cart. 
-   - Add at least 5 items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
+   - Add 5 items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
    - Close the browser.
 
 ## Review the application workload flow
@@ -514,7 +514,7 @@ oc get Service cos-was-rco -o yaml
 oc get Route cos-was-rco -o yaml
 ```
 
-Check pod status:
+To access the application, first check the pod status:
 ```
 oc get pod
 ```
@@ -531,24 +531,35 @@ Get the URL of your application:
 echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
 ```
 
-Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
+Point your browser to the output of the above command. 
+- Login as user `skywalker` and password `force`. 
+- Click on an item and then drag and drop.
+- Add few items
+- Close the browser.
 
+## Review the application workload flow
+
+1. Below is an overview diagram on the deployment you've completed from the above steps using Runtie Component Operator: 
+
+   ![applicaiton flow with runtime component operator deployment](extras/images/app-flowchart_2.jpg)
+   
+   
 
 ## Cleanup
 
-To remove the deployment:
+1. To remove the deployment:
 
-```
-oc delete -f deploy-rco
-```
+   ```
+   oc delete -f deploy-rco
+   ```
 
-Verify that the corresponding `Service`, `Route`, and `Deployment` have also been deleted:
+1. Verify that the corresponding `Service`, `Route`, and `Deployment` have also been deleted:
 
-```
-oc get Deployment 
-oc get Service 
-oc get Route 
-```
+   ```
+   oc get Deployment 
+   oc get Service 
+   oc get Route 
+   ```
 
 <a name="summary"></a>
 ## Summary
