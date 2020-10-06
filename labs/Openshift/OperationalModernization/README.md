@@ -391,28 +391,28 @@ Note that changes to the contents of the configmap or secret are not automatical
 <a name="access-the-application"></a>
 ## Access the application
 
-First, ensure the pod is running:
-```
-oc get pod
-```
+1. First, ensure the pod is running:
+   ```
+   oc get pod
+   ```
+   - If the status does not show `1/1` READY, wait a while, checking status periodically:
+     ```
+     NAME                       READY   STATUS    RESTARTS   AGE
+     cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
+     ```
 
-If the status does not show `1/1` READY, wait a while, checking status periodically:
+1. Get the URL of your application: 
+   ```
+   echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+   ```
 
-```
-NAME                       READY   STATUS    RESTARTS   AGE
-cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
-```
+1. Point your browser to the output of the above command. 
+   - Login as user `skywalker` and password `force`.
+   - Play with the application, then close the browser.
 
-Get the URL of your application: 
 
-```
-echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
-```
-
-Point your browser to the output of the above command. Login as user `skywalker` and password `force`. Play with the application, then close the browser.
-
-Remove your deployment:
-
+## Remove your deployment
+To remove the deploment, run the command:
 ```
 oc delete -f deploy
 ```
