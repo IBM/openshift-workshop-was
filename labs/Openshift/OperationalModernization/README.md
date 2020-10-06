@@ -395,11 +395,11 @@ Note that changes to the contents of the configmap or secret are not automatical
    ```
    oc get pod
    ```
-   - If the status does not show `1/1` READY, wait a while, checking status periodically:
-     ```
-     NAME                       READY   STATUS    RESTARTS   AGE
-     cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
-     ```
+   If the status does not show `1/1` READY, wait a while, checking status periodically:
+   ```
+   NAME                       READY   STATUS    RESTARTS   AGE
+   cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
+   ```
 
 1. Run the following command to get the URL of your application: 
    ```
@@ -413,12 +413,14 @@ Note that changes to the contents of the configmap or secret are not automatical
    - Close the browser.
 
 ## Review the application workload flow
+
 1. From a diagram view: 
 
-[applicaiton flow with standard deployment(extras/images/app-flowchart_1.jps)
+[applicaiton flow with standard deployment](extras/images/app-flowchart_1.jps)
    
 
 ## Remove your deployment
+
 To remove the deploment, run the command:
 ```
 oc delete -f deploy
