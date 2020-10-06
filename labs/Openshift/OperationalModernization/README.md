@@ -416,7 +416,7 @@ Note that changes to the contents of the configmap or secret are not automatical
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
 
-   ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
+   ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jps)
    
 
 ## Remove your deployment
