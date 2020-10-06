@@ -391,7 +391,7 @@ Note that changes to the contents of the configmap or secret are not automatical
 <a name="access-the-application"></a>
 ## Access the application
 
-1. First, ensure the pod is running:
+1. Run the following command to verify the pod is running:
    ```
    oc get pod
    ```
@@ -401,15 +401,22 @@ Note that changes to the contents of the configmap or secret are not automatical
      cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
      ```
 
-1. Get the URL of your application: 
+1. Run the following command to get the URL of your application: 
    ```
    echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
    ```
 
-1. Point your browser to the output of the above command. 
+1. Point your browser to the output URL of the above command. 
    - Login as user `skywalker` and password `force`.
-   - Play with the application, then close the browser.
+   - From the Shop tab, click on an item and then drag and drop the item into the shopping cart. 
+   - Add at least 5 items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
+   - Close the browser.
 
+## Review the application workload flow
+1. From a diagram view: 
+
+[applicaiton flow with standard deployment(extras/images/app-flowchart_1.jps)
+   
 
 ## Remove your deployment
 To remove the deploment, run the command:
