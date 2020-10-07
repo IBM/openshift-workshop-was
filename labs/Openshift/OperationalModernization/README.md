@@ -467,7 +467,7 @@ Note that changes to the contents of the configmap or secret are not automatical
       
    - `route` details:
    
-     ![app-was route](extras/images/network-service.jpg)
+     ![app-was route](extras/images/network-route.jpg)
 
 
 
