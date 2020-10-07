@@ -709,7 +709,7 @@ oc get Route cos-was-rco -o yaml
        
        - select `Logs` tab to view the WebSphere Application Server log
        
-         ![rc workload deploy2](extras/images/rc-workload-deploy2.jpg)  
+         ![rc workload pod2](extras/images/rc-workload-pod2.jpg)  
          
      - Application `service` details:
        - select `cos-was-rco`
@@ -737,13 +737,13 @@ oc get Route cos-was-rco -o yaml
          
 ## Cleanup
 
-1. To remove the deployment:
+1. Run the following command to remove the deployment:
 
    ```
    oc delete -f deploy-rco
    ```
 
-1. Verify that the corresponding `Service`, `Route`, and `Deployment` have also been deleted:
+1. Verify that the corresponding application `Service`, `Route`, and `Deployment` have also been deleted:
 
    ```
    oc get Deployment 
