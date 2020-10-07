@@ -266,7 +266,7 @@ Run the following command to deploy the resources (*.yaml files) in the `deploy`
 ```
 oc apply -f deploy
 
-output:
+Output:
 deployment.apps/cos-was created
 route.route.openshift.io/cos-was created
 secret/authdata created
@@ -410,6 +410,9 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Run the following command to get the URL of your application (the route URL plus the application contextroot): 
    ```
    echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+   
+   Example output:
+   http://cos-was-apps-was.<your-cluster-name>-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
    ```
 
 1. Point your browser to the output URL of the above command. 
@@ -418,7 +421,7 @@ Note that changes to the contents of the configmap or secret are not automatical
    - Add few items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the right side).
    - Close the browser.
 
-## Review the application workload flow
+### Review the application workload flow
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
 
@@ -521,12 +524,17 @@ service "cos-was" deleted
 ## Alternate Deployment Via Runtime Component Operator
 
 Another way to deploy the application is via the Runtime Component Operator. It is a generic operator used to deploy different types of application images. 
-The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment  of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
+The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
 
+### Deploy application
 
-For this lab, we will only use the Runtime Component Operator to deploy the same Customer Order Service application image:
+Run the following command which uses the Runtime Component Operator to deploy the same Customer Order Service application image:
 ```
 oc apply -f deploy-rco
+
+Output:
+runtimecomponent.app.stacks/cos-was-rco created
+secret/authdata-rco created
 ```
 
 
@@ -605,36 +613,46 @@ oc get Service cos-was-rco -o yaml
 oc get Route cos-was-rco -o yaml
 ```
 
-To access the application, first check the pod status:
-```
-oc get pod
-```
+## Access the application
 
-If the status does not show `1/1` READY, wait a while, checking status periodically. Note the prefix name for the pod is `cos-was-rco`.
-```
-NAME                           READY   STATUS    RESTARTS   AGE
-cos-was-rco-6779784fc8-pz92m   1/1     Running   0          2m59s
-```
+1. To access the application, first check the pod status:
+   ```
+   oc get pod
+   ```
 
-Get the URL of your application: 
+   If the status does not show `1/1` READY, wait a while, checking status periodically. Note the prefix name for the pod is `cos-was-rco`.
+   ```
+   NAME                           READY   STATUS    RESTARTS   AGE
+   cos-was-rco-6779784fc8-pz92m   1/1     Running   0          2m59s
+   ```
 
-```
-echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
-```
+1. Run the following command to get the URL of your application (the route URL plus the application contextroot): 
 
-Point your browser to the output of the above command. 
-- Login as user `skywalker` and password `force`. 
-- Click on an item and then drag and drop.
-- Add few items
-- Close the browser.
+   ```
+   echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+   
+   Example output:
+   http://cos-was-rco-apps-was.<your-cluster-name>-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
+   ```
 
-## Review the application workload flow
+1. Point your browser to the output of the above command. 
+   - Login as user `skywalker` and password `force`. 
+   - Click on an item and then drag and drop.
+   - Add few items
+   - Close the browser.
+
+### Review the application workload flow
 
 1. Below is an overview diagram on the deployment you've completed from the above steps using Runtie Component Operator: 
 
    ![applicaiton flow with runtime component operator deployment](extras/images/app-flowchart_2.jpg)
    
    
+1. Navigate from OpenShift Console to view the resources on the deployment:
+
+
+
+
 
 ## Cleanup
 
