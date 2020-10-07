@@ -401,7 +401,7 @@ Note that changes to the contents of the configmap or secret are not automatical
    cos-was-6bd4767bf6-xhr92   1/1     Running   0          120m
    ```
 
-1. Run the following command to get the URL of your application: 
+1. Run the following command to get the URL of your application (the route URL plus the application contextroot): 
    ```
    echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
    ```
@@ -422,53 +422,72 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Navigate from OpenShift Console to view the resources on the deployment:
    - Resources in the project `app-was`:
    
-   - `deployment` details:
-     - select `cos-was`
+     - `deployment` details:
+       - select `cos-was`
      
-       ![app-was deployment1](extras/images/workload-deploy1.jpg)
+         ![app-was deployment1](extras/images/workload-deploy1.jpg)
    
-     - select `yaml` tab to view the content of yaml
+       - select `yaml` tab to view the content of yaml
      
-       ![app-was deployment2](extras/images/workload-deploy2.jpg)
-     
-     
-   - `pod` details:
-     - select `cos-was-`
-     
-       ![app-was pod1](extras/images/workload-pod1.jpg)
-     
-     - select `Logs` tab to view the WebSphere Application Server log
-     
-       ![app-was pod3](extras/images/workload-pod3.jpg)
-     
-     - select `Terminal` tab to view the files inside the container
-     
-       ![app-was pod4](extras/images/workload-pod4.jpg)
+         ![app-was deployment2](extras/images/workload-deploy2.jpg)
      
      
-       ![app-was pod5](extras/images/workload-pod5.jpg)
+     - `pod` details:
+       - select `cos-was-`
+     
+         ![app-was pod1](extras/images/workload-pod1.jpg)
+     
+       - select `Logs` tab to view the WebSphere Application Server log
+     
+         ![app-was pod3](extras/images/workload-pod3.jpg)
+     
+       - select `Terminal` tab to view the files inside the container
+     
+         ![app-was pod4](extras/images/workload-pod4.jpg)
      
      
-   - `secret` details:
+         ![app-was pod5](extras/images/workload-pod5.jpg)
+     
+     
+     - `secret` details:
    
-     - select `authdata`
+       - select `authdata`
      
-       ![app-was secret1](extras/images/workload-secret1.jpg)
+         ![app-was secret1](extras/images/workload-secret1.jpg)
       
-     - select Copy icon to view the content
+       - select Copy icon to view the content
      
-       ![app-was secret2](extras/images/workload-secret2.jpg)
+         ![app-was secret2](extras/images/workload-secret2.jpg)
       
       
-   - `service` details:
+     - `service` details:
    
-     ![app-was service](extras/images/network-service.jpg)
+       ![app-was service](extras/images/network-service.jpg)
       
       
-   - `route` details:
+     - `route` details:
    
-     ![app-was route](extras/images/network-route.jpg)
+       ![app-was route](extras/images/network-route.jpg)
 
+   - Resources in the project `db`:
+     
+     - `deployment` details:
+       
+       ![db deploy1](extras/images/db_deploy_1.jpg)
+
+       ![db deploy2](extras/images/db_deploy_2.jpg)
+        
+     - `pod details:
+        
+       ![db pod1](extras/images/db_pod_1.jpg)
+       
+       ![db pod2](extras/images/db_pod_2.jpg)
+        
+     - `service` details:
+        
+       ![db service1](extras/images/db_net_service_1.jpg)
+
+       ![db service2](extras/images/db_net_service_2.jpg)
 
 
 
