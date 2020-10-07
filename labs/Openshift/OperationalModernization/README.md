@@ -744,6 +744,10 @@ oc get Route cos-was-rco -o yaml
 
    ```
    oc delete -f deploy-rco
+   
+   Output:
+   runtimecomponent.app.stacks "cos-was-rco" deleted
+   secret "authdata-rco" deleted
    ```
 
 1. Verify that the corresponding application `Service`, `Route`, and `Deployment` have also been deleted:
@@ -752,6 +756,9 @@ oc get Route cos-was-rco -o yaml
    oc get Deployment 
    oc get Service 
    oc get Route 
+   
+   Output:
+   No resources found in apps-was namespace.
    ```
 
 <a name="summary"></a>
