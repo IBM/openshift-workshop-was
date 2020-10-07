@@ -668,7 +668,7 @@ oc get Route cos-was-rco -o yaml
        
          ![rco pod1](extras/images/rco-pod1.jpg)
          
-       - select `Logs`
+       - select `Logs` to view the runtime-component-operator container log
        
          ![rco pod2](extras/images/rco-pod2.jpg)
          
@@ -692,8 +692,49 @@ oc get Route cos-was-rco -o yaml
        
          ![rco op3](extras/images/rco-op3.jpg)
      
+     - Application `deployment` details:
+       - select `cos-was-rco`
+       
+         ![rc workload deploy1](extras/images/rc-workload-deploy1.jpg)  
+       
+       - select `YAML` tab to view the content of yaml
+       
+         ![rc workload deploy2](extras/images/rc-workload-deploy2.jpg)
+         
+         
+     - Application `pod` details:    
+       - select `cos-was-rco`
+       
+         ![rc workload pod1](extras/images/rc-workload-pod1.jpg)  
+       
+       - select `Logs` tab to view the WebSphere Application Server log
+       
+         ![rc workload deploy2](extras/images/rc-workload-deploy2.jpg)  
+         
+     - Application `service` details:
+       - select `cos-was-rco`
+       
+         ![rc network service1](extras/images/rc-net-service1.jpg) 
+         
+       - select `YAML` to view the content of yaml
+         
+         ![rc network service2](extras/images/rc-net-service2.jpg) 
+       
+     - Application `route` details:
+       - select `cos-was-rco`
+       
+         ![rc network route1](extras/images/rc-net-route1.jpg) 
+         
+       - select `YAML` to view the content of yaml
+         
+         ![rc network route2](extras/images/rc-net-route2.jpg)   
      
-
+      - Application `secret` details:
+        - select `authdata-rco`
+        
+          ![rc workload secret1](extras/images/rc-workload-secret1.jpg) 
+        
+         
 ## Cleanup
 
 1. To remove the deployment:
