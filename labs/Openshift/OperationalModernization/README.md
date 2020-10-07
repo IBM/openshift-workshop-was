@@ -490,7 +490,8 @@ Note that changes to the contents of the configmap or secret are not automatical
          ![db pod2](extras/images/db_pod_2.jpg)
         
      - `service` details:
-        
+       - select  `cos-db-was`
+       
        ![db service1](extras/images/db_net_service_1.jpg)
 
        ![db service2](extras/images/db_net_service_2.jpg)
