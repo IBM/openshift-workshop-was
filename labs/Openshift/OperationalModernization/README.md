@@ -418,6 +418,38 @@ Note that changes to the contents of the configmap or secret are not automatical
 
    ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
    
+ 
+1. Navigate from OpenShift Console to view the resources on the deployment:
+   - Resources in the project `app-was`:
+   - `deployment` details
+     ![app-was deployment1](extras/images/workload-deploy1.jpg)
+   
+     ![app-was deployment2](extras/images/workload-deploy2.jpg)
+     
+   - `pod` details
+     ![app-was pod1](extras/images/workload-pod1.jpg)
+     
+     ![app-was pod2](extras/images/workload-pod2.jpg)
+     
+     ![app-was pod3](extras/images/workload-pod3.jpg)
+     
+     ![app-was pod4](extras/images/workload-pod4.jpg)
+     
+     ![app-was pod5](extras/images/workload-pod5.jpg)
+     
+   - `secret` details
+     ![app-was secret1](extras/images/workload-secret1.jpg)
+      
+     ![app-was secret2](extras/images/workload-secret2.jpg)
+      
+   - `service` details
+     ![app-was service](extras/images/network-service.jpg)
+      
+   - `route` details
+     ![app-was route](extras/images/network-service.jpg)
+
+
+
 
 ## Remove your deployment
 
