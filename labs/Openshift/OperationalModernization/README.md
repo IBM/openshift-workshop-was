@@ -420,8 +420,8 @@ Note that changes to the contents of the configmap or secret are not automatical
    
  
 1. Navigate from OpenShift Console to view the resources on the deployment:
-   - Resources in the project `app-was`:
-   - `deployment` details
+   Resources in the project `app-was`:
+   - `deployment` details:
      - select `cos-was`
      
        ![app-was deployment1](extras/images/workload-deploy1.jpg)
@@ -430,33 +430,35 @@ Note that changes to the contents of the configmap or secret are not automatical
      
        ![app-was deployment2](extras/images/workload-deploy2.jpg)
      
-   - `pod` details
-     - select `cos-was`
+   - `pod` details:
+     - select `cos-was-`
      
        ![app-was pod1](extras/images/workload-pod1.jpg)
      
-     - select `lob` tab
-     
-       ![app-was pod2](extras/images/workload-pod2.jpg)
+     - select `Logs` tab to view the WebSphere Application Server log
      
        ![app-was pod3](extras/images/workload-pod3.jpg)
      
+     - select `Terminal` tab to view the files inside the container
+     
        ![app-was pod4](extras/images/workload-pod4.jpg)
+     
      
        ![app-was pod5](extras/images/workload-pod5.jpg)
      
-   - `secret` details
+   - `secret` details:
+   
      - select `authdata`
        ![app-was secret1](extras/images/workload-secret1.jpg)
       
      - select Copy icon to view the content
        ![app-was secret2](extras/images/workload-secret2.jpg)
       
-   - `service` details
+   - `service` details:
    
      ![app-was service](extras/images/network-service.jpg)
       
-   - `route` details
+   - `route` details:
    
      ![app-was route](extras/images/network-service.jpg)
 
