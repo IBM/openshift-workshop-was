@@ -436,7 +436,7 @@ Note that changes to the contents of the configmap or secret are not automatical
      
          ![app-was deployment1](extras/images/workload-deploy1.jpg)
    
-       - select `yaml` tab to view the content of yaml
+       - select `YAML` tab to view the content of yaml
      
          ![app-was deployment2](extras/images/workload-deploy2.jpg)
      
@@ -484,7 +484,7 @@ Note that changes to the contents of the configmap or secret are not automatical
        
          ![db deploy1](extras/images/db_deploy_1.jpg)
 
-       - select `yaml` tab to view the content of yaml
+       - select `YAML` tab to view the content of yaml
        
          ![db deploy2](extras/images/db_deploy_2.jpg)
         
@@ -650,10 +650,22 @@ oc get Route cos-was-rco -o yaml
    
    
 1. Navigate from OpenShift Console to view the resources on the deployment:
+   - Resources in the project `app-was`:
+   
+     - `Runtime Component Operator` details:
+       - select `Runtime Component Operator`
+     
+         ![rco op1](extras/images/rco-op1.jpg)
 
+       - select `YAML` tab to view the content of yaml
+     
+         ![rco op2](extras/images/rco-op2.jpg)
 
-
-
+       - select `Runtime Component` tab and select `cos-was-rco` to view the deails of Runtime Component instance
+       
+         ![rco op3](extras/images/rco-op3.jpg)
+     
+     
 
 ## Cleanup
 
