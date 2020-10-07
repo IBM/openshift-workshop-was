@@ -450,7 +450,6 @@ Note that changes to the contents of the configmap or secret are not automatical
      
      
      - `secret` details:
-   
        - select `authdata`
      
          ![app-was secret1](extras/images/workload-secret1.jpg)
@@ -471,17 +470,24 @@ Note that changes to the contents of the configmap or secret are not automatical
 
    - Resources in the project `db`:
      
-     - `deployment` details:
+     - `deployment` details:   
+       - select `cos-db-was`
        
-       ![db deploy1](extras/images/db_deploy_1.jpg)
+         ![db deploy1](extras/images/db_deploy_1.jpg)
 
-       ![db deploy2](extras/images/db_deploy_2.jpg)
+       - select `yaml` tab to view the content of yaml
+       
+         ![db deploy2](extras/images/db_deploy_2.jpg)
         
      - `pod details:
-        
-       ![db pod1](extras/images/db_pod_1.jpg)
+       - select  `cos-db-was-`
        
-       ![db pod2](extras/images/db_pod_2.jpg)
+         ![db pod1](extras/images/db_pod_1.jpg)
+       
+       - select `Logs` tab to view the database logs
+       - select `Terminal tab to view the files in the database container
+       
+         ![db pod2](extras/images/db_pod_2.jpg)
         
      - `service` details:
         
