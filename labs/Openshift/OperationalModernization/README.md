@@ -615,7 +615,7 @@ oc get Route cos-was-rco -o yaml
 
 ## Access the application
 
-1. To access the application, first check the pod status:
+1. Run the following command to verify the pod is running:
    ```
    oc get pod
    ```
@@ -642,18 +642,45 @@ oc get Route cos-was-rco -o yaml
    - Close the browser.
   
 
-### Review the application workload flow
+### Review the application workload flow with Runtime Component Operator
 
-1. Below is an overview diagram on the deployment you've completed from the above steps using Runtie Component Operator: 
+1. Below is an overview diagram on the deployment you've completed from the above steps using Runtime Component Operator: 
 
    ![applicaiton flow with runtime component operator deployment](extras/images/app-flowchart_2.jpg)
    
    
 1. Navigate from OpenShift Console to view the resources on the deployment:
+   - Resources in the project `openshift-operators`:
+   
+     - Operator's `deployment` details
+     
+       - select `runtime-component-operator`
+             
+         ![rco deploy1](extras/images/rco-deploy1.jpg)
+         
+       - select `YAML` tab to view the content of yaml
+       
+         ![rco deploy2](extras/images/rco-deploy2.jpg)
+   
+     - Operator's `pod` details
+     
+       - select `runtime-component-operator-`
+       
+         ![rco pod1](extras/images/rco-pod1.jpg)
+         
+       - select `Logs`
+       
+         ![rco pod2](extras/images/rco-pod2.jpg)
+         
+       - select `Terminal` to view the files in the container
+       
+          ![rco pod3](extras/images/rco-pod3.jpg)
+               
+   
    - Resources in the project `app-was`:
    
-     - `Runtime Component Operator` details:
-       - select `Runtime Component Operator`
+     - `Runtime Component` instance details:
+       - select `Runtime Component Operator`.  Note: The operator is installed at cluster level and is visible to all existing projects, but Runtime Component instance is created under the project `app-was`.
      
          ![rco op1](extras/images/rco-op1.jpg)
 
