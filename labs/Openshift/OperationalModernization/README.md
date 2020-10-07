@@ -420,15 +420,17 @@ Note that changes to the contents of the configmap or secret are not automatical
    
  
 1. Navigate from OpenShift Console to view the resources on the deployment:
-   Resources in the project `app-was`:
+   - Resources in the project `app-was`:
+   
    - `deployment` details:
      - select `cos-was`
      
        ![app-was deployment1](extras/images/workload-deploy1.jpg)
    
-     - seelct `yaml` tab to view the content of yaml
+     - select `yaml` tab to view the content of yaml
      
        ![app-was deployment2](extras/images/workload-deploy2.jpg)
+     
      
    - `pod` details:
      - select `cos-was-`
@@ -446,17 +448,22 @@ Note that changes to the contents of the configmap or secret are not automatical
      
        ![app-was pod5](extras/images/workload-pod5.jpg)
      
+     
    - `secret` details:
    
      - select `authdata`
+     
        ![app-was secret1](extras/images/workload-secret1.jpg)
       
      - select Copy icon to view the content
+     
        ![app-was secret2](extras/images/workload-secret2.jpg)
+      
       
    - `service` details:
    
      ![app-was service](extras/images/network-service.jpg)
+      
       
    - `route` details:
    
