@@ -265,6 +265,12 @@ Run the following command to deploy the resources (*.yaml files) in the `deploy`
 
 ```
 oc apply -f deploy
+
+output:
+deployment.apps/cos-was created
+route.route.openshift.io/cos-was created
+secret/authdata created
+service/cos-was created
 ```
 
 The directory `deploy` contains the following yaml files:
@@ -503,6 +509,12 @@ Note that changes to the contents of the configmap or secret are not automatical
 To remove the deploment, run the command:
 ```
 oc delete -f deploy
+
+Output:
+deployment.apps "cos-was" deleted
+route.route.openshift.io "cos-was" deleted
+secret "authdata" deleted
+service "cos-was" deleted
 ```
 
 <a name="deploy-rco"></a>
