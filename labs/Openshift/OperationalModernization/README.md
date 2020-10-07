@@ -735,7 +735,7 @@ oc get Route cos-was-rco -o yaml
         
           ![rc workload secret1](extras/images/rc-workload-secret1.jpg) 
         
-   - See [Resources in the project `db`:](#db project resource)
+   - Resources in the project `db`: See the steps above in **Review the application workload flow**.
          
          
 ## Cleanup
