@@ -477,7 +477,8 @@ Note that changes to the contents of the configmap or secret are not automatical
    
        ![app-was route](extras/images/network-route.jpg)
 
-   - [Resources in the project `db`](#db project resource)
+     <a name="db project resource"></a>
+   - Resources in the project `db`:
      
      - `deployment` details:   
        - select `cos-db-was`
@@ -734,7 +735,7 @@ oc get Route cos-was-rco -o yaml
         
           ![rc workload secret1](extras/images/rc-workload-secret1.jpg) 
         
-   - Resources in the project `db`:  See <a name="db project resource"></a>
+   - See [Resources in the project `db`:](#db project resource)
          
          
 ## Cleanup
