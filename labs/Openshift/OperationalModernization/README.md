@@ -422,30 +422,42 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Navigate from OpenShift Console to view the resources on the deployment:
    - Resources in the project `app-was`:
    - `deployment` details
-     ![app-was deployment1](extras/images/workload-deploy1.jpg)
+     - select `cos-was`
+     
+       ![app-was deployment1](extras/images/workload-deploy1.jpg)
    
-     ![app-was deployment2](extras/images/workload-deploy2.jpg)
+     - seelct `yaml` tab to view the content of yaml
+     
+       ![app-was deployment2](extras/images/workload-deploy2.jpg)
      
    - `pod` details
-     ![app-was pod1](extras/images/workload-pod1.jpg)
+     - select `cos-was`
      
-     ![app-was pod2](extras/images/workload-pod2.jpg)
+       ![app-was pod1](extras/images/workload-pod1.jpg)
      
-     ![app-was pod3](extras/images/workload-pod3.jpg)
+     - select `lob` tab
      
-     ![app-was pod4](extras/images/workload-pod4.jpg)
+       ![app-was pod2](extras/images/workload-pod2.jpg)
      
-     ![app-was pod5](extras/images/workload-pod5.jpg)
+       ![app-was pod3](extras/images/workload-pod3.jpg)
+     
+       ![app-was pod4](extras/images/workload-pod4.jpg)
+     
+       ![app-was pod5](extras/images/workload-pod5.jpg)
      
    - `secret` details
-     ![app-was secret1](extras/images/workload-secret1.jpg)
+     - select `authdata`
+       ![app-was secret1](extras/images/workload-secret1.jpg)
       
-     ![app-was secret2](extras/images/workload-secret2.jpg)
+     - select Copy icon to view the content
+       ![app-was secret2](extras/images/workload-secret2.jpg)
       
    - `service` details
+   
      ![app-was service](extras/images/network-service.jpg)
       
    - `route` details
+   
      ![app-was route](extras/images/network-service.jpg)
 
 
