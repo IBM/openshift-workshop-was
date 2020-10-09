@@ -56,7 +56,7 @@ If you insist on deactivation, follow the instructions on the support page for "
 ![clusters](images/Clusters.jpg)
 
 - On the next page with your cluster summary information, cick `OpenShift web console` (the blue button on the upper right corner) to access to the console for your cluster.
-- Reminder: The OpenShift web console button here is the only access we use to connect from IBM Cloud to Red Hat OpenShift cluster.  Please do not select other drop-down or buttons from this cluser summary page.
+- **Reminder**: The OpenShift web console button here is the only access we use to connect from IBM Cloud to Red Hat OpenShift cluster.  Please do not select other drop-down or buttons from this cluster summary page.
 - Once the OpenShift web console is displayed successfully, proceed to next step to access the web terminal for command line interface.
  
 ![console](images/Console_update.jpg)
