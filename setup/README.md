@@ -56,18 +56,20 @@ If you insist on deactivation, follow the instructions on the support page for "
 ![clusters](images/Clusters.jpg)
 
 - On the next page with your cluster summary information, cick `OpenShift web console` (the blue button on the upper right corner) to access to the console for your cluster.
+- Reminder: The OpenShift web console button here is the only access we use to connect from IBM Cloud to Red Hat OpenShift cluster.  Please do not select other drop-down or buttons from this cluser summary page.
+- Once the OpenShift web console is displayed successfully, proceed to next step to access the web terminal for command line interface.
  
 ![console](images/Console_update.jpg)
 
-## Access the web terminal
+## Access the web terminal for command line interface
 
 The web terminal runs in your Openshift cluster.
 It gives you command line access to many tools you will use for the labs. 
 To access the web terminal:
 
-- From the OpenShift web console, navigate to Networking -> Routes.  
-- On the right, from the top, select Project name **lab** and 
-- from the route **tools**, click on the URL under "Location".  
+- From the OpenShift web console, navigate to **Networking -> Routes**.  
+- On the right, from the top, select Project name **lab** 
+- Next to the route name **tools**, click on the URL under **Location**.  
 
 ![Route URL](images/tools_route.jpg)
 
