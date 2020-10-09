@@ -404,7 +404,7 @@ Note that changes to the contents of the configmap or secret are not automatical
    Example output:
    Using project "apps-was" on server "https://c114-e.us-south.containers.cloud.ibm.com:30016".
    ```
-   - If it's not at the project `apps-was', then swtich:
+   - If it's not at the project `apps-was`, then swtich:
      ```
      oc project apps-was
      ```
