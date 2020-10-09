@@ -627,6 +627,17 @@ oc get Route cos-was-rco -o yaml
 
 ## Access the application
 
+1. Confirm you're at the current project `apps-was`:
+   ```
+   oc project
+   
+   Example output:
+   Using project "apps-was" on server "https://c114-e.us-south.containers.cloud.ibm.com:30016".
+   ```
+   - If it's not at the project `apps-was`, then swtich:
+     ```
+     oc project apps-was
+     ```
 1. Run the following command to verify the pod is running:
    ```
    oc get pod
