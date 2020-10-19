@@ -394,7 +394,7 @@ Here is the final version of the file:
 
      Example output:
      ```
-     image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
+     sha256:56d926b7ef64ed163ff026b7b5608ae97df4630235c1d0443a32a4fc8eb35a6c   image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:56d926b7ef64ed163ff026b7b5608ae97df4630235c1d0443a32a4fc8eb35a6c
      ```
 
 1. Verify the image stream is created via the command line:
