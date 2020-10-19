@@ -294,6 +294,12 @@ Here is the final version of the file:
    - Via the command line: 
      ```
      oc new-project apps
+     ```   
+     
+     Example output:
+     ```
+     Now using project "apps" on server "https://c115-e.us-south.containers.cloud.ibm.com:32661".
+     . . .
      ```
      
    - Via the console, from the left-panel: 
@@ -304,12 +310,6 @@ Here is the final version of the file:
      - Switch the current project in the command line to `apps` 
        ```
        oc project apps
-       ```
-       
-       Example output:
-       ```
-       Now using project "apps" on server "https://c115-e.us-south.containers.cloud.ibm.com:32661".
-       . . .
        ```
 
 1. Enable monitoring by adding the necessary label to the `apps` namespace. 
