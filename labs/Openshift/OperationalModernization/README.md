@@ -256,7 +256,7 @@ You can connect to an on-prem database that already exists or migrate the databa
 Since migrating the database is not the focus of this particular workshop and to save time, the database needed by the application is already configured in the OpenShift cluster you are using.
 
 
-### Deploy application (Hands-on)
+### Deploy application (via standard deployment without operator) (Hands-on)
 
 1. Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
 
@@ -392,7 +392,7 @@ Since migrating the database is not the focus of this particular workshop and to
 
 
 <a name="access-the-application"></a>
-## Access the application (Hands-on)
+## Access the application (via standard deployment without operator) (Hands-on)
 
 1. Confirm you're at the current project `apps-was`:
    ```
@@ -431,12 +431,12 @@ Since migrating the database is not the focus of this particular workshop and to
    - Add few items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the upper right) with the total cost.
    - Close the browser.
 
-### Review the application workload flow (Hands-on)
+### Review the application workload flow (via standard deployment without operator) (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
    - Note: DB2 in the middle of the diagram is pre-installed through a different project `db` and has been up and running before your hands-on.  Also it will not be impacted when you're removing the deployment in next step.
 
-     ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
+   ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
    
  
 1. Navigate from OpenShift Console to view the resources on the deployment:
@@ -519,7 +519,7 @@ Since migrating the database is not the focus of this particular workshop and to
 
 
 
-## Remove your deployment (Hands-on)
+## Remove your deployment (standard deployment without operator) (Hands-on)
 
 To remove the deploment, run the command:
 ```
@@ -539,7 +539,7 @@ service "cos-was" deleted
 Another way to deploy the application is via the Runtime Component Operator. It is a generic operator used to deploy different types of application images. 
 The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
 
-### Deploy application (Hands-on)
+### Deploy application (via Runtime Component Operator) (Hands-on)
 
 1. Run the following command which uses the Runtime Component Operator to deploy the same Customer Order Service application image:
    ```
@@ -627,7 +627,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
          oc get Route cos-was-rco -o yaml
          ```
 
-## Access the application (Hands-on)
+## Access the application (via Runtime Component Operator) (Hands-on)
 
 1. Confirm you're at the current project `apps-was`:
    ```
@@ -763,7 +763,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    - Resources in the project `db`: See the steps above in **Review the application workload flow**.
          
          
-## Cleanup (Hands-on)
+## Cleanup (the deployment with Runtime Component Operator) (Hands-on)
 
 1. Run the following command to remove the deployment:
 
