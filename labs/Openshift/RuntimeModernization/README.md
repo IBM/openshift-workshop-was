@@ -723,7 +723,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 ### Review the application workload flow with Open Liberty Operator (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
-   - Note: DB2 and Keycloak in the middle of the diagram are pre-installed through different respective projects `db` and `keycloak`, and have been up and running before your hands-on.  
+   - Note: DB2 and Keycloak in the middle of the diagram are pre-installed through the respective projects `db` and `keycloak`, and have been up and running before your hands-on.  
 
    ![applicaiton flow with open liberty operator](extras/images/app-flowchart_openlibertyoperator.jpg)
    
