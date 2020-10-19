@@ -434,6 +434,7 @@ Since migrating the database is not the focus of this particular workshop and to
 ### Review the application workload flow (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
+   - Note: DB2 in the middle of the diagram is pre-installed through a different project `db` and has been up and running before your hands-on.  Also it will not be impacted when you're removing the deployment in next step.
 
    ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
    
@@ -669,6 +670,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
 ### Review the application workload flow with Runtime Component Operator (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps using Runtime Component Operator: 
+   - Note: DB2 in the middle of the diagram is pre-installed through a different project `db` and has been up and running before your hands-on.
 
    ![applicaiton flow with runtime component operator deployment](extras/images/app-flowchart_2.jpg)
    
@@ -767,8 +769,10 @@ The Runtime Component Operator is part of a set of devops tools that also includ
 
    ```
    oc delete -f deploy-rco
+   ```
    
    Output:
+   ```
    runtimecomponent.app.stacks "cos-was-rco" deleted
    secret "authdata-rco" deleted
    ```
@@ -779,8 +783,10 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    oc get Deployment 
    oc get Service 
    oc get Route 
+   ```
    
    Output:
+   ```
    No resources found in apps-was namespace.
    ```
 
