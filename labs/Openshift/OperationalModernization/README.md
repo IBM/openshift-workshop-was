@@ -567,7 +567,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
      ```
 
      - Note that it is the same as the Secret.yaml in the `deploy` directory, except the name has been changed to authdata-rco.  
-     - It servers the same purpose for this new deployment, to override the database user/password.
+     - It serves the same purpose for this new deployment, to override the database user/password.
 
 
     - Review RuntimeComponent.yaml:
