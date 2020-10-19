@@ -432,7 +432,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
 
      Output:
-     ```
+     ```yaml
      apiVersion: v1
      kind: ConfigMap
      metadata:
