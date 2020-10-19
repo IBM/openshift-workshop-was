@@ -616,7 +616,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
                 secretName: authdata-rco
       ```
 
-      - Note that:
+      Note that:
       - The Kind is `RuntimeComponent`
       - The `expose` attribute is set to `true` to expose a route
       - The attributes within the yaml file are essentially the same information that you provided for the `Service`, `Route`, and `Deployment` resources in the `deploy` directory.
