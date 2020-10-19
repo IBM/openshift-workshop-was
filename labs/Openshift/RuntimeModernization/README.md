@@ -341,6 +341,16 @@ Here is the final version of the file:
      ```
      docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
      ```
+     
+     Example output:
+     ```
+     WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+     WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+     Configure a credential helper to remove this warning. See
+     https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+     Login Succeeded
+     ```
 
 1. Push the image to OpenShift's internal image registry via the command line, which could take up to a minute:
 
