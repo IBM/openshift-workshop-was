@@ -478,6 +478,91 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      oc kustomize deploy/overlay-apps
      ```
 
+     Example output:
+     ```
+     apiVersion: v1
+     data:
+       DB_HOST: cos-db-liberty.db.svc
+       JWT_ISSUER: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy
+       JWT_JWKS_URI: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy/protocol/openid-connect/certs
+       SEC_TLS_TRUSTDEFAULTCERTS: "true"
+       SSO_CLIENT_ID: cos_app
+       SSO_REALM: Galaxy
+       SSO_URI: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/
+     kind: ConfigMap
+     metadata:
+       name: cos-config
+       namespace: apps
+     ---
+     apiVersion: v1
+     data:
+       DB_PASSWORD: ZGIyaW5zdDE=
+       DB_USER: ZGIyaW5zdDE=
+     kind: Secret
+     metadata:
+       name: db-creds
+       namespace: apps
+     type: Opaque
+     ---
+     apiVersion: v1
+     kind: Secret
+     metadata:
+       name: liberty-creds
+       namespace: apps
+     stringData:
+       password: admin
+       username: admin
+     type: Opaque
+     ---
+     apiVersion: openliberty.io/v1beta1
+     kind: OpenLibertyApplication
+     metadata:
+       name: cos
+       namespace: apps
+     spec:
+       applicationImage: image-registry.openshift-image-registry.svc:5000/apps/cos
+       envFrom:
+       - configMapRef:
+           name: cos-config
+       - secretRef:
+           name: db-creds
+       expose: true
+       livenessProbe:
+         httpGet:
+           path: /health/live
+           port: 9443
+           scheme: HTTPS
+       monitoring:
+         endpoints:
+         - basicAuth:
+             password:
+               key: password
+               name: liberty-creds
+             username:
+               key: username
+               name: liberty-creds
+           interval: 5s
+           scheme: HTTPS
+           tlsConfig:
+             insecureSkipVerify: true
+         labels:
+           app-monitoring: "true"
+       pullPolicy: Always
+       readinessProbe:
+         httpGet:
+           path: /health/ready
+           port: 9443
+           scheme: HTTPS
+       route:
+         insecureEdgeTerminationPolicy: Redirect
+         termination: reencrypt
+       service:
+         annotations:
+           service.beta.openshift.io/serving-cert-secret-name: cos-tls
+         certificateSecretRef: cos-tls
+         port: 9443
+     ```
+    
    - Deploy the yaml files:
 
      ```
