@@ -414,6 +414,8 @@ Here is the final version of the file:
    - Then select `apps` from the _Project_ drop-down list. 
    - Click on `cos` from the list. 
    - Scroll down to the bottom to see the image that you pushed.
+   
+     ![apps imagestream](extras/images/apps-imagestream.jpg)
 
 
 ## Deploy (Hands-on)
