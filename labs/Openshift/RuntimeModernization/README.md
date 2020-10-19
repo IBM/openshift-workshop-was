@@ -320,6 +320,11 @@ Here is the final version of the file:
      oc label namespace apps app-monitoring=true
      ```
      
+     Example output:
+     ```
+     namespace/apps labeled
+     ```
+     
    - Via the console, from the left-panel, 
      - Click on **Administration** > **Namespaces** 
      - Click on the menu-options for `apps` namespace 
