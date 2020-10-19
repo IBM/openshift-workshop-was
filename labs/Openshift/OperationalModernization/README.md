@@ -578,7 +578,8 @@ The Runtime Component Operator is part of a set of devops tools that also includ
       ```
 
       And the output:
-      ```
+      
+      ```yaml
       apiVersion: app.stacks/v1beta1
       kind: RuntimeComponent
       metadata:
