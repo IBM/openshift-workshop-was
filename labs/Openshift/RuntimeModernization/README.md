@@ -728,6 +728,63 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    ![applicaiton flow with open liberty operator](extras/images/app-flowchart_openlibertyoperator.jpg)
    
    
+1. Navigate from OpenShift Console to view the resources on the deployment:
+   - Resources in the project `openshift-operators`:
+   
+     - Operator's `deployment` details
+       - select `open-liberty-operator`
+             
+         ![olo deploy1](extras/images/olo-deploy1.jpg)
+         
+       - select `YAML` tab to view the content of yaml
+       
+         ![olo deploy2](extras/images/olo-deploy2.jpg)
+
+     - Operator's `pod` details
+       - select `open-liberty-operator-`
+       
+         ![olo pod1](extras/images/rco-pod1.jpg)
+         
+       - select `Logs` to view the open-liberty-operator container log
+       
+         ![olo pod2](extras/images/olo-pod2.jpg)
+         
+       - select `Terminal` to view the files in the container
+       
+         ![olo pod3](extras/images/olo-pod3.jpg)   
+     
+    - Resources in the project `apps`:
+    
+      - `Open Liberty Application` instance details:
+        - select `Open Liberty Operator`.  Note: The operator is installed at cluster level and is visible to all existing projects, but Open Liberty Application instance is created under the project `apps`.
+    
+          ![olo op1](extras/images/olo-op1.jpg)
+          
+        - select `YAML` tab to view the content of yaml
+     
+          ![olo op2](extras/images/olo-op2.jpg)
+        
+        - select `Open Liberty Application` tab and select `cos` to view the deails of Open Liberty Application instance
+       
+          ![ola instance](extras/images/ola-instance.jpg)
+
+      - Application `deployment` details:
+        - select `cos-was-rco`
+        
+          ![loa workload deploy1](extras/images/ola-workload-deploy1.jpg)
+
+        - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of RuntimeComponent custom resource.
+       
+         ![ola workload deploy2](extras/images/ola-workload-deploy2.jpg)
+         
+      - Application `pod` details:    
+        - select `cos-was-rco-`
+       
+         ![rc workload pod1](extras/images/rc-workload-pod1.jpg)  
+       
+        - select `Logs` tab to view the WebSphere Application Server log
+         ![rc workload pod2](extras/images/rc-workload-pod2.jpg)      
+         
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
