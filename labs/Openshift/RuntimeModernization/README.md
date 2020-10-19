@@ -454,7 +454,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      cat deploy/overlay-apps/configmap.yaml
      ```
      
-     Example output of yaml:
+     Example output of updated yaml:
      ```yaml
      apiVersion: v1
      kind: ConfigMap
@@ -470,8 +470,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        DB_HOST : "cos-db-liberty.db.svc"
      ```
 
-1. We will use the `-k`, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. 
-
+1. Deploy the application using the `-k`, or `kustomize` option of Openshift CLI now and we will explain how the deployment works in a later section. 
    - Preview what will be deployed:
 
      ```
@@ -631,7 +630,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      cat keycloak/client.yaml
      ```
 
-     Example of yaml:
+     Example of updated yaml:
      ```yaml
      apiVersion: keycloak.org/v1alpha1
      kind: KeycloakClient
@@ -686,7 +685,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    oc get pod 
    ```
 
-   Example output:
+   Example output of pod status:
    ```
    NAME                   READY   STATUS    RESTARTS   AGE
    cos-596b4f849f-2fg4h   1/1     Running   0          18m
