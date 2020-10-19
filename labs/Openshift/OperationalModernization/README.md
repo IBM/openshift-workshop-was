@@ -273,10 +273,10 @@ Since migrating the database is not the focus of this particular workshop and to
 
 1. Let's review what we just did. 
    - The directory `deploy` contains the following yaml files:
-     - Deployment.yaml:  the specification for creating a Kubernetes deployment
-     - Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
-     - Route.yaml: the specification to expose the service as a route visible outside of the cluster.
-     - Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
+     - `Deployment.yaml`:  the specification for creating a Kubernetes deployment
+     - `Service.yaml`: the specification to expose the deployment as a cluster-wide Kubernetes service.
+     - `Route.yaml`: the specification to expose the service as a route visible outside of the cluster.
+     - `Secret.yaml`: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
 
    - The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
 
@@ -324,72 +324,72 @@ Since migrating the database is not the focus of this particular workshop and to
                  secretName: authdata
      ```
 
-     Note:
-
-     - The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
-     - The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
-     - You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
-     - When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
-     - For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
-     - After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
-       - For volumeMounts:
-         - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
-         - the name, `authdata`, specifies the name of the volume
-       - For volumes:
-         - the secretName specifies the name of the secret whose contents are to be bound.
+     - Note:
+       - The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
+       - The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
+       - You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
+       - When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
+       - For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
+       - After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
+         - For volumeMounts:
+           - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
+           - the name, `authdata`, specifies the name of the volume
+         - For volumes:
+           - the secretName specifies the name of the secret whose contents are to be bound.
 
    - The file `Secret.yaml` looks like:
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: authdata
-  namespace: apps-was
-type: Opaque
-stringData:
-  authdata.props: |-
-    #
-    # Configuration properties file for cells/DefaultCell01|security.xml#JAASAuthData_1597094577206#
-    # Extracted on Tue Aug 11 15:30:36 UTC 2020
-    #
+     ```yaml
+     apiVersion: v1
+     kind: Secret
+     metadata:
+       name: authdata
+       namespace: apps-was
+     type: Opaque
+     stringData:
+       authdata.props: |-
+         #
+         # Configuration properties file for cells/DefaultCell01|security.xml#JAASAuthData_1597094577206#
+         # Extracted on Tue Aug 11 15:30:36 UTC 2020
+         #
 
-    #
-    # Section 1.0 ## Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
-    #
+         #
+         # Section 1.0 ## Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+         #
 
-    #
-    # SubSection 1.0.0 # JAASAuthData Section
-    #
-    ResourceType=JAASAuthData
-    ImplementingResourceType=GenericType
-    ResourceId=Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
-    AttributeInfo=authDataEntries
-    #
+         #
+         # SubSection 1.0.0 # JAASAuthData Section
+         #
+         ResourceType=JAASAuthData
+         ImplementingResourceType=GenericType
+         ResourceId=Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+         AttributeInfo=authDataEntries
+         #
 
-    #
-    #Properties
-    #
-    password="{xor}Oz1tNjEsK24=" #required
-    alias=DBUser #required
-    userId=db2inst1 #required
-    description=
+         #
+         #Properties
+         #
+         password="{xor}Oz1tNjEsK24=" #required
+         alias=DBUser #required
+         userId=db2inst1 #required
+         description=
 
-    #
-    # End of Section 1.0# Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
-    #
-    #
-    #
-    EnvironmentVariablesSection
-    #
-    #
-    #Environment Variables
-    cellName=DefaultCell01
-```
+         #
+         # End of Section 1.0# Cell=!{cellName}:Security=:JAASAuthData=alias#DBUser
+         #
+         #
+         #
+         EnvironmentVariablesSection
+         #
+         #
+         #Environment Variables
+         cellName=DefaultCell01
+     ```
 
-- The attribute `authdata.properties` contains the properties file based configure used to update the database userId and password for the JAASAuthData whose alias is DBUser. 
-  The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdata.properties` during container startup so that the application server startup script can automatically configures the server with these entries. 
-- Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
+     - The attribute `authdata.properties` contains the properties file based configure used to update the database userId and password for the JAASAuthData whose alias is DBUser. 
+     - The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdata.properties` during container startup so that the application server startup script can automatically configures the server with these entries. 
+     - Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
+
 
 <a name="access-the-application"></a>
 ## Access the application (Hands-on)
