@@ -227,7 +227,7 @@ RUN /work/configure.sh
    ```
 
    - The application image you just pushed should be listed. The hash of the image is stored alongside (indicated by the SHA-256 value).
-
+     Example output:
      ```
      image-registry.openshift-image-registry.svc:5000/apps-was/cos-was@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
      ```
@@ -239,10 +239,10 @@ RUN /work/configure.sh
    ```
 
    - You can also use the OpenShift console (UI) to see the _ImageStream_:
-   - From the panel on left-side, click on **Builds** > **Image Streams**. 
-   - Then select `apps-was` from the **Project** drop-down menu. 
-   - Click on `cos-was` from the list. 
-   - Scroll down to the bottom to see the image that you pushed. 
+     - From the panel on left-side, click on **Builds** > **Image Streams**. 
+     - Then select `apps-was` from the **Project** drop-down menu. 
+     - Click on `cos-was` from the list. 
+     - Scroll down to the bottom to see the image that you pushed. 
 
 <a name="deploy"></a>
 ## Deploy 
