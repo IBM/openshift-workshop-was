@@ -400,7 +400,7 @@ Here is the final version of the file:
 1. Verify the image stream is created via the command line:
 
    ```
-   oc get imagestreams -n apps
+   oc get imagestreams
    ```
 
    Example output:
@@ -420,22 +420,54 @@ Here is the final version of the file:
 
 ## Deploy (Hands-on)
 
-Customer Order Services application uses DB2 as its database. To deploy it to Liberty, a separate instance of the database is already configured in the OpenShift cluster you are using. The database is exposed within the cluster using a _Service_ and the application references database using the address of the _Service_.
+Customer Order Services application uses DB2 as its database. To deploy it to Liberty, a separate instance of the database is already pre-configured in the OpenShift cluster you are using. The database is exposed within the cluster using a _Service_ and the application references database using the address of the _Service_.
 
-The OpenID Connector Provider keycloak has already been pre-deployed in the cluster, and a realm named `Galaxy` created. This is the security realm to be used for our application.  
+The OpenID Connector Provider Keycloak has already been pre-deployed in the cluster, and a realm named `Galaxy` is created. This is the security realm to be used for our application.  
 
-1. First, configure the application by substiting the keycloak URL to the relevant configuration file.
-   Take a look at the contents of deploy/overlay-apps/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
+1. Configure the application by substiting the keycloak URL to the relevant configuration file.
+   - First, take a look at the contents of deploy/overlay-apps/configmap.yaml (at the current directory of `/openshift-workshop-was/labs/Openshift/RuntimeModernization`), and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
-   ```
-   cat deploy/overlay-apps/configmap.yaml
-   ```
+     ```
+     cat deploy/overlay-apps/configmap.yaml
+     ```
 
-   - Substitute with the actual URL of your keycloak instance:
+     Output:
+     ```
+     apiVersion: v1
+     kind: ConfigMap
+     metadata:
+       name: cos-config
+     data:
+       SEC_TLS_TRUSTDEFAULTCERTS: "true"
+       SSO_REALM : "Galaxy"
+       SSO_CLIENT_ID : "cos_app"
+       SSO_URI : "https://ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/"
+       JWT_ISSUER : "https://ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy"
+       JWT_JWKS_URI : "https://ENTER_YOUR_ROUTER_HOSTNAME_HERE/auth/realms/Galaxy/protocol/openid-connect/certs"
+       DB_HOST : "cos-db-liberty.db.svc"
+     ```
+     
+   - Substitute `ENTER_YOUR_ROUTER_HOSTNAME_HERE` with the actual hostname of your keycloak instance:
    
      ```
      sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
      cat deploy/overlay-apps/configmap.yaml
+     ```
+     
+     Example output of yaml:
+     ```
+     apiVersion: v1
+     kind: ConfigMap
+     metadata:
+       name: cos-config
+     data:
+       SEC_TLS_TRUSTDEFAULTCERTS: "true"
+       SSO_REALM : "Galaxy"
+       SSO_CLIENT_ID : "cos_app"
+       SSO_URI : "https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/"
+       JWT_ISSUER : "https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy"
+       JWT_JWKS_URI : "https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy/protocol/openid-connect/certs"
+       DB_HOST : "cos-db-liberty.db.svc"
      ```
 
 1. We will use the `-k`, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. 
