@@ -734,11 +734,11 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      - Operator's `deployment` details
        - select `open-liberty-operator`
              
-         ![olo deploy1](extras/images/olo-deploy1.jpg)
+         ![olo deploy1](extras/images/olo_deploy1.jpg)
          
        - select `YAML` tab to view the content of yaml
        
-         ![olo deploy2](extras/images/olo-deploy2.jpg)
+         ![olo deploy2](extras/images/olo_deploy2.jpg)
 
      - Operator's `pod` details
        - select `open-liberty-operator-`
@@ -760,12 +760,12 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
     
           ![olo op1](extras/images/olo-op1.jpg)
           
-        - select `YAML` tab to view the content of yaml
+        - select `Open Liberty Application` tab and select `cos` to view the deails of Open Liberty Application instance
      
           ![olo op2](extras/images/olo-op2.jpg)
         
-        - select `Open Liberty Application` tab and select `cos` to view the deails of Open Liberty Application instance
-       
+        - select `YAML` tab to view the content of yaml
+        
           ![ola instance](extras/images/ola-instance.jpg)
 
       - Application `deployment` details:
