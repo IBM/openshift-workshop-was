@@ -479,7 +479,8 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
 
      Example output:
-     ```
+     
+     ```yaml
      apiVersion: v1
      data:
        DB_HOST: cos-db-liberty.db.svc
