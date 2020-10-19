@@ -440,7 +440,7 @@ Since migrating the database is not the focus of this particular workshop and to
    - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
    - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
    - Add few items to the cart. 
-   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with the total cost.
+   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
    - Close the browser.
 
 ### Review the application workload flow without operator (Hands-on)
@@ -678,7 +678,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
    - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
    - Add few items to the cart. 
-   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with the total cost.
+   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
    - Close the browser.
   
 
