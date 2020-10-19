@@ -57,7 +57,7 @@ IBM Cloud Transformation Advisor was used to analyze the existing Customer Order
 **Homework**: After you complete this workshop, review the step-by-step instructions on how to replicate these steps from the resources included in _Next Steps_ section. Then try Transformation Advisor with one of your applications to migrate it to Liberty.
 
 
-## Build
+## Build (Hands-on)
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on Liberty.
 
@@ -80,7 +80,7 @@ Let's kick that process off and then come back to learn what you did.
    ls
    ```
 
-1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (indicated as the location of current directory). While the image is building(takes ~3 minutes), continue with rest of the lab:
+1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (indicated as the location of current directory). While the image is building (which takes ~3 minutes), continue with rest of the lab:
    ```
    docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
    ```
@@ -262,171 +262,184 @@ Here is the final version of the file:
   Remember that each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
 
-### Build image
+### Build image (Hands-on)
 
-Go back to the web terminal to check the build you started earlier.
-You should see the following message if image was built successfully. Please wait if it's still building:
+1. Go back to the web terminal to check the build you started earlier.
+   You should see the following message if image was built successfully. Please wait if it's still building:
 
-```
-Successfully tagged image-registry.openshift-image-registry.svc:5000/apps/cos:latest
-```
-
-Validate that image is in the repository by running command:
-
-```
-docker images
-```
-
-You should see the following images on the output (in addition to the images from previous lab). Notice that the base image, _openliberty/open-liberty_, is also listed. It was pulled as the first step of building application image.
-
-```
-REPOSITORY                                                           TAG                     IMAGE ID            CREATED                SIZE
-image-registry.openshift-image-registry.svc:5000/apps/cos            latest                  73e50e797849        4 minutes ago          859MB
-openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
-```
-
-Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  Choose one of two ways:
-- Via command line: 
-  ```
-  oc new-project apps
-  ```
-- Via the console: 
-  - Click on **Home** > **Projects**. 
-  - Click on `Create Project` button.
-  - Enter `apps` for the _Name_ field and click on `Create`.
-  - Go back to web terminal. 
-  - Switch the current project in the command line to `apps` 
-    ```
-    oc project apps
-    ```
-
-Enable monitoring by adding the necessary label to the `apps` namespace. 
-Choose one of two options:
-- For command line:
    ```
-   oc label namespace apps app-monitoring=true
+   Successfully tagged image-registry.openshift-image-registry.svc:5000/apps/cos:latest
    ```
-- For console, from the left-panel, click on **Administration** > **Namespaces**. Click on the menu-options for `apps` namespace and click on `Edit Labels`. Copy and paste `app-monitoring=true` into the text box and click `Save`.
 
-    ![Add label to namespace](extras/images/add-monitor-label.gif)
+1. Validate that image is in the repository.  Run the command:
+
+   ```
+   docker images
+   ```
+
+   - You should see the following images on the output (in addition to the images from previous lab). Notice that the base image, _openliberty/open-liberty_, is also listed. It was pulled as the first step of building application image.
+
+     ```
+     REPOSITORY                                                           TAG                     IMAGE ID            CREATED                SIZE
+     image-registry.openshift-image-registry.svc:5000/apps/cos            latest                  73e50e797849        4 minutes ago          859MB
+     openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
+     ```
+
+1. Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  
+   Choose one of two ways:
+   - Via command line: 
+     ```
+     oc new-project apps
+     ```
+     
+   - Via the console: 
+     - Click on **Home** > **Projects**. 
+     - Click on `Create Project` button.
+     - Enter `apps` for the _Name_ field and click on `Create`.
+     - Go back to web terminal. 
+     - Switch the current project in the command line to `apps` 
+       ```
+       oc project apps
+       ```
+
+1. Enable monitoring by adding the necessary label to the `apps` namespace. 
+   Choose one of two options:
+   - For command line:
+     ```
+     oc label namespace apps app-monitoring=true
+     ```
+     
+   - For console, from the left-panel, 
+     - click on **Administration** > **Namespaces**. 
+     - Click on the menu-options for `apps` namespace 
+     - click on `Edit Labels`
+     - Copy and paste `app-monitoring=true` into the text box 
+     - click `Save`
+
+       ![Add label to namespace](extras/images/add-monitor-label.gif)
 
 
-Login to the image registry by running the following command in web terminal:
+1. Login to the image registry by running the following command in web terminal:
 
-```
-docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
-```
+   ```
+   docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
+   ```
 
-Push the image to OpenShift's internal image registry, which could take up to a minute:
+1. Push the image to OpenShift's internal image registry, which could take up to a minute:
 
-```
-docker push image-registry.openshift-image-registry.svc:5000/apps/cos
-```
+   ```
+   docker push image-registry.openshift-image-registry.svc:5000/apps/cos
+   ```
 
-Verify that the image is in image registry:
+1. Verify that the image is in image registry:
 
-```
-oc get images | grep apps/cos
-```
+   ```
+   oc get images | grep apps/cos
+   ```
 
-The application image you just pushed should be listed:
+   - The application image you just pushed should be listed:
 
-```
-image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
-```
+     ```
+     image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
+     ```
 
-Verify the imagestream is also created:
+1. Verify the image stream is also created.  From the web terminal,
 
-```
-oc get imagestreams -n apps
-```
+   ```
+   oc get imagestreams -n apps
+   ```
 
-And the output:
-```
-NAME   IMAGE REPOSITORY                                            TAGS     UPDATED
-cos    image-registry.openshift-image-registry.svc:5000/apps/cos   latest   2 minutes ago
-```
+   And the output:
+   ```
+   NAME   IMAGE REPOSITORY                                            TAGS     UPDATED
+   cos    image-registry.openshift-image-registry.svc:5000/apps/cos   latest   2 minutes ago
+   ```
 
-You may also check from the console: from the left-panel, click on **Builds** > **Image Streams**. Then select `apps` from the _Project_ drop-down list. Click on `cos` from the list. Scroll down to the bottom to see the image that you pushed.
+1. You may also check the image stream from the console: 
+   - from the left-panel, click on **Builds** > **Image Streams**. 
+   - Then select `apps` from the _Project_ drop-down list. 
+   - Click on `cos` from the list. 
+   - Scroll down to the bottom to see the image that you pushed.
 
 
-## Deploy
+## Deploy (Hands-on)
 
 Customer Order Services application uses DB2 as its database. To deploy it to Liberty, a separate instance of the database is already configured in the OpenShift cluster you are using. The database is exposed within the cluster using a _Service_ and the application references database using the address of the _Service_.
 
-The OpenID Connector Provider keycloak has already been pre-deployed in the cluster, and a realm named `Galax` created. This is the security realm to be used for our application.  
-First, configure the application by substiting the keycloak URL to the relevant configuration file.
-Take a look at the contents of deploy/overlay-apps/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
+The OpenID Connector Provider keycloak has already been pre-deployed in the cluster, and a realm named `Galaxy` created. This is the security realm to be used for our application.  
 
-```
-cat deploy/overlay-apps/configmap.yaml
-```
+1. First, configure the application by substiting the keycloak URL to the relevant configuration file.
+   Take a look at the contents of deploy/overlay-apps/configmap.yaml, and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
-Substitute with the actual URL of your keycloak instance:
-```
-sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
-cat deploy/overlay-apps/configmap.yaml
-```
+   ```
+   cat deploy/overlay-apps/configmap.yaml
+   ```
 
-We will use the -k, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. 
+   - Substitute with the actual URL of your keycloak instance:
+     ```
+     sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
+     cat deploy/overlay-apps/configmap.yaml
+     ```
 
-Preview what will be deployed:
+1. We will use the `-k`, or `kustomize` option of Openshift CLI to deploy the application. We will first complete the deployment, and then explain how it works in a later section. 
 
-```
-oc kustomize deploy/overlay-apps
-```
+   - Preview what will be deployed:
 
-Deploy the yaml files:
+     ```
+     oc kustomize deploy/overlay-apps
+     ```
 
-```
-oc apply -k deploy/overlay-apps
-```
+   - Deploy the yaml files:
 
-Verify that the route is created:
-```
-oc get route cos
-```
+     ```
+     oc apply -k deploy/overlay-apps
+     ```
 
-And you should see something like:
-```
-NAME   HOST/PORT                                                                                            PATH   SERVICES   PORT       TERMINATION          WILDCARD
-cos    cos-apps.mchengupdate2-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud          cos        9443-tcp   reencrypt/Redirect   None
-```
+1. Verify that the route is created:
+    ```
+    oc get route cos
+    ```
 
-Create keycloak client configuration with the route for this application. First, view the exsiting configuration, and note ENTER_YOUR_APPLICATION_HOST_NAME_HERE:
+    Example output:
+    ```
+    NAME   HOST/PORT                                                                                            PATH   SERVICES   PORT       TERMINATION          WILDCARD
+    cos    cos-apps.mchengupdate2-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud          cos        9443-tcp   reencrypt/Redirect   None
+    ```
 
-```
-cat keycloak/client.yaml
-```
+1. Create keycloak client configuration with the route for this application. 
+   - First, view the exsiting configuration, and note ENTER_YOUR_APPLICATION_HOST_NAME_HERE:
 
-Change ENTER_YOUR_APPLICATION_HOSTNAME_HERE to the actual hostname of your application:
+     ```
+     cat keycloak/client.yaml
+     ```
 
-```
-sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
-cat keycloak/client.yaml
-```
+   - Change ENTER_YOUR_APPLICATION_HOSTNAME_HERE to the actual hostname of your application:
 
-After verifying the correct substituion, apply the changes: 
+     ```
+     sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
+     cat keycloak/client.yaml
+     ```
 
-```
-oc apply -f keycloak/client.yaml
-```
+   - After verifying the correct substituion, apply the changes: 
+
+     ```
+     oc apply -f keycloak/client.yaml
+     ```
+
+1. Verify your pod is ready:
+
+   ```
+   oc get pod 
+   ```
+
+   Example output:
+   ```
+   NAME                   READY   STATUS    RESTARTS   AGE
+   cos-596b4f849f-2fg4h   1/1     Running   0          18m
+   ```
 
 
-Verify your pod is ready:
-
-```
-oc get pod 
-```
-
-And you should see something like:
-```
-NAME                   READY   STATUS    RESTARTS   AGE
-cos-596b4f849f-2fg4h   1/1     Running   0          18m
-```
-
-
-### Access the application
+### Access the application (Hands-on)
 
 
 1. Run the following command to get the URL of your application:
