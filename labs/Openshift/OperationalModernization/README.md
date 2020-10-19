@@ -718,10 +718,10 @@ The Runtime Component Operator is part of a set of devops tools that also includ
           ![rco pod3](extras/images/rco-pod3.jpg)
                
    
-   - Resources in the project `app-was`:
+   - Resources in the project `apps-was`:
    
      - `Runtime Component` instance details:
-       - select `Runtime Component Operator`.  Note: The operator is installed at cluster level and is visible to all existing projects, but Runtime Component instance is created under the project `app-was`.
+       - select `Runtime Component Operator`.  Note: The operator is installed at cluster level and is visible to all existing projects, but Runtime Component instance is created under the project `apps-was`.
      
          ![rco op1](extras/images/rco-op1.jpg)
 
