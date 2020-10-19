@@ -814,7 +814,9 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
      oc kustomize deploy/overlay-apps
      ```
-
+     The output is the same as displayed in [Deploy](#deploy) (Hands-on) section.
+     
+     
 ### Secrets
 
 Specifying credentials and tokens in plain text is not secure. 
