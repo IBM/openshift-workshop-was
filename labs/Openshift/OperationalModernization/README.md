@@ -723,7 +723,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
        
          ![rc workload deploy1](extras/images/rc-workload-deploy1.jpg)  
        
-       - select `YAML` tab to view the content of yaml
+       - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of RuntimeComponent custom resource.
        
          ![rc workload deploy2](extras/images/rc-workload-deploy2.jpg)
          
@@ -742,7 +742,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
        
          ![rc network service1](extras/images/rc-net-service1.jpg) 
          
-       - select `YAML` to view the content of yaml
+       - select `YAML` to view the content of yaml.  Note the service is created through the controller of RuntimeComponent custom resource.
          
          ![rc network service2](extras/images/rc-net-service2.jpg) 
        
@@ -751,7 +751,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
        
          ![rc network route1](extras/images/rc-net-route1.jpg) 
          
-       - select `YAML` to view the content of yaml
+       - select `YAML` to view the content of yaml.  Note the route is created through the controller of RuntimeComponent custom resource.
          
          ![rc network route2](extras/images/rc-net-route2.jpg)   
      
