@@ -700,11 +700,22 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
    ```
 
-1. Point your browser to the above URL. You'll be taken to the login form. Login with user `skywalker` and password `force`.
+   Example output:
+   ```
+   http://cos-apps.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
+   ```
+   
+1. Point your browser to the above URL. 
+   - You'll be taken to the login form. 
 
-1. From the `Shop` tab, add few items to the cart. Click on an item and then drag and drop the item into the shopping cart. 
+   ![Galaxy Login](extras/images/galaxy.jpg)
 
-1. As the items are added, it'll be shown under _Current Shopping Cart_ (on the right side).
+
+   - Login with user `skywalker` and password `force`.
+   - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
+   - Add few items to the cart. As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with the total cost.
+   - Close the browser.
+
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
