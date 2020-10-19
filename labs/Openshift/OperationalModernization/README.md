@@ -191,6 +191,7 @@ RUN /work/configure.sh
    ```
 
    - You should get an output similar to this. Notice that the base image, websphere-traditional, is also listed. It was pulled as the first step of building application image.
+     
      Example output:
      ```
      REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
@@ -227,6 +228,7 @@ RUN /work/configure.sh
    ```
 
    - The application image you just pushed should be listed. The hash of the image is stored alongside (indicated by the SHA-256 value).
+     
      Example output:
      ```
      image-registry.openshift-image-registry.svc:5000/apps-was/cos-was@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
