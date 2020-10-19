@@ -277,13 +277,15 @@ Here is the final version of the file:
    docker images
    ```
 
-   - You should see the following images on the output (in addition to the images from previous lab). Notice that the base image, _openliberty/open-liberty_, is also listed. It was pulled as the first step of building application image.
+   - You should see the following images on the output. Notice that the base image, _openliberty/open-liberty_, is also listed. It was pulled as the first step of building application image.
 
      Example output:
      ```
-     REPOSITORY                                                           TAG                     IMAGE ID            CREATED                SIZE
-     image-registry.openshift-image-registry.svc:5000/apps/cos            latest                  73e50e797849        4 minutes ago          859MB
-     openliberty/open-liberty                                             full-java8-openj9-ubi   329623a556ff        5 minutes ago          734MB
+     REPOSITORY                                                  TAG                     IMAGE ID            CREATED             SIZE
+     image-registry.openshift-image-registry.svc:5000/apps/cos   latest                  4758119add3f        2 minutes ago       883MB
+     <none>                                                      <none>                  5bcb83fad548        5 minutes ago       792MB
+     openliberty/open-liberty                                    full-java8-openj9-ubi   e6b5411076fe        5 days ago          794MB
+     maven                                                       latest                  1337d55397f7        4 weeks ago         631MB
      ```
 
 1. Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  
