@@ -271,7 +271,7 @@ Here is the final version of the file:
    Successfully tagged image-registry.openshift-image-registry.svc:5000/apps/cos:latest
    ```
 
-1. Validate that image is in the repository.  Run the command:
+1. Validate that image is in the repository via the command line:
 
    ```
    docker images
@@ -279,6 +279,7 @@ Here is the final version of the file:
 
    - You should see the following images on the output (in addition to the images from previous lab). Notice that the base image, _openliberty/open-liberty_, is also listed. It was pulled as the first step of building application image.
 
+     Example output:
      ```
      REPOSITORY                                                           TAG                     IMAGE ID            CREATED                SIZE
      image-registry.openshift-image-registry.svc:5000/apps/cos            latest                  73e50e797849        4 minutes ago          859MB
@@ -286,13 +287,14 @@ Here is the final version of the file:
      ```
 
 1. Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  
-   Choose one of two ways:
-   - Via command line: 
+   Choose one of two ways to create the project:
+   
+   - Via the command line: 
      ```
      oc new-project apps
      ```
      
-   - Via the console: 
+   - Via the console, from the left-panel: 
      - Click on **Home** > **Projects**. 
      - Click on `Create Project` button.
      - Enter `apps` for the _Name_ field and click on `Create`.
@@ -303,60 +305,63 @@ Here is the final version of the file:
        ```
 
 1. Enable monitoring by adding the necessary label to the `apps` namespace. 
-   Choose one of two options:
-   - For command line:
+   Choose one of two options to label the namespace:
+   
+   - Via the command line:
      ```
      oc label namespace apps app-monitoring=true
      ```
      
-   - For console, from the left-panel, 
-     - click on **Administration** > **Namespaces**. 
+   - Via the console, from the left-panel, 
+     - Click on **Administration** > **Namespaces** 
      - Click on the menu-options for `apps` namespace 
-     - click on `Edit Labels`
+     - Click on `Edit Labels`
      - Copy and paste `app-monitoring=true` into the text box 
-     - click `Save`
+     - Click `Save`
 
        ![Add label to namespace](extras/images/add-monitor-label.gif)
 
 
-1. Login to the image registry by running the following command in web terminal:
+1. Login to the image registry via the command line:
+   - Note: From below command, a session token is obtained from the value of another command `oc whoami -t` and used as the password to login.
 
-   ```
-   docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
-   ```
+     ```
+     docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
+     ```
 
-1. Push the image to OpenShift's internal image registry, which could take up to a minute:
+1. Push the image to OpenShift's internal image registry via the command line, which could take up to a minute:
 
    ```
    docker push image-registry.openshift-image-registry.svc:5000/apps/cos
    ```
 
-1. Verify that the image is in image registry:
+1. Verify that the image is in image registry via the command line:
 
    ```
    oc get images | grep apps/cos
    ```
 
-   - The application image you just pushed should be listed:
+   - The application image you just pushed should be listed.
 
+     Example output:
      ```
      image-registry.openshift-image-registry.svc:5000/apps/cos@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
      ```
 
-1. Verify the image stream is also created.  From the web terminal,
+1. Verify the image stream is created via the command line:
 
    ```
    oc get imagestreams -n apps
    ```
 
-   And the output:
+   Example output:
    ```
    NAME   IMAGE REPOSITORY                                            TAGS     UPDATED
    cos    image-registry.openshift-image-registry.svc:5000/apps/cos   latest   2 minutes ago
    ```
 
-1. You may also check the image stream from the console: 
-   - from the left-panel, click on **Builds** > **Image Streams**. 
+1. You may also check the image stream via the console: 
+   - From the left-panel, click on **Builds** > **Image Streams**. 
    - Then select `apps` from the _Project_ drop-down list. 
    - Click on `cos` from the list. 
    - Scroll down to the bottom to see the image that you pushed.
@@ -376,6 +381,7 @@ The OpenID Connector Provider keycloak has already been pre-deployed in the clus
    ```
 
    - Substitute with the actual URL of your keycloak instance:
+   
      ```
      sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
      cat deploy/overlay-apps/configmap.yaml
@@ -457,93 +463,98 @@ The OpenID Connector Provider keycloak has already been pre-deployed in the clus
 
 ## Review Deployment
 
-Let's review the configuration files used for our deployment. 
-Our configuration files are structured for the -k, or `kustomize` option of Openshift CLI.
-Kustomize is a separate tool that has been integrated into Openshift CLI.
-It allows you to customize yaml without using variables.
-You can define a base directory, and one one more override directories to customize the base directory
+1. Let's review the configuration files used for our deployment. 
+   - Our configuration files are structured for the -k, or `kustomize` option of Openshift CLI.
+   - Kustomize is a separate tool that has been integrated into Openshift CLI.
+   - It allows you to customize yaml without using variables.
+   - You can define a base directory, and one one more override directories to customize the base directory
 
-```
-ls deploy
-```
+1. Change directory
 
-And the output shows that we have one base directory, and one override directory:
-```
-base
-overlay-apps
-```
+   ```
+   ls deploy 
+   ```
 
-Take a look at what's in the base directory:
-```
-ls deploy/base
-```
+   And the output shows that we have one base directory, and one override directory:
+   
+   ```
+   base
+   overlay-apps
+   ```
 
-And the output:
-```
-kustomization.yaml  olapp-cos.yaml
-```
+1. Take a look at what's in the base directory:
+   ```
+   ls deploy/base
+   ```
 
-Each directory used for kustomization contains one `kustomization.yaml`
+   And the output:
+   
+   ```
+   kustomization.yaml  olapp-cos.yaml
+   ```
 
-```
-cat deploy/base/kustomization.yaml
-```
+   - Each directory used for kustomization contains one `kustomization.yaml`
 
-This is a simple kustomization directory that lists just the yaml files to be deployed.
-```
-resources:
-- olapp-cos.yaml
-```
+     ```
+     cat deploy/base/kustomization.yaml
+     ```
 
-The file `olapp-cos.yaml` contains the custom resource definition to deploy the application. 
-It will be covered in detail later.
-It is placed in the base directory since it is common for all stages of the application, for example, dev, test, prod.
+   - This is a simple kustomization directory that lists just the yaml files to be deployed.
+     ```
+     resources:
+     - olapp-cos.yaml
+     ```
 
-Take a look at the files in the `overlay-apps` directory. 
+   - The file `olapp-cos.yaml` contains the custom resource definition to deploy the application. 
+   - It will be covered in detail later.
+   - It is placed in the base directory since it is common for all stages of the application, for example, dev, test, prod.
 
-```
-ls deploy/overlay-apps
-```
+1. Take a look at the files in the `overlay-apps` directory. 
 
-And the output:
-```
-configmap.yaml  
-kustomization.yaml
-secret-db-creds.yaml  
-secret-liberty-creds.yaml
-```
+   ```
+   ls deploy/overlay-apps
+   ```
 
-Take a look at the kustomization.yaml in the overlay-apps directory:
-```
-cat deploy/overlay-apps/kustomization.yaml
-```
+   And the output:
+   
+   ```
+   configmap.yaml  
+   kustomization.yaml
+   secret-db-creds.yaml  
+   secret-liberty-creds.yaml
+   ```
 
-And the output:
+   - Take a look at the kustomization.yaml in the overlay-apps directory:
+     ```
+     cat deploy/overlay-apps/kustomization.yaml
+     ```
 
-```
-namespace: apps
-resources:
-- configmap.yaml
-- secret-db-creds.yaml
-- secret-liberty-creds.yaml
-bases:
-- ./../base
-```
+     And the output:
 
-Note that:
-- The namespace is defined. This means that all resource that originate from this directory will be applied to the `apps` namespace.
-- Resources from the base directory will also be included.
-- You may define additional overlay directories for different environments, each with a different namespace. For example, overlay-test, overlay-prod.
-- The configurations in this directory contain the overrides specific to this environment. 
-- It is possible to override configurations in the base directory. But that is beyond the scope of this lab.
-- These configuration files are meant to be stored in source control so that you can version and re-apply them as needed. This is the basic concept of `git-ops`. Full coverage of gitops is beyond the scope of this lab.
-- For a real environment, DO NOT store the secret yamls into source control. It is a security expsoure.  See extra credit section on how to secure your secrets.
+     ```
+     namespace: apps
+     resources:
+     - configmap.yaml
+     - secret-db-creds.yaml
+     - secret-liberty-creds.yaml
+     bases:
+     - ./../base
+     ```
 
-To preview the resources that will be applied for a specific override directory, use the `kustomize` option of the Openshift command line. For example,
+    Note that:
+    - The namespace is defined. This means that all resource that originate from this directory will be applied to the `apps` namespace.
+    - Resources from the base directory will also be included.
+    - You may define additional overlay directories for different environments, each with a different namespace. For example, overlay-test, overlay-prod.
+    - The configurations in this directory contain the overrides specific to this environment. 
+    - It is possible to override configurations in the base directory. But that is beyond the scope of this lab.
+    - These configuration files are meant to be stored in source control so that you can version and re-apply them as needed. This is the basic concept of `git-ops`. Full coverage of gitops is beyond the scope of this lab.
+    - For a real environment, DO NOT store the secret yamls into source control. It is a security expsoure.  See extra credit section on how to secure your secrets.
 
-```
-oc kustomize deploy/overlay-apps
-```
+   - To preview the resources that will be applied for a specific override directory, use the `kustomize` option of the Openshift command line. For example,
+
+     ```
+     oc kustomize deploy/overlay-apps
+     ```
 
 ### Secrets
 
