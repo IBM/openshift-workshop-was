@@ -436,7 +436,7 @@ Since migrating the database is not the focus of this particular workshop and to
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
    - Note: DB2 in the middle of the diagram is pre-installed through a different project `db` and has been up and running before your hands-on.  Also it will not be impacted when you're removing the deployment in next step.
 
-   ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
+     ![applicaiton flow with standard deployment](extras/images/app-flowchart_1.jpg)
    
  
 1. Navigate from OpenShift Console to view the resources on the deployment:
