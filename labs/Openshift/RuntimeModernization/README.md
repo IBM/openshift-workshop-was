@@ -743,15 +743,15 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      - Operator's `pod` details
        - select `open-liberty-operator-`
        
-         ![olo pod1](extras/images/olo-pod1.jpg)
+         ![olo pod1](extras/images/olo_pod1.jpg)
          
        - select `Logs` to view the open-liberty-operator container log
        
-         ![olo pod2](extras/images/olo-pod2.jpg)
+         ![olo pod2](extras/images/olo_pod2.jpg)
          
        - select `Terminal` to view the files in the container
        
-         ![olo pod3](extras/images/olo-pod3.jpg)   
+         ![olo pod3](extras/images/olo_pod3.jpg)   
      
     - Resources in the project `apps`:
     
