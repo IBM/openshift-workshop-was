@@ -769,21 +769,22 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
           ![ola instance](extras/images/ola-instance.jpg)
 
       - Application `deployment` details:
-        - select `cos-was-rco`
+        - select `cos`
         
-          ![loa workload deploy1](extras/images/ola-workload-deploy1.jpg)
+          ![ola workload deploy1](extras/images/ola-workload-deploy1.jpg)
 
-        - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of RuntimeComponent custom resource.
+        - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of Open Liberty Application custom resource.
        
-         ![ola workload deploy2](extras/images/ola-workload-deploy2.jpg)
+          ![ola workload deploy2](extras/images/ola-workload-deploy2.jpg)
          
       - Application `pod` details:    
-        - select `cos-was-rco-`
+        - select `cos-`
        
-         ![rc workload pod1](extras/images/rc-workload-pod1.jpg)  
+          ![rc workload pod1](extras/images/rc-workload-pod1.jpg)  
        
         - select `Logs` tab to view the WebSphere Application Server log
-         ![rc workload pod2](extras/images/rc-workload-pod2.jpg)      
+        
+          ![rc workload pod2](extras/images/rc-workload-pod2.jpg)      
          
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
