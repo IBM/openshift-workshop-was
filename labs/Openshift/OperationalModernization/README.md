@@ -157,99 +157,95 @@ RUN /work/configure.sh
 
 - Then we run the `/work/configure.sh` which will start the server and run the scripts and apply the properties file configuration to new image.
 
-Each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
+- Each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
 ### Build image (Hands-on)
 
-This is the command you ran earlier.
+1. Review the command you ran earlier:
 
-```
-docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
-```
+   ```
+   docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
+   ```
 
-It instructs docker to build the image following the instructions in the Dockerfile in current directory (indicated by the `"."` at the end).
+   - It instructs docker to build the image following the instructions in the Dockerfile in current directory (indicated by the `"."` at the end).
+   - A specific name to tag the built image is also specified. 
+   - The value `image-registry.openshift-image-registry.svc:5000` in the tag is the default address of the internal image registry provided by OpenShift. 
+   - Image registry is a content server that can store and serve container images. 
+   - The registry is accessible within the cluster via its exposed `Service`. 
+   - The format of a Service address: _name_._namespace_._svc_. 
+   - In this case, the image registry is named `image-registry` and it's in namespace `openshift-image-registry`.
+   - The port is 5000.
+   - Later when we push the image to OpenShift's internal image registry, we'll refer to the image by the same values.
 
-A specific name to tag the built image is also specified. 
-The value `image-registry.openshift-image-registry.svc:5000` in the tag is the default address of the internal image registry provided by OpenShift. 
-Image registry is a content server that can store and serve container images. 
-The registry is accessible within the cluster via its exposed `Service`. 
-The format of a Service address: _name_._namespace_._svc_. 
-In this case, the image registry is named `image-registry` and it's in namespace `openshift-image-registry`.
-The port is 5000.
-Later when we push the image to OpenShift's internal image registry, we'll refer to the image by the same values.
 
+1. You should see the following message if the image was successfully built. Please wait if it's still building.
 
-Go back to the web terminal to check on the image build.
-You should see the following message if image was successfully built. Please wait if it's still building.
+   ```
+   Successfully tagged image-registry.openshift-image-registry.svc:5000/apps-was/cos-was:latest
+   ```
 
-```
-Successfully tagged image-registry.openshift-image-registry.svc:5000/apps-was/cos-was:latest
-```
+1. Validate that image is in the repository by running the command:
 
-Validate that image is in the repository by running command:
+   ```
+   docker images
+   ```
 
-```
-docker images
-```
+   - You should get an output similar to this. Notice that the base image, websphere-traditional, is also listed. It was pulled as the first step of building application image.
 
-You should get an output similar to this. Notice that the base image, websphere-traditional, is also listed. It was pulled as the first step of building application image.
+     ```
+     REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
+     image-registry.openshift-image-registry.svc:5000/apps-was/cos-was      latest              9394150a5a15        10 minutes ago      2.05GB
+     ibmcom/websphere-traditional                                           9.0.5.0-ubi         898f9fd79b36        12 minutes ago      1.86GB
+     ```
 
-```
-REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
-image-registry.openshift-image-registry.svc:5000/apps-was/cos-was      latest              9394150a5a15        10 minutes ago      2.05GB
-ibmcom/websphere-traditional                                           9.0.5.0-ubi         898f9fd79b36        12 minutes ago      1.86GB
-```
+   - Note that `docker images` only lists those images that are cached locally.
+   - The name of the image also contains the host name where the image is hosted. 
+   - If there is no host name, the image is hosted on docker hub. For example:
+   - The image `ibmcom/websphere-traditional` has no host name. It is hosted on docker hub.
+   - The image we just built, `image-registry.openshift-image-registry.svc:5000/apps-was/cos-was`, has host name `image-registry.openshift-image-registry.svc`. It is to be hosted in the Openshift image registry for your lab cluster.
+   - If you change an image, or build a new image, the changes are only available locally. 
+   - You must `push` the image to propagate the changes to the remote registry.
 
-Note that `docker images` only lists those images that are cached locally.
-The name of the image also contains the host name where the image is hosted. 
-If there is no host name, the image is hosted on docker hub.
-For example:
-- The image `ibmcom/websphere-traditional` has no host name. It is hosted on docker hub.
-- The image we just built, `image-registry.openshift-image-registry.svc:5000/apps-was/cos-was`, has host name `image-registry.openshift-image-registry.svc`. It is to be hosted in the Openshift image registry for your lab cluster.
+1. Let's push the image you just built to your OpenShift cluster's built-in image registry. 
+   - First, login to the image registry by running the following command in the web terminal. 
+   - A session token is obtained using the `oc whoami -t` command and used as the password to login.
 
-If you change an image, or build a new image, the changes are only available locally. 
-You must `push` the image to propagate the changes to the remote registry.
+     ```
+     docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
+     ```
 
-Let's push the image you just built to your OpenShift cluster's built-in image registry. 
-First, login to the image registry by running the following command in the web terminal. 
-A session token is obtained using the `oc whoami -t` command and used as the password to login.
+   - Now, push the image into OpenShift cluster's internal image registry, which will take 1-2 minutes:
 
-```
-docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
-```
+     ```
+     docker push image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+     ```
 
-Now, push the image into OpenShift cluster's internal image registry, which will take 1-2 minutes:
+1. Verify that the image is in the image registry. The following command will get the images in the registry. OpenShift stores various images needed for its operations and used by its templates in the registry. Filter through the results to only get the image you pushed. Run the following command:
 
-```
-docker push image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
-```
+   ```
+   oc get images | grep apps-was/cos-was
+   ```
 
-Verify that the image is in the image registry. The following command will get the images in the registry. OpenShift stores various images needed for its operations and used by its templates in the registry. Filter through the results to only get the image you pushed. Run the following command:
+   - The application image you just pushed should be listed. The hash of the image is stored alongside (indicated by the SHA-256 value).
 
-```
-oc get images | grep apps-was/cos-was
-```
+     ```
+     image-registry.openshift-image-registry.svc:5000/apps-was/cos-was@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
+     ```
 
-The application image you just pushed should be listed. The hash of the image is stored alongside (indicated by the SHA-256 value).
+1. OpenShift uses _ImageStream_ to provide an abstraction for referencing container images from within the cluster. When an image is pushed to registry, an _ImageStream_ is created automatically, if one already doesn't exist. Run the following command to see the _ImageStream_ that's created:
+  
+   ```
+   oc get imagestreams -n apps-was
+   ```
 
-```
-image-registry.openshift-image-registry.svc:5000/apps-was/cos-was@sha256:fbb7162060754261247ad1948dccee0b24b6048b95cd704bf2997eb6f5abfeae
-```
-
-OpenShift uses _ImageStream_ to provide an abstraction for referencing container images from within the cluster. When an image is pushed to registry, an _ImageStream_ is created automatically, if one already doesn't exist. Run the following command to see the _ImageStream_ that's created:
-
-```
-oc get imagestreams -n apps-was
-```
-
-You can also use the OpenShift console (UI) to see the _ImageStream_:
-- From the panel on left-side, click on **Builds** > **Image Streams**. 
-- Then select `apps-was` from the **Project** drop-down menu. 
-- Click on `cos-was` from the list. 
-- Scroll down to the bottom to see the image that you pushed. 
+   - You can also use the OpenShift console (UI) to see the _ImageStream_:
+   - From the panel on left-side, click on **Builds** > **Image Streams**. 
+   - Then select `apps-was` from the **Project** drop-down menu. 
+   - Click on `cos-was` from the list. 
+   - Scroll down to the bottom to see the image that you pushed. 
 
 <a name="deploy"></a>
-## Deploy (Hands-on)
+## Deploy 
 
 The following steps will deploy the modernized Customer Order Services application in a traditional WebSphere Base container to a RedHat OpenShift cluster.
 
@@ -260,26 +256,27 @@ Since migrating the database is not the focus of this particular workshop and to
 
 ### Deploy application (Hands-on)
 
-Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
+1. Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
 
-```
-oc apply -f deploy
+   ```
+   oc apply -f deploy
+   ```
+   Output:
+   ```
+   deployment.apps/cos-was created
+   route.route.openshift.io/cos-was created
+   secret/authdata created
+   service/cos-was created 
+   ```
 
-Output:
-deployment.apps/cos-was created
-route.route.openshift.io/cos-was created
-secret/authdata created
-service/cos-was created
-```
+1. The directory `deploy` contains the following yaml files:
 
-The directory `deploy` contains the following yaml files:
+   - Deployment.yaml:  the specification for creating a Kubernetes deployment
+   - Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
+   - Route.yaml: the specification to expose the service as a route visible outside of the cluster.
+   - Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
 
-- Deployment.yaml:  the specification for creating a Kubernetes deployment
-- Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
-- Route.yaml: the specification to expose the service as a route visible outside of the cluster.
-- Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
-
-The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
+1. The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
 
 ```yaml
 apiVersion: apps/v1
@@ -330,8 +327,8 @@ Note:
 - The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
 - The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
 - You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
-When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
-For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
+- When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
+- For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
 After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
   - For volumeMounts:
     - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
@@ -339,7 +336,7 @@ After it is bound, it will appear as the file `/etc/websphere/authdata.propertie
   - For volumes:
     - the secretName specifies the name of the secret whose contents are to be bound.
 
-The file `Secret.yaml` looks like:
+1. The file `Secret.yaml` looks like:
 
 ```yaml
 apiVersion: v1
@@ -388,10 +385,9 @@ stringData:
     cellName=DefaultCell01
 ```
 
-The attribute `authdata.properties` contains the properties file based configure used to update the database userId and password for the JAASAuthData whose alias is DBUser. 
-The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdata.properties` during container startup so that the application server startup script can automatically configures the server with these entries. 
-
-Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
+- The attribute `authdata.properties` contains the properties file based configure used to update the database userId and password for the JAASAuthData whose alias is DBUser. 
+  The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdata.properties` during container startup so that the application server startup script can automatically configures the server with these entries. 
+- Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
 
 <a name="access-the-application"></a>
 ## Access the application (Hands-on)
@@ -399,8 +395,9 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Confirm you're at the current project `apps-was`:
    ```
    oc project
-   
+   ```
    Example output:
+   ```
    Using project "apps-was" on server "https://c114-e.us-south.containers.cloud.ibm.com:30016".
    ```
    - If it's not at the project `apps-was`, then swtich:
@@ -420,8 +417,9 @@ Note that changes to the contents of the configmap or secret are not automatical
 1. Run the following command to get the URL of your application (the route URL plus the application contextroot): 
    ```
    echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
-   
+   ```
    Example output:
+   ```
    http://cos-was-apps-was.<your-cluster-name>-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
    ```
 
