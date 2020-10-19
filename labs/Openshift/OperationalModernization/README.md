@@ -452,7 +452,7 @@ Since migrating the database is not the focus of this particular workshop and to
    
  
 1. Navigate from OpenShift Console to view the resources on the deployment:
-   - Resources in the project `app-was`:
+   - Resources in the project `apps-was`:
    
      - `deployment` details:
        - select `cos-was`
