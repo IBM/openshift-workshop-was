@@ -455,7 +455,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
      
      Example output of yaml:
-     ```
+     ```yaml
      apiVersion: v1
      kind: ConfigMap
      metadata:
@@ -478,8 +478,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      oc kustomize deploy/overlay-apps
      ```
 
-     Example output:
-     
+     Example output of yaml:
      ```yaml
      apiVersion: v1
      data:
