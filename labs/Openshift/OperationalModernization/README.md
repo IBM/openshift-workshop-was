@@ -191,7 +191,7 @@ RUN /work/configure.sh
    ```
 
    - You should get an output similar to this. Notice that the base image, websphere-traditional, is also listed. It was pulled as the first step of building application image.
-
+     Example output:
      ```
      REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
      image-registry.openshift-image-registry.svc:5000/apps-was/cos-was      latest              9394150a5a15        10 minutes ago      2.05GB
@@ -208,7 +208,7 @@ RUN /work/configure.sh
 
 1. Let's push the image you just built to your OpenShift cluster's built-in image registry. 
    - First, login to the image registry by running the following command in the web terminal. 
-   - A session token is obtained using the `oc whoami -t` command and used as the password to login.
+     - Note: From below command, a session token is obtained from the value of another command `oc whoami -t` and used as the password to login.
 
      ```
      docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
