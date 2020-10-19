@@ -671,14 +671,14 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
 
 1. Verify your pod from the project `apps` is ready:
-   - First confirm you're at the current project `apps-was`:
+   - First confirm you're at the current project `apps`:
      ```
      oc project
      ```
      
-   - If it's not at the project `apps-was`, then swtich:
+   - If it's not at the project `apps`, then swtich:
      ```
-     oc project apps-was
+     oc project apps
      ```
      
    ```
