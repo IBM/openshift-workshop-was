@@ -425,13 +425,13 @@ Customer Order Services application uses DB2 as its database. To deploy it to Li
 The OpenID Connector Provider Keycloak has already been pre-deployed in the cluster, and a realm named `Galaxy` is created. This is the security realm to be used for our application.  
 
 1. Configure the application by substiting the keycloak URL to the relevant configuration file.
-   - First, take a look at the contents of deploy/overlay-apps/configmap.yaml (at the current directory of `/openshift-workshop-was/labs/Openshift/RuntimeModernization`), and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
+   - First, take a look at the contents of `deploy/overlay-apps/configmap.yaml` (at the current directory of `/openshift-workshop-was/labs/Openshift/RuntimeModernization`), and note the occurrences of `ENTER_YOUR_ROUTER_HOSTNAME_HERE`: 
 
      ```
      cat deploy/overlay-apps/configmap.yaml
      ```
 
-     Output:
+     Output of yaml:
      ```yaml
      apiVersion: v1
      kind: ConfigMap
@@ -569,7 +569,15 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      oc apply -k deploy/overlay-apps
      ```
 
-1. Verify that the route is created:
+     Output of deploy command:
+     ```
+     configmap/cos-config created
+     secret/db-creds created
+     secret/liberty-creds created
+     openlibertyapplication.openliberty.io/cos created
+     ```
+     
+1. Verify that the route is created for your application:
     ```
     oc get route cos
     ```
@@ -581,23 +589,86 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
     ```
 
 1. Create keycloak client configuration with the route for this application. 
-   - First, view the exsiting configuration, and note about the lines with ENTER_YOUR_APPLICATION_HOST_NAME_HERE which will be replaced with an actual value in the next step:
+   - First, view the exsiting configuration, and note the occurrences of `ENTER_YOUR_APPLICATION_HOST_NAME_HERE`:
 
      ```
      cat keycloak/client.yaml
      ```
-
-   - Update `keycloak/client.yaml` to replace ENTER_YOUR_APPLICATION_HOSTNAME_HERE with the actual hostname of your application:
+ 
+     Output of yaml:
+     ```yaml
+     apiVersion: keycloak.org/v1alpha1
+     kind: KeycloakClient
+     metadata:
+       name: cos-app
+       namespace: keycloak
+       labels:
+         app: sso
+     spec:
+       realmSelector:
+         matchLabels:
+           app: sso
+       client:
+         clientId: cos_app
+         # clientAuthenticatorType: client-secret
+         enabled: true
+         consentRequired: false
+         publicClient: true
+         standardFlowEnabled: true
+         implicitFlowEnabled: false
+         directAccessGrantsEnabled: true
+         redirectUris:
+           - https://ENTER_YOUR_APPLICATION_HOSTNAME_HERE/*
+         webOrigins:
+           - "+"
+         protocol: openid-connect
+     ```
+     
+   - Update `keycloak/client.yaml` to substitute `ENTER_YOUR_APPLICATION_HOSTNAME_HERE` with the actual hostname of application route URL:
 
      ```
      sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
      cat keycloak/client.yaml
      ```
 
-   - After verifying the correct substituion, apply the changes: 
+     Example of yaml:
+     ```yaml
+     apiVersion: keycloak.org/v1alpha1
+     kind: KeycloakClient
+     metadata:
+       name: cos-app
+       namespace: keycloak
+       labels:
+         app: sso
+     spec:
+       realmSelector:
+         matchLabels:
+           app: sso
+       client:
+         clientId: cos_app
+         # clientAuthenticatorType: client-secret
+         enabled: true
+         consentRequired: false
+         publicClient: true
+         standardFlowEnabled: true
+         implicitFlowEnabled: false
+         directAccessGrantsEnabled: true
+         redirectUris:
+           - https://cos-apps.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/*
+         webOrigins:
+           - "+"
+         protocol: openid-connect
+     ```
+     
+   - After verifying the correct substitution, apply the changes: 
 
      ```
      oc apply -f keycloak/client.yaml
+     ```
+     
+     Output of apply command:
+     ```
+     keycloakclient.keycloak.org/cos-app created
      ```
 
 1. Verify your pod from the project `apps` is ready:
@@ -605,6 +676,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ```
      oc project
      ```
+     
    - If it's not at the project `apps-was`, then swtich:
      ```
      oc project apps-was
