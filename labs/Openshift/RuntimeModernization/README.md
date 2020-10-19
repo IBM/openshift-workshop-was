@@ -57,6 +57,7 @@ IBM Cloud Transformation Advisor was used to analyze the existing Customer Order
 **Homework**: After you complete this workshop, review the step-by-step instructions on how to replicate these steps from the resources included in _Next Steps_ section. Then try Transformation Advisor with one of your applications to migrate it to Liberty.
 
 
+<a name="build"></a>
 ## Build (Hands-on)
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on Liberty.
@@ -418,6 +419,7 @@ Here is the final version of the file:
      ![apps imagestream](extras/images/apps-imagestream.png)
 
 
+<a name="deploy"></a>
 ## Deploy (Hands-on)
 
 Customer Order Services application uses DB2 as its database. To deploy it to Liberty, a separate instance of the database is already pre-configured in the OpenShift cluster you are using. The database is exposed within the cluster using a _Service_ and the application references database using the address of the _Service_.
@@ -729,7 +731,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    - It allows you to customize yaml without using variables.
    - You can define a base directory, and one one more override directories to customize the base directory
 
-1. Change directory
+1. Change directory to /openshift-workshop-was/labs/Openshift/RuntimeModernization (if it's already changed) and list the files:
 
    ```
    ls deploy 
@@ -738,11 +740,10 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    And the output shows that we have one base directory, and one override directory:
    
    ```
-   base
-   overlay-apps
+   base  overlay-apps
    ```
 
-1. Take a look at what's in the base directory:
+1. Take a look at what's in the `base` directory:
    ```
    ls deploy/base
    ```
@@ -759,14 +760,14 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      cat deploy/base/kustomization.yaml
      ```
 
-   - This is a simple kustomization directory that lists just the yaml files to be deployed.
-     ```
-     resources:
-     - olapp-cos.yaml
-     ```
+     Output of yaml:
+     - This is a simple kustomization directory that lists just the yaml files to be deployed.
+       ```
+       resources:
+       - olapp-cos.yaml
+       ```
 
-   - The file `olapp-cos.yaml` contains the custom resource definition to deploy the application. 
-   - It will be covered in detail later.
+   - The file `olapp-cos.yaml` contains the custom resource definition to deploy the application and will be covered in detail later.
    - It is placed in the base directory since it is common for all stages of the application, for example, dev, test, prod.
 
 1. Take a look at the files in the `overlay-apps` directory. 
@@ -778,13 +779,10 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    And the output:
    
    ```
-   configmap.yaml  
-   kustomization.yaml
-   secret-db-creds.yaml  
-   secret-liberty-creds.yaml
+   configmap.yaml  kustomization.yaml  secret-db-creds.yaml  secret-liberty-creds.yaml
    ```
-
-   - Take a look at the kustomization.yaml in the overlay-apps directory:
+   
+   - Take a look at the `kustomization.yaml` in the overlay-apps directory:
      ```
      cat deploy/overlay-apps/kustomization.yaml
      ```
@@ -807,7 +805,8 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
     - You may define additional overlay directories for different environments, each with a different namespace. For example, overlay-test, overlay-prod.
     - The configurations in this directory contain the overrides specific to this environment. 
     - It is possible to override configurations in the base directory. But that is beyond the scope of this lab.
-    - These configuration files are meant to be stored in source control so that you can version and re-apply them as needed. This is the basic concept of `git-ops`. Full coverage of gitops is beyond the scope of this lab.
+    - These configuration files are meant to be stored in source control so that you can version and re-apply them as needed. 
+      - This is the basic concept of `git-ops`. Full coverage of gitops is beyond the scope of this lab.
     - For a real environment, DO NOT store the secret yamls into source control. It is a security expsoure.  See extra credit section on how to secure your secrets.
 
    - To preview the resources that will be applied for a specific override directory, use the `kustomize` option of the Openshift command line. For example,
