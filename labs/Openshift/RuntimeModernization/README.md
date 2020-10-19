@@ -358,6 +358,32 @@ Here is the final version of the file:
    docker push image-registry.openshift-image-registry.svc:5000/apps/cos
    ```
 
+   Example output:
+   ```
+   The push refers to repository [image-registry.openshift-image-registry.svc:5000/apps/cos]
+   9247390b40be: Pushed 
+   9a21ca46f8e3: Pushed 
+   b3cee8ba43fe: Pushed 
+   1dd2f7265f58: Pushed 
+   33b2a4ee94ff: Pushed 
+   2b2a8abdd0c4: Pushed 
+   91ffc437f551: Pushed 
+   4f04e7098d96: Pushed 
+   248016390e0a: Pushed 
+   0fa7eb58a57c: Pushed 
+   b5489882eed9: Pushed 
+   2fb5caadbbb0: Pushed 
+   d06182ac791b: Pushed 
+   b39b0291530b: Pushed 
+   a04c77af4b60: Pushed 
+   479c44e860ff: Pushed 
+   fc905c23b8a3: Pushed 
+   161ec220381b: Pushed 
+   b7b591e3443f: Pushed 
+   ccf04fbd6e19: Pushed 
+   latest: digest: sha256:56d926b7ef64ed163ff026b7b5608ae97df4630235c1d0443a32a4fc8eb35a6c size: 4513
+   ```
+   
 1. Verify that the image is in image registry via the command line:
 
    ```
