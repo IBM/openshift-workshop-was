@@ -271,74 +271,74 @@ Since migrating the database is not the focus of this particular workshop and to
    service/cos-was created 
    ```
 
-1. The directory `deploy` contains the following yaml files:
+1. Let's review what we just did. 
+   - The directory `deploy` contains the following yaml files:
+     - Deployment.yaml:  the specification for creating a Kubernetes deployment
+     - Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
+     - Route.yaml: the specification to expose the service as a route visible outside of the cluster.
+     - Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
 
-   - Deployment.yaml:  the specification for creating a Kubernetes deployment
-   - Service.yaml: the specification to expose the deployment as a cluster-wide Kubernetes service.
-   - Route.yaml: the specification to expose the service as a route visible outside of the cluster.
-   - Secret.yaml: the specification that the `properties based configuration` properties file used to configure database user/password when the container starts.
+   - The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
 
-1. The concepts of a `route` and a `service` have already been covered in the *Introduction to Openshift* lab, and will not be covered here. The concept of a deployment has been covered as well, but we are making use of a few additional features:
+     ```yaml
+     apiVersion: apps/v1
+     kind: Deployment
+     metadata:
+       name: cos-was
+       namespace: apps-was
+     spec:
+       selector:
+         matchLabels:
+           app: cos-was
+       replicas: 1
+       template:
+         metadata:
+           labels:
+             app: cos-was
+         spec:
+           containers:
+           - name: cos-was
+             image: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+             ports:
+               - containerPort: 9080
+             livenessProbe:
+               httpGet:
+                 path: /CustomerOrderServicesWeb/index.html
+                 port: 9080
+               periodSeconds: 30
+               failureThreshold: 6
+               initialDelaySeconds: 90
+             readinessProbe:
+               httpGet:
+                 path: /CustomerOrderServicesWeb/index.html
+                 port: 9080
+               periodSeconds: 10
+               failureThreshold: 3
+             volumeMounts:
+             - mountPath: /etc/websphere
+               name: authdata
+               readOnly: true
+           volumes:
+           - name: authdata
+             secret:
+                 secretName: authdata
+     ```
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cos-was
-  namespace: apps-was
-spec:
-  selector:
-    matchLabels:
-      app: cos-was
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: cos-was
-    spec:
-      containers:
-      - name: cos-was
-        image: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
-        ports:
-          - containerPort: 9080
-        livenessProbe:
-          httpGet:
-            path: /CustomerOrderServicesWeb/index.html
-            port: 9080
-          periodSeconds: 30
-          failureThreshold: 6
-          initialDelaySeconds: 90
-        readinessProbe:
-          httpGet:
-            path: /CustomerOrderServicesWeb/index.html
-            port: 9080
-          periodSeconds: 10
-          failureThreshold: 3
-        volumeMounts:
-        - mountPath: /etc/websphere
-          name: authdata
-          readOnly: true
-      volumes:
-      - name: authdata
-        secret:
-            secretName: authdata
-```
+     Note:
 
-Note:
+     - The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
+     - The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
+     - You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
+     - When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
+     - For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
+     - After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
+       - For volumeMounts:
+         - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
+         - the name, `authdata`, specifies the name of the volume
+       - For volumes:
+         - the secretName specifies the name of the secret whose contents are to be bound.
 
-- The liveness probe is used to tell Kubernetes when the application is live. Due to the size of the traditional WAS image, the initialDelaySeconds attribute has been set to 90 seconds to give the container time to start.
-- The readiness probe is used to tell Kubernetes whether the application is ready to serve requests. 
-- You may store property file based configurationfiles as configmaps and secrets, and bind their contents into the `/etc/websphere` directory. 
-- When the container starts, the server startup script will apply all the property files found in the `/etc/websphere` directory to reconfigure the server.
-- For our example, the `volumeMounts` and `volumes` are used to bind the contents of the secret `authdata` into the directory `/etc/websphere` during container startup. 
-After it is bound, it will appear as the file `/etc/websphere/authdata.properties`. 
-  - For volumeMounts:
-    - The mountPath, `/etc/websphere`, specifies the directory where the files are bound.
-    - the name, `authdata`, specifies the name of the volume
-  - For volumes:
-    - the secretName specifies the name of the secret whose contents are to be bound.
-
-1. The file `Secret.yaml` looks like:
+   - The file `Secret.yaml` looks like:
 
 ```yaml
 apiVersion: v1
@@ -544,12 +544,11 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    ```
    oc apply -f deploy-rco
    ```
-  Output:
-  ```
-  runtimecomponent.app.stacks/cos-was-rco created
-  secret/authdata-rco created
-  ```
-
+   Output:
+   ```
+   runtimecomponent.app.stacks/cos-was-rco created
+   secret/authdata-rco created
+   ```
 
 1. Let's review what we just did. 
    - First, list the contents of the deploy-rco directory:
