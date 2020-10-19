@@ -708,7 +708,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 1. Point your browser to the above URL. 
    - You'll be taken to the login form. 
 
-   ![Galaxy Login](extras/images/galaxy.jpg)
+   ![Galaxy Login](extras/images/galaxy-login.jpg)
 
 
    - Login with user `skywalker` and password `force`.
