@@ -415,7 +415,7 @@ Here is the final version of the file:
    - Click on `cos` from the list. 
    - Scroll down to the bottom to see the image that you pushed.
    
-     ![apps imagestream](extras/images/apps-imagestream.jpg)
+     ![apps imagestream](extras/images/apps-imagestream.png)
 
 
 ## Deploy (Hands-on)
