@@ -413,13 +413,13 @@ The OpenID Connector Provider keycloak has already been pre-deployed in the clus
     ```
 
 1. Create keycloak client configuration with the route for this application. 
-   - First, view the exsiting configuration, and note ENTER_YOUR_APPLICATION_HOST_NAME_HERE:
+   - First, view the exsiting configuration, and note about the lines with ENTER_YOUR_APPLICATION_HOST_NAME_HERE which will be replaced with an actual value in the next step:
 
      ```
      cat keycloak/client.yaml
      ```
 
-   - Change ENTER_YOUR_APPLICATION_HOSTNAME_HERE to the actual hostname of your application:
+   - Update `keycloak/client.yaml` to replace ENTER_YOUR_APPLICATION_HOSTNAME_HERE with the actual hostname of your application:
 
      ```
      sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
@@ -432,8 +432,16 @@ The OpenID Connector Provider keycloak has already been pre-deployed in the clus
      oc apply -f keycloak/client.yaml
      ```
 
-1. Verify your pod is ready:
-
+1. Verify your pod from the project `apps` is ready:
+   - First confirm you're at the current project `apps-was`:
+     ```
+     oc project
+     ```
+   - If it's not at the project `apps-was`, then swtich:
+     ```
+     oc project apps-was
+     ```
+     
    ```
    oc get pod 
    ```
