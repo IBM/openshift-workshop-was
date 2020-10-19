@@ -715,7 +715,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
    - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
    - Add few items to the cart. 
-   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with the total cost.
+   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
    - Close the browser.
 
 
