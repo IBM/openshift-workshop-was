@@ -47,7 +47,7 @@ The stesp taken to analyze the existing Customer Order Services application were
 
 
 <a name="build"></a>
-## Build
+## Build (Hands-on)
 
 In this section, you'll learn how to build a Docker image for Customer Order Services application running on traditional WebSphere Base v9.
 
@@ -159,7 +159,7 @@ RUN /work/configure.sh
 
 Each instruction in the Dockerfile is a layer and each layer is cached. You should always specify the volatile artifacts towards the end.
 
-### Build image
+### Build image (Hands-on)
 
 This is the command you ran earlier.
 
@@ -249,7 +249,7 @@ You can also use the OpenShift console (UI) to see the _ImageStream_:
 - Scroll down to the bottom to see the image that you pushed. 
 
 <a name="deploy"></a>
-## Deploy
+## Deploy (Hands-on)
 
 The following steps will deploy the modernized Customer Order Services application in a traditional WebSphere Base container to a RedHat OpenShift cluster.
 
@@ -258,8 +258,7 @@ You can connect to an on-prem database that already exists or migrate the databa
 Since migrating the database is not the focus of this particular workshop and to save time, the database needed by the application is already configured in the OpenShift cluster you are using.
 
 
-
-### Deploy application
+### Deploy application (Hands-on)
 
 Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
 
@@ -395,7 +394,7 @@ The configuration in Deployment.yaml maps it as the file `/etc/websphere/authdat
 Note that changes to the contents of the configmap or secret are not automatically refreshed by the running application server pods. The simplest way to get the changes applied is to delete the pods, forcing the deployment controller to start new pods.  
 
 <a name="access-the-application"></a>
-## Access the application
+## Access the application (Hands-on)
 
 1. Confirm you're at the current project `apps-was`:
    ```
@@ -432,7 +431,7 @@ Note that changes to the contents of the configmap or secret are not automatical
    - Add few items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the upper right) with the total cost.
    - Close the browser.
 
-### Review the application workload flow
+### Review the application workload flow (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
 
@@ -519,13 +518,14 @@ Note that changes to the contents of the configmap or secret are not automatical
 
 
 
-## Remove your deployment
+## Remove your deployment (Hands-on)
 
 To remove the deploment, run the command:
 ```
 oc delete -f deploy
-
+```
 Output:
+```
 deployment.apps "cos-was" deleted
 route.route.openshift.io "cos-was" deleted
 secret "authdata" deleted
@@ -538,94 +538,96 @@ service "cos-was" deleted
 Another way to deploy the application is via the Runtime Component Operator. It is a generic operator used to deploy different types of application images. 
 The Runtime Component Operator is part of a set of devops tools that also includess application stacks. Together, they will enable the enterprise architect to better control the creation and deployment of application images. For more information, see: https://github.com/application-stacks/runtime-component-operator
 
-### Deploy application
+### Deploy application (Hands-on)
 
-Run the following command which uses the Runtime Component Operator to deploy the same Customer Order Service application image:
-```
-oc apply -f deploy-rco
-
-Output:
-runtimecomponent.app.stacks/cos-was-rco created
-secret/authdata-rco created
-```
-
-
-Let's review what we just did. First, list the contents of the deploy-rco directory:
-
-```
-ls deploy-rco
-```
-
-The output shows there are only two yaml files:
-```
-RuntimeComponent.yaml  Secret.yaml
-```
-
-Review Secret.yaml: 
-```
-cat deploy-rco/Secret.yaml
-```
-
-Note that it is the same as the Secret.yaml in the `deploy` directory, except the name has been changed to authdata-rco.  It servers the same purpose for this new deployment, to override the database user/password.
+1. Run the following command which uses the Runtime Component Operator to deploy the same Customer Order Service application image:
+   ```
+   oc apply -f deploy-rco
+   ```
+  Output:
+  ```
+  runtimecomponent.app.stacks/cos-was-rco created
+  secret/authdata-rco created
+  ```
 
 
-Review RuntimeComponent.yaml:
-```
-cat deploy-rco/RuntimeComponent.yaml
-```
+1. Let's review what we just did. 
+   - First, list the contents of the deploy-rco directory:
 
-And the output:
-```
-apiVersion: app.stacks/v1beta1
-kind: RuntimeComponent
-metadata:
-  name: cos-was-rco
-  namespace: apps-was
-spec:
-  applicationImage: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
-  service:
-    port: 9080
-  readinessProbe:
-    httpGet:
-      path: /CustomerOrderServicesWeb/index.html
-      port: 9080
-    periodSeconds: 10
-    failureThreshold: 3
-  livenessProbe:
-    httpGet:
-      path: /CustomerOrderServicesWeb/index.html
-      port: 9080
-    periodSeconds: 30
-    failureThreshold: 6
-    initialDelaySeconds: 90
-  expose: true
-  route:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
-  volumeMounts:
-    - mountPath: /etc/websphere
-      name: authdata-rco
-      readOnly: true
-  volumes:
-    - name: authdata-rco
-      secret:
-          secretName: authdata-rco
-```
+     ```
+     ls deploy-rco
+     ```
 
-Note that:
-- The Kind is `RuntimeComponent`
-- The `expose` attribute is set to `true` to expose a route
-- The attributes within the yaml file are essentially the same information that you provided for the `Service`, `Route`, and `Deployment` resources in the `deploy` directory.
+     The output shows there are only two yaml files:
+     ```
+     RuntimeComponent.yaml  Secret.yaml
+     ```
 
-The controller for the RuntimeComponent custom resource reacts to changes in the above specification, and creates the corresponding `Service`, `Route`, and `Deployment` objects. Issue the following commands to view what the controller has created:
+   - Review Secret.yaml: 
+     ```
+     cat deploy-rco/Secret.yaml
+     ```
 
-```
-oc get Deployment cos-was-rco -o yaml
-oc get Service cos-was-rco -o yaml
-oc get Route cos-was-rco -o yaml
-```
+     - Note that it is the same as the Secret.yaml in the `deploy` directory, except the name has been changed to authdata-rco.  
+     - It servers the same purpose for this new deployment, to override the database user/password.
 
-## Access the application
+
+    - Review RuntimeComponent.yaml:
+      ```
+      cat deploy-rco/RuntimeComponent.yaml
+      ```
+
+      And the output:
+      ```
+      apiVersion: app.stacks/v1beta1
+      kind: RuntimeComponent
+      metadata:
+        name: cos-was-rco
+        namespace: apps-was
+      spec:
+        applicationImage: image-registry.openshift-image-registry.svc:5000/apps-was/cos-was
+        service:
+          port: 9080
+        readinessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /CustomerOrderServicesWeb/index.html
+            port: 9080
+          periodSeconds: 30
+          failureThreshold: 6
+          initialDelaySeconds: 90
+        expose: true
+        route:
+          termination: edge
+          insecureEdgeTerminationPolicy: Redirect
+        volumeMounts:
+          - mountPath: /etc/websphere
+            name: authdata-rco
+            readOnly: true
+        volumes:
+          - name: authdata-rco
+            secret:
+                secretName: authdata-rco
+      ```
+
+      - Note that:
+      - The Kind is `RuntimeComponent`
+      - The `expose` attribute is set to `true` to expose a route
+      - The attributes within the yaml file are essentially the same information that you provided for the `Service`, `Route`, and `Deployment` resources in the `deploy` directory.
+      - The controller for the RuntimeComponent custom resource reacts to changes in the above specification, and creates the corresponding `Service`, `Route`, and `Deployment` objects. Issue the following commands to view what the controller has created:
+
+         ```
+         oc get Deployment cos-was-rco -o yaml
+         oc get Service cos-was-rco -o yaml
+         oc get Route cos-was-rco -o yaml
+         ```
+
+## Access the application (Hands-on)
 
 1. Confirm you're at the current project `apps-was`:
    ```
@@ -665,7 +667,7 @@ oc get Route cos-was-rco -o yaml
    - Close the browser.
   
 
-### Review the application workload flow with Runtime Component Operator
+### Review the application workload flow with Runtime Component Operator (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps using Runtime Component Operator: 
 
@@ -760,7 +762,7 @@ oc get Route cos-was-rco -o yaml
    - Resources in the project `db`: See the steps above in **Review the application workload flow**.
          
          
-## Cleanup
+## Cleanup (Hands-on)
 
 1. Run the following command to remove the deployment:
 
