@@ -780,12 +780,17 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
       - Application `pod` details:    
         - select `cos-`
        
-          ![rc workload pod1](extras/images/rc-workload-pod1.jpg)  
+          ![ola workload pod1](extras/images/ola-workload-pod1.jpg)  
        
         - select `Logs` tab to view the WebSphere Application Server log
         
-          ![rc workload pod2](extras/images/rc-workload-pod2.jpg)      
+          ![ola workload pod2](extras/images/ola-workload-pod2.jpg)      
          
+        - Note:
+        
+          ![ola workload pod3](extras/images/ola-workload-pod3.jpg)
+          
+
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
