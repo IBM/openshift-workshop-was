@@ -305,6 +305,12 @@ Here is the final version of the file:
        ```
        oc project apps
        ```
+       
+       Example output:
+       ```
+       Now using project "apps" on server "https://c115-e.us-south.containers.cloud.ibm.com:32661".
+       . . .
+       ```
 
 1. Enable monitoring by adding the necessary label to the `apps` namespace. 
    Choose one of two options to label the namespace:
