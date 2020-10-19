@@ -5,8 +5,8 @@
 - [Introduction](#introduction)
 - [Analysis](#analysis) (Reading)
 - [Build](#build) (Hands-on)
-- [Deploy](#deploy) (Hands-on)
-- [Access the Application](#access-the-application) (Hands-on)
+- [Deploy without operator](#deploy) (Hands-on)
+- [Access the Application without operator](#access-the-application) (Hands-on)
 - [Alternate Deployment via Runtime Component Operator](#deploy-rco) (Hands-on)
 - [Summary](#summary)
 - [Next](#next)
@@ -247,7 +247,7 @@ RUN /work/configure.sh
      - Scroll down to the bottom to see the image that you pushed. 
 
 <a name="deploy"></a>
-## Deploy 
+## Deploy without operator 
 
 The following steps will deploy the modernized Customer Order Services application in a traditional WebSphere Base container to a RedHat OpenShift cluster.
 
@@ -256,7 +256,7 @@ You can connect to an on-prem database that already exists or migrate the databa
 Since migrating the database is not the focus of this particular workshop and to save time, the database needed by the application is already configured in the OpenShift cluster you are using.
 
 
-### Deploy application (via standard deployment without operator) (Hands-on)
+### Deploy application without operator (Hands-on)
 
 1. Run the following command to deploy the resources (*.yaml files) in the `deploy` directory:
 
@@ -392,7 +392,7 @@ Since migrating the database is not the focus of this particular workshop and to
 
 
 <a name="access-the-application"></a>
-## Access the application (via standard deployment without operator) (Hands-on)
+## Access the application without operator (Hands-on)
 
 1. Confirm you're at the current project `apps-was`:
    ```
@@ -431,7 +431,7 @@ Since migrating the database is not the focus of this particular workshop and to
    - Add few items to the cart. As the items are added, they’ll be shown under Current Shopping Cart (on the upper right) with the total cost.
    - Close the browser.
 
-### Review the application workload flow (via standard deployment without operator) (Hands-on)
+### Review the application workload flow without operator (Hands-on)
 
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
    - Note: DB2 in the middle of the diagram is pre-installed through a different project `db` and has been up and running before your hands-on.  Also it will not be impacted when you're removing the deployment in next step.
@@ -760,7 +760,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
         
           ![rc workload secret1](extras/images/rc-workload-secret1.jpg) 
         
-   - Resources in the project `db`: See the steps above in **Review the application workload flow**.
+   - Resources in the project `db`: Same information as listed in the section above in **Review the application workload flow without operator**.
          
          
 ## Cleanup (the deployment with Runtime Component Operator) (Hands-on)
