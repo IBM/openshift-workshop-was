@@ -823,6 +823,13 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
            
            ![ola workload secret3](extras/images/ola-workload-secret3.jpg) 
            
+         - select the respective secret and view the details 
+        
+           ![ola workload secret4](extras/images/ola-workload-secret4.jpg) 
+          
+           ![ola workload secret5](extras/images/ola-workload-secret5.jpg)
+           
+           
     - Resources in the project `db`:
      
       - db `deployment` details:   
@@ -834,7 +841,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
           ![ol-db deploy2](extras/images/oldb_deploy_2.jpg)
         
-      - db `pod details:
+      - db `pod` details:
         - select  `cos-db-liberty-`
        
           ![ol-db pod1](extras/images/oldb_pod_1.jpg)
@@ -852,14 +859,6 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         ![ol-db service2](extras/images/oldb_net_service_2.jpg)
 
 
-
-         
-         - select the respective secret and view the details 
-        
-           ![ola workload secret4](extras/images/ola-workload-secret4.jpg) 
-          
-           ![ola workload secret5](extras/images/ola-workload-secret5.jpg)
-          
           
 
 
