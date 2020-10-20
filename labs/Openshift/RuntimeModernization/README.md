@@ -815,7 +815,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
            ![ola network route2](extras/images/ola-net-route2.jpg)   
        
        - Application `secret` details:
-         - First re-visit the yaml of Open Liberty Application instance to view the secrets are configured:
+         - first, re-visit the yaml of Open Liberty Application instance to view the secrets are configured:
          
            ![ola workload secret1](extras/images/ola-workload-secret1.jpg) 
          
@@ -828,7 +828,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
           ![ola workload secret4](extras/images/ola-workload-secret.4jpg) 
           
-          ![ola workload secret4](extras/images/ola-workload-secret.4jpg)
+          ![ola workload secret5](extras/images/ola-workload-secret.5jpg)
           
           
 
