@@ -768,7 +768,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
           ![ola instance](extras/images/ola-instance.jpg)
           
-        - select `Resources` to view the resources of Open Liberty Application instance
+        - select `Resources` tab to view the resources of Open Liberty Application instance
          
           ![ola resources](extras/images/ola-resources.jpg)
 
@@ -794,6 +794,18 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
           ![ola workload pod3](extras/images/ola-workload-pod3.jpg)
           
+          
+       - Application `service` details:
+       
+         - select `cos`
+       
+           ![ola network service1](extras/images/ola-net-service1.jpg) 
+         
+         - select `YAML` to view the content of yaml.  Note the route is created through the controller of OpenLibertyApplication custom resource.
+         
+           ![ola network service2](extras/images/ola-net-service2.jpg)   
+         
+         
 
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
