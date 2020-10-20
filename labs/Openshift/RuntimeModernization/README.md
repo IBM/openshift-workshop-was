@@ -825,31 +825,31 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
            
     - Resources in the project `db`:
      
-     - db `deployment` details:   
-       - select `cos-db-liberty`
+      - db `deployment` details:   
+        - select `cos-db-liberty`
        
-         ![ol-db deploy1](extras/images/oldb_deploy_1.jpg)
+          ![ol-db deploy1](extras/images/oldb_deploy_1.jpg)
 
-       - select `YAML` tab to view the content of yaml
+        - select `YAML` tab to view the content of yaml
        
-         ![ol-db deploy2](extras/images/oldb_deploy_2.jpg)
+          ![ol-db deploy2](extras/images/oldb_deploy_2.jpg)
         
-     - db `pod details:
-       - select  `cos-db-liberty-`
+      - db `pod details:
+        - select  `cos-db-liberty-`
        
-         ![ol-db pod1](extras/images/oldb_pod_1.jpg)
+          ![ol-db pod1](extras/images/oldb_pod_1.jpg)
        
-       - select `Logs` tab to view the database logs
-       - select `Terminal` tab to view the files in the database container
+        - select `Logs` tab to view the database logs
+        - select `Terminal` tab to view the files in the database container
        
-         ![ol-db pod2](extras/images/oldb_pod_2.jpg)
+          ![ol-db pod2](extras/images/oldb_pod_2.jpg)
         
-     - db `service` details:
-       - select  `cos-db-was`
+      - db `service` details:
+        - select  `cos-db-was`
        
-       ![ol-db service1](extras/images/oldb_net_service_1.jpg)
+        ![ol-db service1](extras/images/oldb_net_service_1.jpg)
 
-       ![ol-db service2](extras/images/oldb_net_service_2.jpg)
+        ![ol-db service2](extras/images/oldb_net_service_2.jpg)
 
 
 
