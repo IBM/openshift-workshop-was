@@ -767,6 +767,10 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         - select `YAML` tab to view the content of yaml
         
           ![ola instance](extras/images/ola-instance.jpg)
+          
+        - select `Resources` to view the resources of Open Liberty Application instance
+         
+          ![ola resources](extras/images/ola-resources.jpg)
 
       - Application `deployment` details:
         - select `cos`
