@@ -826,9 +826,9 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
          
          - select the respective secret and view the details 
         
-          ![ola workload secret4](extras/images/ola-workload-secret.4jpg) 
+           ![ola workload secret4](extras/images/ola-workload-secret.4jpg) 
           
-          ![ola workload secret5](extras/images/ola-workload-secret.5jpg)
+           ![ola workload secret5](extras/images/ola-workload-secret.5jpg)
           
           
 
