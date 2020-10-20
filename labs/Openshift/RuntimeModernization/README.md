@@ -805,7 +805,15 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
          
            ![ola network service2](extras/images/ola-net-service2.jpg)   
          
+       - Application `route` details:
+         - select `cos-was-rco`
+       
+           ![ola network route1](extras/images/ola-net-route1.jpg) 
          
+         - select `YAML` to view the content of yaml.  Note the route is created through the controller of RuntimeComponent custom resource.
+         
+           ![ola network route2](extras/images/ola-net-route2.jpg)   
+       
 
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
