@@ -859,7 +859,25 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
           ![ol-db service2](extras/images/oldb_service_2.jpg)
 
 
+    - Resources in the project `keycloak`:
+     
+      - keycloak operator details:   
+        - select `Keycloak Operator`
+       
+          ![keycloak operator1](extras/images/keycloak_op1.jpg)
+
+        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the details.
+       
+          ![keycloak operator2](extras/images/keycloak_op2.jpg)
+        
+          ![keycloak instance](extras/images/keycloak_instance.jpg)
           
+          ![keycloak realm](extras/images/keycloak_realm.jpg)
+          
+          ![keycloak client](extras/images/keycloak_client.jpg)
+          
+        
+      
 
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
