@@ -835,7 +835,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
       - db `deployment` details:   
         - select `cos-db-liberty`
        
-          ![ol-db deploy1](extras/images/oldb_deploy-1.jpg)
+          ![ol-db deploy1](extras/images/oldb_deploy_1.jpg)
 
         - select `YAML` tab to view the content of yaml
        
@@ -854,9 +854,9 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
       - db `service` details:
         - select  `cos-db-liberty`
        
-          ![ol-db service1](extras/images/oldb_net_service_1.jpg)
+          ![ol-db service1](extras/images/oldb_service_1.jpg)
 
-          ![ol-db service2](extras/images/oldb_net_service_2.jpg)
+          ![ol-db service2](extras/images/oldb_service_2.jpg)
 
 
           
