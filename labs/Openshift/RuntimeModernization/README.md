@@ -777,7 +777,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
           ![ola workload deploy1](extras/images/ola-workload-deploy1.jpg)
 
-        - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of Open Liberty Application custom resource.
+        - select `YAML` tab to view the content of yaml.  Note the deployment is created through the controller of OpenLibertyApplication custom resource.
        
           ![ola workload deploy2](extras/images/ola-workload-deploy2.jpg)
          
@@ -786,11 +786,11 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
           ![ola workload pod1](extras/images/ola-workload-pod1.jpg)  
        
-        - select `Logs` tab to view the WebSphere Application Server log
+        - select `Logs` tab to view the liberty access log
         
           ![ola workload pod2](extras/images/ola-workload-pod2.jpg)      
          
-        - Note:
+        - Note: by default, the Open Liberty Application instance is configured with liberty access log:
         
           ![ola workload pod3](extras/images/ola-workload-pod3.jpg)
           
@@ -801,7 +801,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
            ![ola network service1](extras/images/ola-net-service1.jpg) 
          
-         - select `YAML` to view the content of yaml.  Note the route is created through the controller of OpenLibertyApplication custom resource.
+         - select `YAML` to view the content of yaml.  Note the service is created through the controller of OpenLibertyApplication custom resource.
          
            ![ola network service2](extras/images/ola-net-service2.jpg)   
          
