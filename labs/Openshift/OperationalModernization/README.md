@@ -518,7 +518,7 @@ Since migrating the database is not the focus of this particular workshop and to
          ![db pod1](extras/images/db_pod_1.jpg)
        
        - select `Logs` tab to view the database logs
-       - select `Terminal tab to view the files in the database container
+       - select `Terminal` tab to view the files in the database container
        
          ![db pod2](extras/images/db_pod_2.jpg)
         
