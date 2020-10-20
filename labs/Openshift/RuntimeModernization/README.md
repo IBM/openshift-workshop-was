@@ -852,11 +852,11 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
           ![ol-db pod2](extras/images/oldb_pod_2.jpg)
         
       - db `service` details:
-        - select  `cos-db-was`
+        - select  `cos-db-liberty`
        
-        ![ol-db service1](extras/images/oldb_net_service_1.jpg)
+          ![ol-db service1](extras/images/oldb_net_service_1.jpg)
 
-        ![ol-db service2](extras/images/oldb_net_service_2.jpg)
+          ![ol-db service2](extras/images/oldb_net_service_2.jpg)
 
 
           
