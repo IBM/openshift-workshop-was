@@ -901,7 +901,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
             ![keycloak operator3](extras/images/keycloak_op3.jpg)
       
-          - Keycloak application `deployment` details:
+          - Keycloak application `deployment` details (for dababase postgresql portion):
             - select `keycloak-postgresql`
 
               ![keycloak workload deploy1](extras/images/keycloak_wk_deploy1.jpg)
@@ -910,13 +910,13 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 
               ![keycloak workload deploy2](extras/images/keycloak_wk_deploy2.jpg)
             
-          - Keycloak application `statefulset` details:
+          - Keycloak application `statefulset` details (for keycloak component portion):
             - Note: 
               - `StatefulSet` resource is equivalent to a special deployment used to manage stateful applications. 
               - Each replica of the pod will have its own state and unique network identifier, and will be using its own stable persistent storage volume.
-              - The pod is created with a unique naming convention, for example, `<statefulsetname-0>`, `<statefulesetname-1>`, etc.  
-              - See `keycloak-0` in below pod details section.
-              - As seen from the multiple examples, the resource of `Deployment` deploys a stateless application and is the easiest and most used resource for deploying an application. If using a PVC (PersistenceVolumeClaim), all replicas will be using the same Volume and none of it will have its own state.
+              - The pod is created with a unique naming convention, for example, `<statefulsetname-0> as 1st pod`, `<statefulesetname-1>` as 2nd pod, etc.  
+              - See `keycloak-0` as an example in below pod details section.
+              - For comparion, the resource of `Deployment` deploys a stateless application and is the easiest and most used resource for deploying an application. If using a PVC (PersistenceVolumeClaim), all replicas will be using the same Volume and none of it will have its own state.
 
             - select `keycloak`
             
