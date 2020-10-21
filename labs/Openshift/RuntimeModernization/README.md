@@ -861,26 +861,45 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 
     - Resources in the project `keycloak`:
      
-      - keycloak operator details:   
-        - select `Keycloak Operator`
+      - Keycloak Operator `deployment` details:   
+        - select `keycloak-operator`
        
-          ![keycloak operator1](extras/images/keycloak_op1.jpg)
+          ![keycloak operator4](extras/images/keycloak_op4.jpg)
+          
+        - select `yaml` tab to view the content of yaml
+        
+          ![keycloak operator5](extras/images/keycloak_op5.jpg)
+          
+       - Keycloak Operator's pod details:
+         - select `keycloak-operator-`
+         
+           ![keycloak operator6](extras/images/keycloak_op6.jpg)
+           
+         - select Logs to view the keycloak-operator container log  
+         
+           ![keycloak operator7](extras/images/keycloak_op7.jpg)
+       
+        - Keycloak Operator's all instances details:
+          - select `Keycloak Operator`
+          
+            ![keycloak operator1](extras/images/keycloak_op1.jpg)
 
-        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details
+          - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details
        
-          ![keycloak operator2](extras/images/keycloak_op2.jpg)
+            ![keycloak operator2](extras/images/keycloak_op2.jpg)
         
-          ![keycloak instance](extras/images/keycloak_instance.jpg)
+            ![keycloak instance](extras/images/keycloak_instance.jpg)
           
-          ![keycloak realm](extras/images/keycloak_realm.jpg)
+            ![keycloak realm](extras/images/keycloak_realm.jpg)
           
-          ![keycloak client](extras/images/keycloak_client.jpg)
+            ![keycloak client](extras/images/keycloak_client.jpg)
           
-        - OR select `All Instances` to view the same insance details
+          - OR select `All Instances` to view the same insance details
         
-          ![keycloak operator3](extras/images/keycloak_op3.jpg)
+            ![keycloak operator3](extras/images/keycloak_op3.jpg)
       
-
+          - Keycloak application details:
+            - select 
 
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
