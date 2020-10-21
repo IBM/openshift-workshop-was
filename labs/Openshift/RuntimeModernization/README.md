@@ -725,7 +725,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 1. Below is an overview diagram on the deployment you've completed from the above steps: 
    - Note: DB2 and Keycloak in the middle of the diagram are pre-installed through the respective projects `db` and `keycloak`, and have been up and running before your hands-on.  
 
-   ![applicaiton flow with open liberty operator](extras/images/app-flowchart_openlibertyoperator.jpg)
+   ![applicaiton flow with open liberty operator](extras/images/app-flowchart_openlibertyoperato.jpg)
    
    
 1. Navigate from OpenShift Console to view the resources on the deployment:
