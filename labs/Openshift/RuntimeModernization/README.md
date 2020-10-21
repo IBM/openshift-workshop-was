@@ -953,6 +953,8 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
               ![keycloak network service2](extras/images/keycloak_net_service2.jpg) 
             
           - Keycloak application `route` details
+            - Note: The `keycloak` route is used to access the keycloak realm management console with administrator user login.  See the step **Review Keycloak setup (optional)** below for more details. 
+            
             - select `keycloak`
             
               ![keycloak network route1](extras/images/keycloak_net_route1.jpg) 
