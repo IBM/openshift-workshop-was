@@ -866,7 +866,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
           ![keycloak operator4](extras/images/keycloak_op4.jpg)
           
-        - select `yaml` tab to view the content of yaml
+        - select `YAML` tab to view the content of yaml
         
           ![keycloak operator5](extras/images/keycloak_op5.jpg)
           
@@ -875,7 +875,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
          
            ![keycloak operator6](extras/images/keycloak_op6.jpg)
            
-         - select Logs to view the keycloak-operator container log  
+         - select `Logs` to view the keycloak-operator container log  
          
            ![keycloak operator7](extras/images/keycloak_op7.jpg)
        
@@ -884,7 +884,10 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
           
             ![keycloak operator1](extras/images/keycloak_op1.jpg)
 
-          - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details
+          - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details, where
+            - `Keycloak` instance deploys the primary keycloak software component including database postgresql to store persistent data
+            - `KeycloakReam` instance contains the security realm management and credential data
+            - `KeycloakClient` instance contains the redirect URI information
        
             ![keycloak operator2](extras/images/keycloak_op2.jpg)
         
@@ -898,9 +901,34 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
         
             ![keycloak operator3](extras/images/keycloak_op3.jpg)
       
-          - Keycloak application details:
-            - select 
+          - Keycloak application `deployment` details:
+            - select `keycloak-postgresql`
 
+              ![keycloak workload deploy1](extras/images/keycloak_wk_deploy1.jpg)
+
+            - select `YAML` tab to view the content of yaml. Note the deployment is created through the controller of Keycloak custom resource.
+
+              ![keycloak workload deploy2](extras/images/keycloak_wk_deploy2.jpg)
+            
+          - Keycloak application `statefulset` details:
+            - Note: 
+              - `StatefulSet` resource is equivalent to a special deployment used to manage stateful applications. 
+              - Each replica of the pod will have its own state and unique network identifier, and will be using its own stable persistent storage volume.
+              - The pod is created with a unique naming convention, for example, `<statefulsetname-0>`, `<statefulesetname-1>`, etc.  
+              - See `keycloak-0` in below pod details section.
+              - As seen from the multiple examples, the resource of `Deployment` deploys a stateless application and is the easiest and most used resource for deploying an application. If using a PVC (PersistenceVolumeClaim), all replicas will be using the same Volume and none of it will have its own state.
+
+            - select `keycloak`
+            
+              ![keycloak workload deploy3](extras/images/keycloak_wk_deploy3.jpg)
+              
+            - select `YAML` tab to view the content of yaml. Note the statefulset is created through the controller of Keycloak custom resource.
+
+              ![keycloak workload deploy4](extras/images/keycloak_wk_deploy4.jpg)
+             
+              
+              
+              
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
 
