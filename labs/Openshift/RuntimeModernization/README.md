@@ -866,7 +866,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
           ![keycloak operator1](extras/images/keycloak_op1.jpg)
 
-        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the details.
+        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details.
        
           ![keycloak operator2](extras/images/keycloak_op2.jpg)
         
