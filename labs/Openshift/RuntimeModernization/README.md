@@ -943,6 +943,23 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
              
               ![keycloak workload pod4](extras/images/keycloak_wk_pod4.jpg)  
               
+          - Keycloak application `service` details   
+            - select `keycloak`
+            
+              ![keycloak network service1](extras/images/keycloak_net_service1.jpg) 
+             
+            - select `YAML` tab to view the content of yaml. Note the service is created through the controller of Keycloak custom resource.
+            
+              ![keycloak network service2](extras/images/keycloak_net_service2.jpg) 
+            
+          - Keycloak application `route` details
+            - select `keycloak`
+            
+              ![keycloak network route1](extras/images/keycloak_net_route1.jpg) 
+             
+            - select `YAML` tab to view the content of yaml. Note the service is created through the controller of Keycloak custom resource.
+            
+              ![keycloak network route2](extras/images/keycloak_net_route2.jpg)   
               
               
               
