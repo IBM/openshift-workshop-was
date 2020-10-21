@@ -914,7 +914,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
             - Note: 
               - `StatefulSet` resource is equivalent to a special deployment used to manage stateful applications. 
               - Each replica of the pod will have its own state and unique network identifier, and will be using its own stable persistent storage volume.
-              - The pod is created with a unique naming convention, for example, `<statefulsetname-0> as 1st pod`, `<statefulesetname-1>` as 2nd pod, etc.  
+              - The pod is created with a unique naming convention, for example, `<statefulsetname-0>` as 1st pod, `<statefulesetname-1>` as 2nd pod, etc.  
               - See `keycloak-0` as an example in below pod details section.
               - For comparion, the resource of `Deployment` deploys a stateless application and is the easiest and most used resource for deploying an application. If using a PVC (PersistenceVolumeClaim), all replicas will be using the same Volume and none of it will have its own state.
 
@@ -931,7 +931,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
              
               ![keycloak workload pod1](extras/images/keycloak_wk_pod1.jpg) 
               
-            - select `Logs` to view the keycloak-operator container log  
+            - select `Logs` to view the keycloak-postgresql container log  
            
               ![keycloak workload pod2](extras/images/keycloak_wk_pod2.jpg)
          
@@ -939,7 +939,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
              
               ![keycloak workload pod3](extras/images/keycloak_wk_pod3.jpg) 
               
-            - select `Logs` to view the keycloak-operator container log  
+            - select `Logs` to view the keycloak-0 container log  
              
               ![keycloak workload pod4](extras/images/keycloak_wk_pod4.jpg)  
               
