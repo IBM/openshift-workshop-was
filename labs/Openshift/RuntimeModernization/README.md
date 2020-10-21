@@ -590,7 +590,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
     ```
 
 1. Create keycloak client configuration with the route for this application. 
-   - First, view the exsiting configuration, and note the occurrences of `ENTER_YOUR_APPLICATION_HOST_NAME_HERE`:
+   - First, view the exsiting configuration, and note the occurrence of `ENTER_YOUR_APPLICATION_HOST_NAME_HERE`:
 
      ```
      cat keycloak/client.yaml
@@ -706,7 +706,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    http://cos-apps.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
    ```
    
-1. Point your browser to the above URL. 
+1. Point a browser to your URL (returned from the above command). 
    - You'll be taken to the login form. 
 
      ![Galaxy Login](extras/images/galaxy-login.jpg)
