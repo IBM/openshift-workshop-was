@@ -926,6 +926,24 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
 
               ![keycloak workload deploy4](extras/images/keycloak_wk_deploy4.jpg)
              
+          - Keycloak application `pod` details
+            - select `keycloak-postgresql-`
+             
+              ![keycloak workload pod1](extras/images/keycloak_wk_pod1.jpg) 
+              
+            - select `Logs` to view the keycloak-operator container log  
+           
+              ![keycloak workload pod2](extras/images/keycloak_wk_pod2.jpg)
+         
+            - select `keycloak-0`
+             
+              ![keycloak workload pod3](extras/images/keycloak_wk_pod3.jpg) 
+              
+            - select `Logs` to view the keycloak-operator container log  
+             
+              ![keycloak workload pod4](extras/images/keycloak_wk_pod4.jpg)  
+              
+              
               
               
               
