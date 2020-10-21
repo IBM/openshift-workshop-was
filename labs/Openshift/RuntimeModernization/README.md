@@ -866,7 +866,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        
           ![keycloak operator1](extras/images/keycloak_op1.jpg)
 
-        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details.
+        - select the respective tabs: `Keycloak`, `KeycloakRealm`, `KeycloakClient` to view the respective instance details
        
           ![keycloak operator2](extras/images/keycloak_op2.jpg)
         
@@ -876,8 +876,11 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
           
           ![keycloak client](extras/images/keycloak_client.jpg)
           
+        - OR select `All Instances` to view the same insance details
         
+          ![keycloak operator3](extras/images/keycloak_op3.jpg)
       
+
 
 
 [comment]: <> (Optional: Delete a pod to see how quickly another one is created and becomes ready - compared to traditional WAS, it's much faster)
