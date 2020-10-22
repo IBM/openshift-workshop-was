@@ -408,6 +408,7 @@ Since migrating the database is not the focus of this particular workshop and to
    ```
    oc project
    ```
+   
    Example output:
    ```
    Using project "apps-was" on server "https://c114-e.us-south.containers.cloud.ibm.com:30016".
@@ -430,6 +431,7 @@ Since migrating the database is not the focus of this particular workshop and to
    ```
    echo http://$(oc get route cos-was  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
    ```
+   
    Example output:
    ```
    http://cos-was-apps-was.<your-cluster-name>-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
@@ -533,10 +535,13 @@ Since migrating the database is not the focus of this particular workshop and to
 
 ## Remove your deployment (standard deployment without operator) (Hands-on)
 
-To remove the deploment, run the command:
+To remove the deploment from the above scenario without operator, run the command:
+- Note: The pre-installed resource such as DB2, are not removed.
+
 ```
 oc delete -f deploy
 ```
+
 Output:
 ```
 deployment.apps "cos-was" deleted
@@ -557,6 +562,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    ```
    oc apply -f deploy-rco
    ```
+   
    Output:
    ```
    runtimecomponent.app.stacks/cos-was-rco created
@@ -645,8 +651,10 @@ The Runtime Component Operator is part of a set of devops tools that also includ
 1. Confirm you're at the current project `apps-was`:
    ```
    oc project
+   ```
    
    Example output:
+   ```
    Using project "apps-was" on server "https://c114-e.us-south.containers.cloud.ibm.com:30016".
    ```
    - If it's not at the project `apps-was`, then swtich:
@@ -668,8 +676,10 @@ The Runtime Component Operator is part of a set of devops tools that also includ
 
    ```
    echo http://$(oc get route cos-was-rco  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
+   ```
    
    Example output:
+   ```
    http://cos-was-rco-apps-was.<your-cluster-name>-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/CustomerOrderServicesWeb
    ```
 
@@ -780,7 +790,8 @@ The Runtime Component Operator is part of a set of devops tools that also includ
          
 ## Cleanup (the deployment with Runtime Component Operator) (Hands-on)
 
-1. Run the following command to remove the deployment:
+1. Run the following command to remove the deployment from the above secenario with Runtime Component instance:
+   - Note: The pre-installed resources such as Runtime Component Operator, DB2, are not removed.
 
    ```
    oc delete -f deploy-rco
@@ -800,7 +811,7 @@ The Runtime Component Operator is part of a set of devops tools that also includ
    oc get Route 
    ```
    
-   Output:
+   Output from each `get` command above:
    ```
    No resources found in apps-was namespace.
    ```
