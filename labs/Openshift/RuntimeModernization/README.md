@@ -1218,7 +1218,8 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 ## Cleanup
 
 1. The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects for Customer Order Services application. To review these resources, run the commands:
-
+   - Reminder: Run `oc project` to confirm you're at the `apps` project before running the following commands.
+   
    ```
    oc get deployment
    oc get service
@@ -1242,7 +1243,7 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 
 1. To remove these resources, run the command (Reminder: change directory to `openshift-workshop-was/labs/Openshift/RuntimeModernization` if it's not already at the current path.)
    
-   - Note: The pre-installed resources such as Open Liberty Operator, DB2, Keycloak, are not revmoved.
+   - Note: The pre-installed resources such as Open Liberty Operator, DB2, Keycloak, are not removed.
    
    ```
    oc delete -k deploy/overlay-apps
