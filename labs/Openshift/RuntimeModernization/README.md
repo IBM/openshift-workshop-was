@@ -1217,7 +1217,8 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 
 ## Cleanup (Hands-on)
 
-1. The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects for Customer Order Services application. To review these resources, run the commands:
+1. The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects for Customer Order Services application. To list these resources, run the commands:
+
    - Reminder: Run `oc project` to confirm you're at the `apps` project before running the following commands.
    
    ```
@@ -1257,7 +1258,7 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
    openlibertyapplication.openliberty.io "cos" deleted
    ```
    
-   Double check the correspdoning Deployment, Service, and Route objects are deleted:
+   Double check the corresponding Deployment, Service, and Route objects are deleted:
 
    ```
    oc get deployment
