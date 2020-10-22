@@ -484,12 +484,12 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      apiVersion: v1
      data:
        DB_HOST: cos-db-liberty.db.svc
-       JWT_ISSUER: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy
-       JWT_JWKS_URI: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy/protocol/openid-connect/certs
+       JWT_ISSUER: https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy
+       JWT_JWKS_URI: https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/realms/Galaxy/protocol/openid-connect/certs
        SEC_TLS_TRUSTDEFAULTCERTS: "true"
        SSO_CLIENT_ID: cos_app
        SSO_REALM: Galaxy
-       SSO_URI: https://keycloak-keycloak.test1-mei-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/
+       SSO_URI: https://keycloak-keycloak.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud/auth/
      kind: ConfigMap
      metadata:
        name: cos-config
@@ -1227,32 +1227,46 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
    
    Example output:
    ```
-   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get deployment
+   # oc get deployment
    NAME   READY   UP-TO-DATE   AVAILABLE   AGE
    cos    1/1     1            1           2d18h
 
-   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get service
+   # oc get service
    NAME   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
    cos    ClusterIP   172.21.202.9   <none>        9443/TCP   2d18h
 
-   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get route
+   # oc get route
    NAME   HOST/PORT                                                                                        PATH   SERVICES   PORT       TERMINATION          WILDCARD
    cos    cos-apps.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud          cos        9443-tcp   reencrypt/Redirect   None
    ```
 
-1. To remove these resources, run the command:
+1. To remove these resources, run the command (Reminder: change directory to `openshift-workshop-was/labs/Openshift/RuntimeModernization` if it's not already at the current path.)
+   
    - Note: The pre-installed resources such as Open Liberty Operator, DB2, Keycloak, are not revmoved.
    
    ```
    oc delete -k deploy/overlay-apps
    ```
 
+   Output:
+   ```
+   configmap "cos-config" deleted
+   secret "db-creds" deleted
+   secret "liberty-creds" deleted
+   openlibertyapplication.openliberty.io "cos" deleted
+   ```
+   
    Double check the correspdoning Deployment, Service, and Route objects are deleted:
 
    ```
    oc get deployment
    oc get service
    oc get route
+   ```
+   
+   Output from each `get` command above:
+   ```
+   No resources found in apps namespace.
    ```
 
 ## Extra Credit
