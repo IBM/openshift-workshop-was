@@ -1217,26 +1217,43 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 
 ## Cleanup
 
-The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects.
+1. The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects for Customer Order Services application. To review these resources, run the commands:
 
-```
-oc get deployment
-oc get service
-oc get route
-```
+   ```
+   oc get deployment
+   oc get service
+   oc get route
+   ```
+   
+   Example output:
+   ```
+   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get deployment
+   NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+   cos    1/1     1            1           2d18h
 
-To clean up:
-```
-oc delete -k deploy/overlay-apps
-```
+   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get service
+   NAME   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+   cos    ClusterIP   172.21.202.9   <none>        9443/TCP   2d18h
 
-Double check the correspdoning Deployment, Service, and Route objects are deleted:
+   root@lab-tools-6d4cbb56b6-j8q9n:/# oc get route
+   NAME   HOST/PORT                                                                                        PATH   SERVICES   PORT       TERMINATION          WILDCARD
+   cos    cos-apps.test1-1-c53a941250098acc3d804eba23ee3789-0000.us-south.containers.appdomain.cloud          cos        9443-tcp   reencrypt/Redirect   None
+   ```
 
-```
-oc get deployment
-oc get service
-oc get route
-```
+1. To remove these resources, run the command:
+   - Note: The pre-installed resources such as Open Liberty Operator, DB2, Keycloak, are not revmoved.
+   
+   ```
+   oc delete -k deploy/overlay-apps
+   ```
+
+   Double check the correspdoning Deployment, Service, and Route objects are deleted:
+
+   ```
+   oc get deployment
+   oc get service
+   oc get route
+   ```
 
 ## Extra Credit
 
