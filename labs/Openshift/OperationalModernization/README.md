@@ -55,7 +55,7 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
 
 1. Open the web terminal (the same one from lab setup) for command line interface. If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
-1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.  Without a successful `oc login`, attempting to run the follow-on `oc` commmands (e.g., `oc create ...`), you might get permission error.
+1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.  Without a successful `oc login`, attempting to run the follow-on `oc` commmands (e.g., `oc new-project ...`),  you might get a permission error.
 
 1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following command on your web terminal:
     ```
