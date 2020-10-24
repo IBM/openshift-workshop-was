@@ -67,7 +67,7 @@ Let's kick that process off and then come back to learn what you did.
 
 1. Open the web terminal (the same one from lab setup) for command line interface. If it's not already open, follow the instructions [here](https://github.com/IBM/openshift-workshop-was/tree/master/setup#access-the-web-terminal) to access the web terminal.
 
-1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.
+1. Follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal. Without a successful `oc login`, attempting to run the follow-on `oc` commmands (e.g., `oc new-project ...`),  you will get a permission error.
 
 1. If you have not yet cloned the GitHub repo with the lab artifacts, run the following command on your web terminal:
     ```
@@ -290,6 +290,8 @@ Here is the final version of the file:
      ```
 
 1. Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  
+   Reminder: Ensure you have run `oc login` command as directed in the [Build](#build) section before using Open Shift CLI.
+   
    Choose one of two ways to create the project:
    
    - Via the command line: 
