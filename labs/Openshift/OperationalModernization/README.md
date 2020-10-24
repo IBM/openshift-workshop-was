@@ -69,6 +69,8 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
     ```
 
 1. Run the following command to create a new project in OpenShift. A project allows a community of users to organize and manage their content in isolation from other communities.
+   Reminder: Ensure you have run `oc login` command as directed in the step above before using OpenShift CLI.
+   
     ```
     oc new-project apps-was
     ```
