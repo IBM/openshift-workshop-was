@@ -290,7 +290,7 @@ Here is the final version of the file:
      ```
 
 1. Before we push the image to OpenShift's internal image registry, create a separate project named `apps`.  
-   Reminder: Ensure you have run `oc login` command as directed in the [Build](#build) section before using Open Shift CLI.
+   Reminder: Ensure you have run `oc login` command as directed in the [Build](#build) section before using OpenShift CLI.
    
    Choose one of two ways to create the project:
    
