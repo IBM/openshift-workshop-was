@@ -4,7 +4,7 @@ This section contains instructions to access Openshift Clusters for those worksh
 
 ## Prequisite
 
-You will be given a URL specific to your workshop (e.g. `https://<workshop name>.mybluemix.net/`), and a lab key for the cluster assignment through email before the workshop session. 
+You will be given a URL specific to your workshop (e.g. `https://<workshop name>.mybluemix.net/`), and a lab key for the cluster assignment through email before the workshop session and/or in the WebEx chat during the workshop session.
  
 ## Browser Requirement
 
