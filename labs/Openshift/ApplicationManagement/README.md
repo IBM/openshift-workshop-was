@@ -56,9 +56,12 @@ In this lab, you'll learn about managing your running applications efficiently u
    ```
 
 1. Point your browser to the output of the above command. 
-   - Login as user `skywalker` and password `force`. 
-   - Play with the application and place a few items on the shopping cart.
-   - Close the browser afterwards.
+   - Login as user `skywalker` and password `force`.  (The file-based user is stored in fileregistry.xml of traditional WebSphere container.)
+   - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
+   - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
+   - Add few items to the cart. 
+   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
+   - Close the browser.
 
 
 ### Build and deploy the liberty application
