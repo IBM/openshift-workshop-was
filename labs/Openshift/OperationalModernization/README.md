@@ -802,15 +802,15 @@ The Runtime Component Operator is part of a set of devops tools that also includ
 1. Run the following command to remove the deployment from the above secenario with Runtime Component instance:
    - Note: The pre-installed resources such as Runtime Component Operator, DB2, are not removed.
 
-   ```
-   oc delete -f deploy-rco
-   ```
+     ```
+     oc delete -f deploy-rco
+     ```
    
-   Output:
-   ```
-   runtimecomponent.app.stacks "cos-was-rco" deleted
-   secret "authdata-rco" deleted
-   ```
+     Output:
+     ```
+     runtimecomponent.app.stacks "cos-was-rco" deleted
+     secret "authdata-rco" deleted
+     ```
 
 1. Verify that the corresponding application `Service`, `Route`, and `Deployment` have also been deleted:
 
