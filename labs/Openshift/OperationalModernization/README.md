@@ -72,11 +72,11 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
    - A project allows a community of users to organize and manage their content in isolation from other communities.
    - Ensure you have run `oc login` command as directed in the step above before using OpenShift CLI.
    
-    ```
-    oc new-project apps-was
-    ```
+     ```
+     oc new-project apps-was
+     ```
 
-    Example output:
+     Example output:
      ```
      Now using project "apps-was" on server "https://c115-e.us-south.containers.cloud.ibm.com:32661".
      . . .
