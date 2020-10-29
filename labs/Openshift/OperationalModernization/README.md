@@ -68,13 +68,20 @@ Building this image could take around ~8 minutes (since the image is around 2GB 
     ls
     ```
 
-1. Run the following command to create a new project in OpenShift. A project allows a community of users to organize and manage their content in isolation from other communities.
-   Reminder: Ensure you have run `oc login` command as directed in the step above before using OpenShift CLI.
+1. Run the following command to create a new project named `apps-was` in OpenShift. 
+   - A project allows a community of users to organize and manage their content in isolation from other communities.
+   - Ensure you have run `oc login` command as directed in the step above before using OpenShift CLI.
    
     ```
     oc new-project apps-was
     ```
 
+    Example output:
+     ```
+     Now using project "apps-was" on server "https://c115-e.us-south.containers.cloud.ibm.com:32661".
+     . . .
+     ```
+     
 1. Run the following command to start building the image. Make sure to copy the entire command, including the `"."` at the end (which indicates current directory). This command will be explained later in the _Build image_ section. While the image is building continue with rest of the lab:
     ```
     docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
