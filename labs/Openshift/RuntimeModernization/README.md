@@ -316,6 +316,7 @@ Here is the final version of the file:
        ```
 
 1. Enable monitoring by adding the necessary label to the `apps` namespace. 
+
    Choose one of two options to label the namespace:
    
    - Via the command line:
