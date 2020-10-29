@@ -109,12 +109,18 @@ In this lab, you'll learn about managing your running applications efficiently u
    echo http://$(oc get route cos  --template='{{ .spec.host }}')/CustomerOrderServicesWeb
    ```
 
-1. Point your browser to the above URL. You'll be taken to the login form. 
-   - Login with user `skywalker` and password `force`.
-   - From the `Shop` tab, add few items to the cart. 
-   - Click on an item and then drag and drop the item into the shopping cart.  
-   - **Add multiple items to the shopping cart to trigger more logging.**
+1. Point your browser to the above URL. 
+   - You'll be taken to the login form. 
 
+     ![Galaxy Login](extras/images/galaxy-login.jpg)
+
+
+   - Login with user `skywalker` and password `force`. (The user is pre-created/registered in OpenID Connector Provider Keycloak.)
+   - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
+   - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
+   - **Add multiple items to the shopping cart to trigger more logging.**
+   - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
+  
 
 ## IBM Application Navigator
 
