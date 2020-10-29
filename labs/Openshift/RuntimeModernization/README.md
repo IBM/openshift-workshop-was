@@ -715,7 +715,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      ![Galaxy Login](extras/images/galaxy-login.jpg)
 
 
-   - Login with user `skywalker` and password `force`.
+   - Login with user `skywalker` and password `force`. (The user is pre-created/registered in OpenID Connector Provider Keycloak.)
    - After login, the application page titled _Electronic and Movie Depot_ will be displayed.
    - From the `Shop` tab, click on an item (a movie) and on the next pop-up panel, drag and drop the item into the shopping cart. 
    - Add few items to the cart. 
