@@ -37,7 +37,7 @@ In this lab, you'll learn about managing your running applications efficiently u
 1. Create and switch over to the project. Note: The first step may fail if the project already exists.
    ```
    oc new-project apps-was
-   oc project app-was
+   oc project apps-was
    ```
 
  1. Build and deploy the application:
