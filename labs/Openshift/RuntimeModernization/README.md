@@ -628,7 +628,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
          protocol: openid-connect
      ```
      
-   - Update `keycloak/client.yaml` to substitute `ENTER_YOUR_APPLICATION_HOSTNAME_HERE` with the actual hostname of application route URL:
+   - Run the following command `sed` to update `keycloak/client.yaml` to substitute `ENTER_YOUR_APPLICATION_HOSTNAME_HERE` with the actual hostname of application route URL and then the command `cat` to display the yaml:
 
      ```
      sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
