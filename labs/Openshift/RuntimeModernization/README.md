@@ -452,7 +452,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
        DB_HOST : "cos-db-liberty.db.svc"
      ```
      
-   - Run the following comment to substitute `ENTER_YOUR_ROUTER_HOSTNAME_HERE` with the actual hostname of your keycloak instance:
+   - Run the following comment `sed` to substitute `ENTER_YOUR_ROUTER_HOSTNAME_HERE` with the actual hostname of your keycloak instance and then the command `cat` to display the yaml:
    
      ```
      sed -i "s/ENTER_YOUR_ROUTER_HOSTNAME_HERE/$(oc get route keycloak -n keycloak  --template='{{ .spec.host }}')/" deploy/overlay-apps/configmap.yaml
