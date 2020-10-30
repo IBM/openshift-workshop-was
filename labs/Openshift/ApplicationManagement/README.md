@@ -243,9 +243,9 @@ Building observability into applications externalizes the internal status of a s
 
    - Before running the command, change directory to /openshift-workshop-was/labs/Openshift/ApplicationManagement if it's not already done.
 
-   ```
-   oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
-   ```
+     ```
+     oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
+     ```
 
 1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
 
