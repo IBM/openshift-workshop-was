@@ -122,7 +122,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    - As the items are added, they’ll be shown under _Current Shopping Cart_ (on the upper right) with _Order Total_.
   
 
-## IBM Application Navigator
+## IBM Application Navigator (Hands-on)
 
 IBM Application Navigator provides a single dashboard to manage your applications running on cloud as well as on-prem, so you don't leave legacy applications behind. 
 It gives you an aplication centric view your environment.
@@ -147,7 +147,7 @@ Application Navigator periodically polls the cell to keep the state of the resou
 
 Application Navigator also provides links to other dashboards that you already use and are familiar with. You can also define your own custom resources using the extension mechanism provided by Application Navigator.
 
-## Application Logging
+## Application Logging (Hands-on)
 
 Pod processes running in OpenShift frequently produce logs. To effectively manage this log data and ensure no loss of log data occurs when a pod terminates, a log aggregation tool should be deployed on the cluster. Log aggregation tools help users persist, search, and visualize the log data that is gathered from the pods across the cluster. Let's look at application logging with log aggregation using EFK (Elasticsearch, Fluentd, and Kibana). Elasticsearch is a search and analytics engine. Fluentd receives, cleans and parses the log data. Kibana lets users visualize data with charts and graphs in Elasticsearch.
 
@@ -233,7 +233,7 @@ The following steps to visualize problems with applications are illustrated  in 
 
 1. Explore the panels and filter through the events to see messages corresponding to just those events.
 
-## Application Monitoring
+## Application Monitoring (Hands-on)
 
 Building observability into applications externalizes the internal status of a system to enable operations teams to monitor systems more effectively. It is important that applications are written to produce metrics. When the Customer Order Services application was modernized, we used MicroProfile Metrics and it provides a `/metrics` endpoint from where you can access all metrics emitted by the JVM, Open Liberty server and deployed applications. Operations teams can gather the metrics and store them in a database by using tools like Prometheus. The metrics data can then be visualized and analyzed in dashboards, such as Grafana.
 
@@ -271,7 +271,7 @@ Building observability into applications externalizes the internal status of a s
     ![requesting server dump](extras/images/monitoring-dashboard.gif)
 
 
-## Day-2 Operations
+## Day-2 Operations (Hands-on)
 
 You may need to gather server traces and/or dumps for analyzing some problems. Open Liberty Operator makes it easy to gather these on a server running inside a container.
 
