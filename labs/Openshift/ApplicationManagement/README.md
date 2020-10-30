@@ -241,11 +241,11 @@ Building observability into applications externalizes the internal status of a s
 
 1. Custom resource [GrafanaDashboard](dashboards/grafana/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
 
-- Before running the command, change directory to /openshift-workshop-was/labs/Openshift/ApplicationManagement if it's not already done.
+   - Before running the command, change directory to /openshift-workshop-was/labs/Openshift/ApplicationManagement if it's not already done.
 
-    ```
-    oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
-    ```
+   ```
+   oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
+   ```
 
 1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
 
