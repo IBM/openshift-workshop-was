@@ -247,31 +247,33 @@ Building observability into applications externalizes the internal status of a s
      oc apply -f dashboards/grafana/grafana-dashboard-cos.yaml
      ```
 
-1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: In OpenShift console, from the left-panel, select **Networking** > **Routes**.
+1. The following steps to access the created dashboard are illustrated in the screen recording at the end of this section: 
 
-1. From the _Project_ drop-down list, select `app-monitoring`. 
+   - In OpenShift console, from the left-panel, select **Networking** > **Routes**.
 
-1. Click on the route URL (listed under the _Location_ column).
+   - From the _Project_ drop-down list, select `app-monitoring`. 
 
-1. Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
+   - Click on the route URL (listed under the _Location_ column).
 
-1. In Grafana, from the left-panel, hover over the dashboard icon and click on `Manage`.
+   - Click on `Log in with OpenShift`. Click on `Allow selected permissions`.
 
-1. You should see `Liberty-Metrics-Dashboard` on the list. Click on it.
+   - In Grafana, from the left-panel, hover over the dashboard icon and click on `Manage`.
 
-1. Explore the dashboards. The first 2 are for Customer Order Services application. The rest are for Liberty.
+   - You should see `Liberty-Metrics-Dashboard` on the list. Click on it.
 
-1. Click on `Customer Order Services - Shopping Cart`. By default, it'll show the data for the last 15 minutes. Adjust the time-range from the top-right as necessary. 
+   - Explore the dashboards. The first 2 are for Customer Order Services application. The rest are for Liberty.
 
-1. You should see the frequency of requests, number of requests, pod information, min/max request times.
+   - Click on `Customer Order Services - Shopping Cart`. By default, it'll show the data for the last 15 minutes. Adjust the time-range from the top-right as necessary. 
 
-1. Scroll-down to expand the `CPU` section. You'll see information about process CPU time, CPU system load for pods.
+   - You should see the frequency of requests, number of requests, pod information, min/max request times.
 
-1. Scroll-down to expand the `Servlets` section. You'll see request count and response times for application servlet as well as health and metrics endpoints.
+   - Scroll-down to expand the `CPU` section. You'll see information about process CPU time, CPU system load for pods.
 
-1. Explore the other sections.
+   - Scroll-down to expand the `Servlets` section. You'll see request count and response times for application servlet as well as health and metrics endpoints.
 
-    ![requesting server dump](extras/images/monitoring-dashboard.gif)
+   - Explore the other sections.
+
+     ![requesting server dump](extras/images/monitoring-dashboard.gif)
 
 
 ## Day-2 Operations (Hands-on)
