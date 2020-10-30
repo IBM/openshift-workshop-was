@@ -664,7 +664,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
          protocol: openid-connect
      ```
      
-   - After verifying the correct substitution, apply the changes: 
+   - After verifying the correct substitution, run the following command to apply the changes: 
 
      ```
      oc apply -f keycloak/client.yaml
@@ -686,6 +686,8 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
      oc project apps
      ```
      
+   - and then run the following command to view the pod status:
+   
    ```
    oc get pod 
    ```
