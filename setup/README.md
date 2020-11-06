@@ -47,7 +47,9 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ![CP4Apps Account](images/CP4AppsAccount.jpg)
 
-- From IBM CLoud Navigation Menu (upper left corner) > seclect Resource List
+- Select from IBM CLoud Navigation Menu (upper left corner `hamburger menu`) > seclect Resource List
+
+![Cloud Menu](images/cloud-menu.jpg)
 
 ![Resource list](images/ResourceList.jpg)
 
