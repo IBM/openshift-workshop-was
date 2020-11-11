@@ -2,7 +2,7 @@
 
 This section contains instructions to access Openshift Clusters for those workshops that use IBM public cloud
 
-## Prequisite
+## Prerequisite
 
 You will be given a URL specific to your workshop (e.g. `https://<workshop name>.mybluemix.net/`), and a lab key for the cluster assignment through email before the workshop session and/or in the Webex/Slack chat during the workshop session.
  
