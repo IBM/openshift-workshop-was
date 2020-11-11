@@ -6,7 +6,7 @@
 - [Analysis](#analysis) (Reading only)
 - [Build](#build) (Hands-on)
 - [Deploy](#deploy) (Hands-on)
-- [Access the Application](#access-the-application) (Hands-on)
+- [Access the Application](#access-the-application-hands-on) (Hands-on)
 - [Review Deployment](#review-deployment)
 - [Cleanup](#cleanup)
 - [Extra Credit](#extra-credit)
