@@ -30,7 +30,7 @@ If you insist on deactivation, follow the instructions on the support page for "
 
 ## Cluster assignment
 
-- Point your browser to the workshop URL which is given through email; or check again with the workshop presenter. 
+- Point your browser to the workshop URL given to you. If you don't know the URL, check with the workshop presenter. 
 - Enter the lab key for your workshop and your IBM ID (with email pattern) to get assigned a cluster.
 
 ![Workshop assignment](images/Initial.jpg)
