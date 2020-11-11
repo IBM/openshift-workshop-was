@@ -108,8 +108,6 @@ Congratulations! You've completed the lab setup.
 ## Next
 Please follow the instructions from the workshop host to get started on one of the labs available [here](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift)
 
-Most workshops use the following as first lab - but your workshop host may instruct you differently:
-
-- [Introduction to Containerization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/HelloContainer)
+Most workshops use [Introduction to Containerization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/HelloContainer) as the first lab - but your workshop host may instruct you differently.
 
 
