@@ -4,10 +4,10 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [IBM Application Navigator](#ibm-application-navigator) (Hands-on)
-- [Application Logging](#application-logging) (Hands-on)
-- [Application Monitoring](#application-monitoring) (Hands-on)
-- [Day-2 Operations](#day-2-operations) (Hands-on)
+- [IBM Application Navigator](#ibm-application-navigator-hands-on) (Hands-on)
+- [Application Logging](#application-logging-hands-on) (Hands-on)
+- [Application Monitoring](#application-monitoring-hands-on) (Hands-on)
+- [Day-2 Operations](#day-2-operations-hands-on) (Hands-on)
 - [Summary](#summary)
 
 ## Introduction
