@@ -8,6 +8,7 @@
 - [Deploy](#deploy) (Hands-on)
 - [Access the Application](#access-the-application-hands-on) (Hands-on)
 - [Review Deployment](#review-deployment)
+- [Review Keycloak setup](#review-keycloak-setup-optional)
 - [Cleanup](#cleanup)
 - [Extra Credit](#extra-credit)
 - [Summary](#summary)
