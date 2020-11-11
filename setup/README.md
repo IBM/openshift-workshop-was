@@ -106,7 +106,9 @@ The contents for the labs are under the the directory `openshift-workshop-was/la
 Congratulations! You've completed the lab setup.
 
 ## Next
-Please follow the link to do the first lab `Introduction to Containerization`:
+Please follow the instructions from the workshop host to get started on one of the labs available [here](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift)
+
+Most workshops use the following as first lab - but your workshop host may instruct you differently:
 
 - [Introduction to Containerization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/HelloContainer)
 
