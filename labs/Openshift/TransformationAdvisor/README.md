@@ -53,71 +53,85 @@ During this lab, you complete the following tasks:
 - Containerize Liberty Application
 - Deploy the Application to OpenShift
 
-## Inspecting Your Current Environment
-
-### Log in to the Workstation VM and get started (skip this step if you are using your own workstation)
+### Log in to the Workstation VM and get started
 
 Open the IBM Cloud dashboard. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find your cluster in the resource list and click it, then click the link for **OpenShift web console** in the top right. You should now be in the OpenShift console.
 
-In the left-hand navigation bar, choose **Networking** and then **Routes**. Make sure the **Project** field is set to "lab" and find the **Location** for "vnc-route". Click this link to enter the lab environment. Click conenct and enter the password given to you by the lab instructor (do we want to give the password here?) You should now see a desktop environment.
+In the left-hand navigation bar, choose **Networking** and then **Routes**. Make sure the **Project** field is set to "lab" and find the **Location** for "vnc-route". Click this link to enter the lab environment. Click **Connect** and enter the password given to you by the lab instructor. You should now see a desktop environment.
 
-### Review the on-premises WebSphere application (skip this step if you are using your own workstation)
+> Note: Be sure to keep both the OpenShift console page and the lab environment page open. You will interact with both throughout this lab.
+
+### Working with the lab environment
+
+This lab uses the web-based noVNC software to display a desktop running in the OpenShift cluster. Take a moment to familiarize yourself with the environment. 
+
+On the Desktop, you will find shortcuts to the Firefox web browser and the Terminal Emulator, as well as the filesystem root and home directories. You will also find the `apps` directory which contains a copy of the app you will use for this lab. 
+
+Clipboard contents are not synchronized between your local workstation and the lab environment. To pass text to the lab clipboard, use the clipboard tool. On the left side of the lab window you will see a small tab with an arrow on it. Clicking this reveals the tool palette. 
+
+The second button from the top is the clipboard window. This window contains a textbox that reflects the current contents of the lab clipboard and can be edited or replaced. Whenever you want to send text to the lab environment, reveal this window and paste the text from your local clipboard into the text box. You can then paste that text into any text box in the lab environment using the context menu or CTRL-V.
+
+> Note: Since the destination desktop environment is Linux, use CTRL-V to paste, even on macOS.
+
+Once you have familiarized yourself with the lab environment desktop, proceed to the rest of the lab.
+
+## Inspect Your Current Environment
 
 In this task, you take a look at Mod Resorts application deployed to the local WebSphere Application Server (WAS) environment. You are going to move this application to the cloud using Open Liberty Operator later.
 
-1. Start WebSphere Application Server
+### Start WebSphere Application Server
 
-   In the workstation VM, you have a local WebSphere Application Server V9 which hosts the Mod Resorts application.
+In the workstation VM, you have a local WebSphere Application Server V9 which hosts the Mod Resorts application.
 
-   To start the WAS server:
+To start the WAS server:
 
-   1. Open a terminal window by clicking **Applications**>**Terminal** or using the shortcut on the desktop.
+1. Open a terminal window by clicking **Applications**>**Terminal** or using the shortcut on the desktop.
 
-      ![](images/vm-terminal-link.png)
+    ![](images/vm-terminal-link.png)
 
-   1. In the terminal window, issue the command below to start the WAS server.
+1. In the terminal window, issue the command below to start the WAS server.
 
-      ```
-      /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/startServer.sh server1
-      ```
+    ```
+    /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/startServer.sh server1
+    ```
 
-      Within a few minutes the WAS server is ready.
+    Within a few minutes the WAS server is ready.
 
-   1. Access the WAS Admin Console to view the application deployed by clicking **Applications**>**Firefox** to open a browser window.
+1. Access the WAS Admin Console to view the application deployed by clicking **Applications**>**Firefox** to open a browser window.
 
-      ![](images/vm-browser-link.png)
+    ![](images/vm-browser-link.png)
 
-   1. From the web browser window enter the following URL to view the console:
+1. From the web browser window enter the following URL to view the console:
 
-      ```
-      http://localhost:9060/ibm/console
-      ```
+    ```
+    http://localhost:9060/ibm/console
+    ```
 
-   1. In the WAS Admin Console login page, click **Login**.
+1. In the WAS Admin Console login page, click **Login**.
 
-   1. On the WAS Console page, click **Applications** -> **Application Types** -> **WebSphere enterprise applications** to view the apps deployed.
+1. On the WAS Console page, click **Applications** -> **Application Types** -> **WebSphere enterprise applications** to view the apps deployed.
 
-      ![](images/was-enterprise-apps-link.png)
+    ![](images/was-enterprise-apps-link.png)
 
-      In the Enterprise Applications list, you can see all applications deployed. The Mod Resorts application is in the list, currently it is running.
+    In the Enterprise Applications list, you can see all applications deployed. The Mod Resorts application is in the list, currently it is running.
 
-      ![](images/was-enterprise-apps.png)
+    ![](images/was-enterprise-apps.png)
 
-1. View the Mod Resorts application
+### View the Mod Resorts application
 
-   1. From the web browser window, click new Tab to open a new browser window. Type the Mod Resorts application URL: **http://localhost:9080/resorts/** and press **Enter**.
+1. From the web browser window, click new Tab to open a new browser window. Type the Mod Resorts application URL: **http://localhost:9080/resorts/** and press **Enter**.
 
-      The Mod Resorts application home page is displayed.
+    The Mod Resorts application home page is displayed.
 
-      ![](images/mod-resorts-app-home-page.png)
+    ![](images/mod-resorts-app-home-page.png)
 
-   1. Click **WHERE TO?** dropdown menu to see the city list.
+1. Click **WHERE TO?** dropdown menu to see the city list.
 
-      ![](images/mod-resorts-app-where-to.png)
+    ![](images/mod-resorts-app-where-to.png)
 
-   1. Click **PARIS, FRANCE** from the list, it shows the weather of the city.
+1. Click **PARIS, FRANCE** from the list, it shows the weather of the city.
 
-      ![](images/mod-resorts-app-paris.png)
+    ![](images/mod-resorts-app-paris.png)
 
 Now you have reviewed the application, next you use Transformation Advisor to analyze this application to see if it is good candidate to be moved to the cloud.
 
@@ -324,7 +338,9 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
 1. In the lab environment, go back to the Terminal window, right-click to paste the ROKS login command window and press Enter to log in to the ROKS cluster.
 
-   ![](images/run-oc-login-command.png) 7. Create a new project (namespace) as **modresorts**.
+   ![](images/run-oc-login-command.png) 
+   
+1. Create a new project (namespace) as **modresorts**.
 
    ```
    oc new-project modresorts
@@ -337,7 +353,7 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 1. Get ROKS internal image registry URL and cluster URL with commands:
 
    ```
-   export INTERNAL_REG_HOST=`image-registry/openshift-image-registry.svc:5000`
+   export INTERNAL_REG_HOST='image-registry.openshift-image-registry.svc:5000'
    ```
 
    > Note: You are using the cluster-internal name for the registry because the lab environment is also inside the cluster. In most cases, you will use the URL for the image-registry's default route to push images from outside the cluster.
