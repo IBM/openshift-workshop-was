@@ -2,13 +2,26 @@
 
 ## Table of Contents
 
-TOC Here
+- [Introduction](#introduction)
+- [What You'll Do](#tasks)
+- [Log In](#login)
+- [Inspect Your Environment](#inspect) (Hands-on)
+- [Upload Data](#collector) (Hands-on)
+- [View Recommendations](#review) (Reading only)
+- [Create Migration Bundle](#bundle) (Hands-on)
+- [Containerize Application](#containerize) (Hands-on)
+- [Deploy to OpenShift](#deploy) (Hands-on)
+- [Summary](#summary)
 
+<a name="introduction"></a>
 ## Introduction
 
-IBM Cloud Transformation Advisor (Transformation Advisor) is one of the tools included in the Cloud Pak for Applications (CP4Apps), a developer tool helps you quickly evaluate on-premises Java EE applications and to prepare the apps for a rapid cloud deployment. The tool identifies the Java EE programming models in the application, help determine its complexity by listing a high-level inventory of the content and structure of the application, highlight Java EE programming models and WebSphere API differences between the WebSphere profile type and show any Java EE specification implementation differences that could affect the app. You can use this tool in your move in the cloud journey to quickly analyze on-premise WebSphere apps without accessing source code and to prepare the apps for a rapid cloud deployment.
+IBM Cloud Transformation Advisor (Transformation Advisor, or TA) is one of the tools included in the Cloud Pak for Applications (CP4Apps), a developer tool helps you quickly evaluate on-premises Java EE applications and to prepare the apps for a rapid cloud deployment. The tool identifies the Java EE programming models in the application, help determine its complexity by listing a high-level inventory of the content and structure of the application, highlight Java EE programming models and WebSphere API differences between the WebSphere profile type and show any Java EE specification implementation differences that could affect the app. You can use this tool in your move in the cloud journey to quickly analyze on-premise WebSphere apps without accessing source code and to prepare the apps for a rapid cloud deployment.
 
 This lab showcases Transformation Advisor as a tool to help you analyze your existing applications and begin the re-platform process for applications you select. Re-platform uses Lift, Modify and Shift approach to move an existing application the cloud. In this lab, you learn how to package a selected candidate Java application to Liberty container without any application code change and to deploy it to an IBM Red Hat OpenShift Kubernetes Service (ROKS) cluster in IBM Cloud using the Transformation Advisor Migration Bundle tool.
+
+<a name="tasks"></a>
+## What You'll Do
 
 ### Business Scenario
 
@@ -53,7 +66,9 @@ During this lab, you complete the following tasks:
 - Containerize Liberty Application
 - Deploy the Application to OpenShift
 
-### Log in to the Workstation VM and get started
+<a name="login"></a>
+## Log In
+### Access the lab environment and get started
 
 Open the IBM Cloud dashboard. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find your cluster in the resource list and click it, then click the link for **OpenShift web console** in the top right. You should now be in the OpenShift console.
 
@@ -75,6 +90,7 @@ The second button from the top is the clipboard window. This window contains a t
 
 Once you have familiarized yourself with the lab environment desktop, proceed to the rest of the lab.
 
+<a name="inspection"></a>
 ## Inspect Your Current Environment
 
 In this task, you take a look at Mod Resorts application deployed to the local WebSphere Application Server (WAS) environment. You are going to move this application to the cloud using Open Liberty Operator later.
@@ -135,7 +151,10 @@ To start the WAS server:
 
 Now you have reviewed the application, next you use Transformation Advisor to analyze this application to see if it is good candidate to be moved to the cloud.
 
-## Analyze Your Environment With Transformation Advisor
+<a name="collector"></a>
+## Upload Data Using the Data Collector
+
+Transformation Advisor provides an automated data collector which will scan your application environment and upload its findings to the TA user interface.
 
 ### Access Transformation Advisor
 
@@ -187,23 +206,27 @@ The Transformation Advisor can evaluate any Java based applications and help to 
 
    ![](images/ta-recommendation-page.png)
 
-   Transformation Advisor provides all migration recommendations for all applications deployed to the WAS server based on the specified source and target environments.
+<a name="review"></a>
+## Review Transformation Advisor Recommendations
 
-   On the **Recommendations** page, the identified migration source environment is shown in the **Source environment** section, and the target environment is shown in the **Preferred migration on Cloud Pak for Applications** section. The data collector tool detects that the source environment is your **WebSphere Application Server AppSrv01** profile. The target environment is **Compatible Liberty Runtime**, which is the default target environment.
+Transformation Advisor provides migration recommendations for all applications deployed to the WAS server based on the specified source and target environments.
 
-   The Recommendations page also shows the summary analysis results for all the applications in the AppSrv01 environment to be moved to a Compatible Liberty Runtime environment. For each application, you can see these results:
+On the **Recommendations** page, the identified migration source environment is shown in the **Source environment** section, and the target environment is shown in the **Preferred migration on Cloud Pak for Applications** section. The data collector tool detects that the source environment is your **WebSphere Application Server AppSrv01** profile. The target environment is **Compatible Liberty Runtime**, which is the default target environment.
 
-   - Name
-   - Complexity level
-   - Dependencies
-   - Issues
-   - Estimated development cost in days
+The Recommendations page also shows the summary analysis results for all the applications in the AppSrv01 environment to be moved to a Compatible Liberty Runtime environment. For each application, you can see these results:
 
-   For example, if you want to move the **modresorts.ear** application to Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
+- Name
+- Complexity level
+- Dependencies
+- Issues
+- Estimated development cost in days
 
-   You can view details for a scanned application by clicking its name. On the application details page, you can see any dependencies detected, the complexity rules which contributed to the overall complexity assessment, and links to additional Technology, Inventory, and Analysis reports.
+For example, if you want to move the **modresorts.ear** application to Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
 
-### Create Migration Bundle
+You can view details for a scanned application by clicking its name. On the application details page, you can see any dependencies detected, the complexity rules which contributed to the overall complexity assessment, and links to additional Technology, Inventory, and Analysis reports.
+
+<a name="bundle"></a>
+## Create Migration Bundle
 
 Transformation Advisor has the ability to use the imported application analysis data to generate a migration bundle for the specified application and target environment to accelerate the migration process while minimizing the errors and risks. You use it to create our migration package for moving the Mod Resorts application to Liberty container on OpenShift cluster environment.
 
@@ -283,9 +306,8 @@ Transformation Advisor has the ability to use the imported application analysis 
 
 1. Navigate to the **modresorts_migrationBundle/operator/application** directory and open the **application-cr.yaml** file. Note the value of **applicationImage:** around line 9. This will be the tag you will use for your container image.
 
-## Modernize Your Application Deployment
-
-### Containerize Liberty Application
+<a name="containerize"></a>
+## Containerize Your Liberty Application
 
 In this task, you containerize the application. You first create a Liberty Docker image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
 
@@ -314,7 +336,8 @@ In this task, you containerize the application. You first create a Liberty Docke
 
 1. After testing, press **Ctrl-C** to stop the container.
 
-### Deploy the Application to OpenShift
+<a name="deploy"></a>
+## Deploy Your Application to OpenShift
 
 In this step you deploy the docker image you have created to Red Hat OpenShift and create an instance of it. Before you begin, you need push the image to the OpenShift image registry.
 
@@ -427,6 +450,7 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
 1. Navigate through the application web pages as you did in the WAS version to verify the application deployment.
 
+<a name="Summary"></a>
 ## Summary
 
 In this lab, you have learned how to use Transformation Advisor to prepare a migration bundle for your application and to deploy it to cloud. As a part of IBM Application Modernization solutions in IBM Cloud Pak for Applications, the Transformation Advisor accelerates application migrating to cloud process, minimize errors and risks and reduce time to market. To learn more about IBM Application Modernization solutions, please visit [Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications).
