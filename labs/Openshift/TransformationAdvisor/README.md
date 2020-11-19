@@ -4,7 +4,7 @@
 
 - [Introduction](#introduction)
 - [What You'll Do](#tasks)
-- [Log In](#login)
+- [Log In](#login) (Hands-on)
 - [Inspect Your Environment](#inspect) (Hands-on)
 - [Upload Data](#collector) (Hands-on)
 - [View Recommendations](#review) (Reading only)
@@ -12,6 +12,7 @@
 - [Containerize Application](#containerize) (Hands-on)
 - [Deploy to OpenShift](#deploy) (Hands-on)
 - [Summary](#summary)
+- [Common Issues](#issues) (Check if you have a problem)
 
 <a name="introduction"></a>
 ## Introduction
@@ -29,7 +30,7 @@ As shown in the image below, your company has a web application called Mod Resor
 
 ![](images/mod-resorts-app-home-page.png)
 
-You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a light-weighted Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the Docker container to an OpenShift Kubernetes cluster environment.
+You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a lightweight Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the Docker container to an OpenShift Kubernetes cluster environment.
 
 ### Objective
 
@@ -74,6 +75,8 @@ Open the IBM Cloud dashboard. Ensure the account name displayed in the top right
 
 In the left-hand navigation bar, choose **Networking** and then **Routes**. Make sure the **Project** field is set to "lab" and find the **Location** for "vnc-route". Click this link to enter the lab environment. Click **Connect** and enter the password given to you by the lab instructor. You should now see a desktop environment.
 
+![](images/lab-desktop.png)
+
 > Note: Be sure to keep both the OpenShift console page and the lab environment page open. You will interact with both throughout this lab.
 
 ### Working with the lab environment
@@ -86,11 +89,13 @@ Clipboard contents are not synchronized between your local workstation and the l
 
 The second button from the top is the clipboard window. This window contains a textbox that reflects the current contents of the lab clipboard and can be edited or replaced. Whenever you want to send text to the lab environment, reveal this window and paste the text from your local clipboard into the text box. You can then paste that text into any text box in the lab environment using the context menu or CTRL-V.
 
-> Note: Since the destination desktop environment is Linux, use CTRL-V to paste, even on macOS.
+![](images/lab-clipboard.png)
+
+> Note: Since the destination desktop environment is Linux, use CTRL-V to paste, even on macOS. In the terminal, right click and choose paste from the menu, as CTRL-V will be generate a control character instead of pasting.
 
 Once you have familiarized yourself with the lab environment desktop, proceed to the rest of the lab.
 
-<a name="inspection"></a>
+<a name="inspect"></a>
 ## Inspect Your Current Environment
 
 In this task, you take a look at Mod Resorts application deployed to the local WebSphere Application Server (WAS) environment. You are going to move this application to the cloud using Open Liberty Operator later.
@@ -107,13 +112,13 @@ To start the WAS server:
 
 1. In the terminal window, issue the command below to start the WAS server.
 
-    ```
+    ```shell
     /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/startServer.sh server1
     ```
 
     Within a few minutes the WAS server is ready.
 
-1. Access the WAS Admin Console to view the application deployed by clicking **Applications**>**Firefox** to open a browser window.
+1. Access the WAS Admin Console to view the application deployed by clicking **Firefox Web Browser** on the desktop to open a browser window.
 
     ![](images/vm-browser-link.png)
 
@@ -135,7 +140,7 @@ To start the WAS server:
 
 ### View the Mod Resorts application
 
-1. From the web browser window, click new Tab to open a new browser window. Type the Mod Resorts application URL: **http://localhost:9080/resorts/** and press **Enter**.
+1. From the web browser window, click new Tab to open a new browser window. Type the Mod Resorts application URL: `http://localhost:9080/resorts/` and press **Enter**.
 
     The Mod Resorts application home page is displayed.
 
@@ -162,7 +167,11 @@ Transformation Advisor is installed on ROKS in IBM Cloud. In this lab, you use t
 
 1. From the OpenShift web console you opened earlier, navigate to **Networking**>**Routes** if you have not already and choose "ta" from the **Project** drop-down. Look for the route ending in "ui-route" and right click the **Location** URL to copy the link to the clipboard. You are going to send this URL to the clipboard in the lab environment.
 
-1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. This palette contains a textbox which reflects the current contents of the lab environment clipboard. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). You can use this technique to send any data you need to into the lab environment.
+   ![](images/ocp-ta-route.png)
+
+1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). You can use this technique to send any data you need to into the lab environment.
+
+   ![](images/lab-clipboard.png)
 
 1. The Transformation Advisor home page is displayed.
    ![](images/ta-home-page.png)
@@ -187,22 +196,32 @@ The Transformation Advisor can evaluate any Java based applications and help to 
 
    ![](images/ta-upload-data.png)
 
-1. The default platform for the data collector is Linux, which you are using for this lab. Click **Download for Linux** and choose to save the resulting archive.
+1. The default platform for the data collector is Linux, which you are using for this lab. Click **Download for Linux** and choose **Save File** for the resulting archive.
+
+   ![](images/ta-data-collector-download.png)
 
 1. Open a terminal and navigate to `/headless/Downloads` and extract the data collector using the following command, replacing the file name as needed:
 
-   ```
+   ```shell
    tar xvf transformationadvisor-Linux_Evaluation_Server1.tgz
    ```
 
 1. Change to the bin directory of the data collector and run it, specifying the path to WebSphere with `-w` and the name of the profile to scan with `-p`:
 
-   ```
+   ```shell
    cd transformation-advisor-2.3.0/bin
    ./transformationadvisor -w /opt/IBM/WebSphere/AppServer -p AppSrv01
    ```
 
-1. Enter "1" to agree to the license terms, and the data collector will scan your profile, generate reports, and upload the results to TA. Return to the TA web page once it instructs you to do so. Click **Server1** in the top breadcrumb bar to return to the collection page.
+1. Type "1" and press "enter" to agree to the license terms, and the data collector will scan your profile, generate reports, and upload the results to TA. 
+
+   ![](images/ta-data-collector-progress.png)
+
+1. Return to the TA web page once it instructs you to do so. Both the console and the collector page will indicate that data has been uploaded.
+
+   ![](images/ta-data-collector-finished.png)
+
+1. Click **Server1** in the top breadcrumb bar to return to the collection page.
 
    ![](images/ta-recommendation-page.png)
 
@@ -244,7 +263,7 @@ Transformation Advisor has the ability to use the imported application analysis 
 
 1. Navigate to **/headless/Desktop/apps** directory, select **modresorts.war** file and click Open to add the file to the bundle.
 
-   ![](images/add-modresorts-war.png)
+   ![](images/ta-add-modresorts-war.png)
 
    Once the file is added, your application migration bundle is completed and ready for use.
 
@@ -254,37 +273,39 @@ Transformation Advisor has the ability to use the imported application analysis 
 
 ### Inspect and Update the Migration Bundle
 
-1. Click **Download** to download it to the local machine.
+1. Click **Download** to download it to the local machine and choose **Save file**.
 
    ![](images/ta-download-bundle.png)
 
    Your migration bundle is downloaded to **/headless/Downloads** directory.
 
-1. After the migration bundle is downloaded, click **Applications**>**Files**.
+1. After the migration bundle is downloaded, click **Applications**>**File Manager**.
 
    ![](images/vm-files-link.png)
 
 1. Navigate to the **/headless/Downloads** directory.
 
-   ![](images/downloads-folder.png)
+   ![](images/vm-downloads-folder.png)
+
+   ![](images/vm-downloaded-archive.png)
 
 1. Right click the migration bundle zip file and select **Open With Archive Manager**.
 
-   ![](images/extract-bundle.png)
+   ![](images/vm-extract-bundle.png)
 
 1. Click **Extract**.
 
-   ![](images/extract-bundle-2.png)
+   ![](images/vm-extract-bundle-2.png)
 
-1. In the next page, select **Downloads** directory, click the **New Folder** icon to create a new folder named **modresorts_migrationBundle** and click **Create**.
+1. In the next page, select **Downloads** directory, click the **New Folder** icon to create a new folder named **modresorts** and click **Create**.
 
-   ![](images/extract-bundle-3.png)
+   ![](images/vm-extract-bundle-3.png)
 
-1. Click **Extract** to unzip the bundle pack in the **/home/student/Downloads/modresorts_migrationBundle** directory
+1. Click **Extract** to unzip the bundle pack in the **/headless/Downloads/modresorts** directory
 
-   ![](images/extract-bundle-4.png)
+   ![](images/vm-extract-bundle-4.png)
 
-1. Close the **Archive Manager**. Navigate to the **modresorts_migrationBundle** directory, you see the all files in the migration bundle package.
+1. Choose **Show the files** or navigate to the **modresorts** directory. When you do so, you see the all files in the migration bundle package.
 
    ![](images/migration-bundle-folder.png)
 
@@ -296,31 +317,52 @@ Transformation Advisor has the ability to use the imported application analysis 
    - target/application runtime – the ear or war file of your application.
    - Operator resources - deploy and manage your migrated application in Cloud Pak for Applications running on OpenShift Container Platform.
 
-1. Navigate to the **modresorts_migrationBundle/operator/deploy** directory, open the **operator.yaml** file to the file editor by double-clicking it. Locate the line which specifies the operator image, around line 20:
+1. Navigate to the **modresorts/operator/deploy** directory, open the **operator.yaml** file in the file editor by double-clicking it. Locate the line which specifies the operator image, around line 20:
 
-   ```
+   ```yaml
    image: openliberty/operator:0.3.0
    ```
 
-   Update the version of the image so it reads `openliberty/operator:0.6.0` to avoid a normally-rare issue which can occur more frequently in the lab environment.
+   Update the version of the image so it reads `openliberty/operator:0.7.0` to allow the application-cr.yaml to specify the image stream tag for the image you will create. This will enable you to specify the image to use without having to keep track of the registry URL at deployment time.
 
-1. Navigate to the **modresorts_migrationBundle/operator/application** directory and open the **application-cr.yaml** file. Note the value of **applicationImage:** around line 9. This will be the tag you will use for your container image.
+   ![](images/migration-update-operator.png)
+
+1. In the same **deploy** directory, open the **role.yaml** file. Scroll to the end and add the following lines to the bottom of the file:
+
+   ```yaml
+     - apiGroups:
+         - image.openshift.io
+       resources:
+         - imagestreams
+       verbs:
+         - '*'
+   ```
+
+   Make sure that the indentation of the new lines is the same as the lines above:
+
+   ![](images/migration-update-role.png)
+
+   These lines allow the operator to access image streams in the cluster. It will use this permission to deploy the image you create for your application from the internal image registry.
+
+1. Navigate to the **modresorts/operator/application** directory and open the **application-cr.yaml** file. Update the value of **applicationImage:** around line 9 to be `modresorts/modresorts`, removing the rest of the value. This is the image stream tag which will be generated when your image is pushed into the image registry.
+
+   ![](images/migration-update-tag.png)
 
 <a name="containerize"></a>
 ## Containerize Your Liberty Application
 
 In this task, you containerize the application. You first create a Liberty Docker image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
 
-1. From the terminal window issue the command below to stop the WebSphere server and to free the ports it is using:
+1. From the terminal window issue the command below to stop the WebSphere server and to free the ports it is using (skip this step if you did not start WebSphere or have stopped it already):
 
-   ```
+   ```shell
    /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/bin/stopServer.sh server1
    ```
 
 1. Go to where your migration artifacts are located and build your image from the docker file.
 
-   ```
-   cd /headless/Downloads/modresorts_migrationBundle
+   ```shell
+   cd /headless/Downloads/modresorts
    docker build . --no-cache -t modresorts:latest
    ```
 
@@ -328,7 +370,7 @@ In this task, you containerize the application. You first create a Liberty Docke
 
 1. Once the Docker image is built, create a container instance from the image and confirm that it is working correctly:
 
-   ```
+   ```shell
    docker run -p 9080:9080 modresorts:latest
    ```
 
@@ -351,11 +393,11 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
 1. In the next page, click **Display Token** link.
 
-   ![](images/display-token.png)
+   ![](images/ocp-display-token.png)
 
 1. Copy the ROKS login command to the clipboard.
 
-   ![](images/copy-token.png)
+   ![](images/ocp-copy-token.png)
 
 1. Return to the lab window/tab and use the clipboard palette to send the login command to the lab environment.
 
@@ -365,17 +407,17 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
    
 1. Create a new project (namespace) as **modresorts**.
 
-   ```
+   ```shell
    oc new-project modresorts
    ```
 
-   ![](images/oc-new-project.png)
+   ![](images/run-oc-new-project.png)
 
    You see the message to confirm that the modresorts project is created.
 
 1. Get ROKS internal image registry URL and cluster URL with commands:
 
-   ```
+   ```shell
    export INTERNAL_REG_HOST='image-registry.openshift-image-registry.svc:5000'
    ```
 
@@ -383,13 +425,13 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
 1. Log in to the OpenShift Docker registry with the command:
 
-   ```
+   ```shell
    docker login -u $(oc whoami) -p $(oc whoami -t) $INTERNAL_REG_HOST
    ```
 
 1. Execute the following command to push your docker image to OpenShift image repository.
 
-   ```
+   ```shell
    docker tag modresorts:latest $INTERNAL_REG_HOST/`oc project -q`/modresorts:latest
    docker push $INTERNAL_REG_HOST/`oc project -q`/modresorts:latest
    ```
@@ -408,15 +450,19 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
    1. You can see the image you just pushed is listed. Click its link to view its details.
 
-      ![](images/modresorts-image.png)
+      ![](images/ocp-modresorts-image.png)
 
       In the Image Stream Details Page Overview section, you see the image repository you used to push the image. Note that in most cases, you will push images using the default route of the image registry. If so, the image will have two tags--one referencing the external route and another referencing the internal service name, which you used in the lab environment.
 
-      ![](images/modresorts-is-overview.png)
+      Because you are specifying the image stream tag instead of the tag of the image itself, you only need to make note of the project/namespace the image stream is in, and the name of the image stream. These are equivalent to the last two terms of the image tag. Ensure this matches what you edited `application-cr.yaml` to specify and update `application-cr.yaml` if necessary.
 
-1. Return to your terminal and cd to the **modresorts_migrationBundle/operator** directory. Run the following commands to deploy the application operator, which will allow you to create instances of your application by deploying a single file:
+      ![](images/ocp-modresorts-is-overview.png)
 
-   ```
+1. Return to your terminal and cd to the **modresorts/operator** directory. Run the following commands to deploy the application operator, which will allow you to create instances of your application by deploying a single file:
+
+   ```shell
+   # Be sure you are in /headless/Downloads/modresorts/operator
+
    oc apply -f deploy/service_account.yaml
    oc apply -f deploy/role.yaml
    oc apply -f deploy/role_binding.yaml
@@ -426,15 +472,30 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
    You can check that the operator has started by running the command `oc get pods`. There should be a pod with a name beginning `modresorts-operator` with **STATUS** "Running". If it isn't running yet, wait a few moments, then check again.
 
+   ```shell
+   root@lab-tools-76d88b7566-hjwc6:~/Downloads/modresorts/operator# oc get pods
+   NAME                                   READY   STATUS    RESTARTS   AGE
+   modresorts-operator-76899bdb85-6xzwz   1/1     Running   0          16s
+   ```
+
 1. Once the operator has been deployed and started, run the following command to use the operator to deploy the image you created earlier:
 
-   ```
+   ```shell
    oc apply -f application/application-cr.yaml
+   ```
+
+   You can check the status of the deployment by running `oc get pods`. Once the new `modresorts` pod shows as "Running", your app has started.
+
+   ```shell
+   root@lab-tools-76d88b7566-hjwc6:~/Downloads/modresorts/operator# oc get pods
+   NAME                                   READY   STATUS    RESTARTS   AGE
+   modresorts-6cf957fdf6-g4glf            1/1     Running   0          5m19s
+   modresorts-operator-76899bdb85-6xzwz   1/1     Running   0          10m
    ```
 
 1. Your application is now deployed. To view it, run the following command to display the publicly-viewable URL of the application:
 
-   ```
+   ```shell
    oc get route -o jsonpath='{.items[0].spec.host}' && echo
    ```
 
@@ -456,3 +517,22 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 In this lab, you have learned how to use Transformation Advisor to prepare a migration bundle for your application and to deploy it to cloud. As a part of IBM Application Modernization solutions in IBM Cloud Pak for Applications, the Transformation Advisor accelerates application migrating to cloud process, minimize errors and risks and reduce time to market. To learn more about IBM Application Modernization solutions, please visit [Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications).
 
 **Congratulations! You have successfully completed the lab “Modernize Java Application for Container and OpenShift with Transformation Advisor”.**
+
+<a name="issues"></a>
+## Common issues with the lab environment (read if you encounter a problem)
+
+### Black screen on lab environment
+**Problem**: Black screen after clicking **connect** on the noVNC page and typing in the password.
+
+**Solution**: Occasionally, a problem during cluster setup will cause the lab environment to not connect properly. To resolve this, in the OpenShift web console, click **Workloads** > **Pods**. On this page, in the *Project:** dropdown, ensure "lab" is the selected project. Locate the pod with the name beginning "lab-tools" (usually the only pod in the list.) Click the three vertical dots on the right-hand side and choose **Delete Pod**.
+
+<img src="images/delete-lab-tools-pod.png" alt="drawing" width="700"/>
+
+A new pod will be created; it may take several minutes to start. Try to access the lab environment again. If this problem persists, contact your instructor.
+
+### Graphical corruption in lab environment web browser
+**Problem**: When browsing certain sites (including Transformation Advisor and the Mod Resorts application) in the lab environment Firefox web browser, black or white squares appear in websites, or background images are missing.
+
+**Solution**: These graphical glitches are transient and can usually be cleared by resizing the browser window or using the back and forward buttons to return to the page, however they often reappear with continued use of the browser. 
+
+These glitches should not affect the functionality of the web pages, but if they are persistent on the Transformation Advisor pages, you can view the Transformation Advisor UI Route in your local web browser. You will still need to use the lab environment for downloading the data collector and the migration bundle, as well as deploying the resulting bundle to OpenShift, but you can view the results locally.
