@@ -108,7 +108,7 @@ To start the WAS server:
 
 1. Open a terminal window by clicking **Applications**>**Terminal** or using the shortcut on the desktop.
 
-    ![](images/vm-terminal-link.png)
+    <img src="images/vm-terminal-link.png" height="500px" />
 
 1. In the terminal window, issue the command below to start the WAS server.
 
@@ -194,7 +194,7 @@ The Transformation Advisor can evaluate any Java based applications and help to 
 
 1. Once the Workspace and Collection are created, you get the data collection options page. You can either download the Data Collector utility and run it against your application server, or upload an existing data file. In this lab, you are going to use the data collector option. Click **Data Collector** to go to the download page.
 
-   ![](images/ta-upload-data.png)
+   <img src="images/ta-upload-data.png" height="500px" />
 
 1. The default platform for the data collector is Linux, which you are using for this lab. Click **Download for Linux** and choose **Save File** for the resulting archive.
 
@@ -340,6 +340,7 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    Make sure that the indentation of the new lines is the same as the lines above:
 
+   <img src="images/migration-update-role.png" height="750px" />
    ![](images/migration-update-role.png)
 
    These lines allow the operator to access image streams in the cluster. It will use this permission to deploy the image you create for your application from the internal image registry.
@@ -442,11 +443,11 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
    1. From the ROKS Web Console Home page, click **Builds**>**Images Streams**.
 
-      ![](images/ocp-builds-is.png)
+      <img src="images/ocp-builds-is.png" height="500px" />
 
    1. Change project (namespace) from **default** to **modresorts**.
 
-      ![](images/ocp-modresorts-project.png)
+      <img src="images/ocp-modresorts-project.png" height="500px" />
 
    1. You can see the image you just pushed is listed. Click its link to view its details.
 
@@ -456,7 +457,7 @@ In this step you deploy the docker image you have created to Red Hat OpenShift a
 
       Because you are specifying the image stream tag instead of the tag of the image itself, you only need to make note of the project/namespace the image stream is in, and the name of the image stream. These are equivalent to the last two terms of the image tag. Ensure this matches what you edited `application-cr.yaml` to specify and update `application-cr.yaml` if necessary.
 
-      ![](images/ocp-modresorts-is-overview.png)
+      <img src="images/ocp-modresorts-is-overview.png" height="500px" />
 
 1. Return to your terminal and cd to the **modresorts/operator** directory. Run the following commands to deploy the application operator, which will allow you to create instances of your application by deploying a single file:
 
