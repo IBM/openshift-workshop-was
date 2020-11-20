@@ -73,7 +73,7 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 1. From the top level directory, change to the lab's directory to `RuntimeModernization` folder:
    ```
-   If you're at previous location openshift-workshop-was/labs/Openshift/OperationalModernization, then
+   If you're at the previous location openshift-workshop-was/labs/Openshift/OperationalModernization, then
    cd ../RuntimeModernization
    
    otherwise, using the full path to RuntimeModernization folder:
