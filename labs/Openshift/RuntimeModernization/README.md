@@ -9,7 +9,7 @@
 - [Access the Application](#access-the-application-hands-on) (Hands-on)
 - [Review Deployment](#review-deployment)
 - [Review Keycloak setup](#review-keycloak-setup-optional) (Optional)
-- [Cleanup](#cleanup-hands-on)
+- [Cleanup](#cleanup-hands-on) (can be skipped if the next lab Application Management is included in the same session)
 - [Extra Credit](#extra-credit)
 - [Summary](#summary)
 - [Next](#next)
