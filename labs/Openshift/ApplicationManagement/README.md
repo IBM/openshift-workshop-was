@@ -33,7 +33,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    If you're at the prevoius location openshift-workshop-was/labs/Openshift/RuntimeModernization, then
    cd ../OperationalModernization
    
-   otherwise, using the full path to `OperationalModernization`:
+   otherwise, using the full path to OperationalModernization folder:
    cd openshift-workshop-was/labs/Openshift/OperationalModernization
    ```
 
