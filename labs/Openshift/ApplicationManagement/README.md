@@ -30,8 +30,7 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 1. Change to the lab's directory:
    ```
-   cd openshift-workshop-was
-   cd labs/Openshift/OperationalModernization
+   cd openshift-workshop-was/labs/Openshift/OperationalModernization
    ```
 
 1. Create and switch over to the project. Note: The first step may fail if the project already exists.
@@ -68,10 +67,13 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 1. Note: The following steps are to help you re-deploy the Liberty application if the deployment has been deleted from the previous lab Runtime Modernization.  The deployment is required to generate data for the follow-on steps in monitoring.
 
-1. From the top level directory, change to the lab's directory:
+1. From the top level directory, change to the lab's directory to `RuntimeModernization` folder:
    ```
-   cd openshift-workshop-was
-   cd labs/Openshift/RuntimeModernization
+   If you're at previous location openshift-workshop-was/labs/Openshift/OperationalModernization, then
+   cd ../RuntimeModernization
+   
+   otherwise, using the full path to RuntimeModernization folder:
+   cd openshift-workshop-was/labs/Openshift/RuntimeModernization
    ```
 
 1. Create and switch over to the project. Also enable monitoring for the project. Note: The first step may fail if the project already exists.
