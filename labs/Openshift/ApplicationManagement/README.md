@@ -30,16 +30,20 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 1. Change to the lab's directory:
    ```
+   If you're at the prevoius location openshift-workshop-was/labs/Openshift/RuntimeModernization, then
+   cd ../OperationalModernization
+   
+   otherwise, using the full path to `OperationalModernization`:
    cd openshift-workshop-was/labs/Openshift/OperationalModernization
    ```
 
-1. Create and switch over to the project. Note: The first step may fail if the project already exists.
+1. Create and switch over to the project `apps-was`. Note: The first step `oc new-project` may fail if the project already exists.
    ```
    oc new-project apps-was
    oc project apps-was
    ```
 
- 1. Build and deploy the application:
+ 1. Build and deploy the application by running the commands in the followin sequence. Reminder: the `.` at the end of the first command.
     ```
     docker build --tag image-registry.openshift-image-registry.svc:5000/apps-was/cos-was .
     docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
@@ -76,14 +80,14 @@ In this lab, you'll learn about managing your running applications efficiently u
    cd openshift-workshop-was/labs/Openshift/RuntimeModernization
    ```
 
-1. Create and switch over to the project. Also enable monitoring for the project. Note: The first step may fail if the project already exists.
+1. Create and switch over to the project `apps`. Also enable monitoring for the project. Note: The first step `oc new-project` may fail if the project already exists.
    ```
    oc new-project apps
    oc project apps
    oc label namespace apps app-monitoring=true
    ```
 
-1. Build and deploy the application. Note the `.` at the end of the first command:
+1. Build and deploy the application by running the commands in the followin sequence. Reminder: the `.` at the end of the first command:
    ```
    docker build --tag image-registry.openshift-image-registry.svc:5000/apps/cos .
    docker login -u openshift -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000
@@ -97,7 +101,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    oc get route cos
    ```
 
-1. Create your keycloak client configuration:
+1. Create your keycloak client configuration by running the following commands: (first with `sed` command to edit/replace the information and then `oc apply` to update the configuration):
    ```
    sed -i "s/ENTER_YOUR_APPLICATION_HOSTNAME_HERE/$(oc get route cos -n apps --template='{{ .spec.host }}')/" keycloak/client.yaml
    oc apply -f keycloak/client.yaml
