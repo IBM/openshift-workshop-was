@@ -26,7 +26,7 @@ In this lab, you'll learn about managing your running applications efficiently u
     ```
 
 
-### Build and deploy the traditional WebSphere application
+### Build and deploy the traditional WebSphere application (Hands-on)
 
 1. Change to the lab's directory:
    ```
@@ -159,7 +159,7 @@ Application Navigator also provides links to other dashboards that you already u
 
 Pod processes running in OpenShift frequently produce logs. To effectively manage this log data and ensure no loss of log data occurs when a pod terminates, a log aggregation tool should be deployed on the cluster. Log aggregation tools help users persist, search, and visualize the log data that is gathered from the pods across the cluster. Let's look at application logging with log aggregation using EFK (Elasticsearch, Fluentd, and Kibana). Elasticsearch is a search and analytics engine. Fluentd receives, cleans and parses the log data. Kibana lets users visualize data with charts and graphs in Elasticsearch.
 
-### Launch Kibana
+### Launch Kibana (Hands-on)
 
 1. In OpenShift console, from the left-panel, select **Networking** > **Routes**.
 
@@ -178,7 +178,7 @@ Pod processes running in OpenShift frequently produce logs. To effectively manag
 
     ![refresh index patterns](extras/images/refresh-index-patterns.gif)
 
-### Import dashboards
+### Import dashboards (Hands-on)
 
 The following steps to import dashboards into Kibana are illustrated  in the screen recording at the end of this section:
 
@@ -192,11 +192,11 @@ The following steps to import dashboards into Kibana are illustrated  in the scr
 
     ![import Kibana dashboards](extras/images/import-kibana-dashboards.gif)
 
-### Explore dashboards
+### Explore dashboards (Hands-on)
 
 In Kibana console, from the left-panel, click on `Dashboard`. You'll see 3 dashboards on the list. The first 2 are for Liberty. The last one is for WAS traditional. Read the description next to each dashboard.
 
-#### Liberty applications
+#### Liberty applications (Hands-on)
 
 The following steps to visualize problems with applications are illustrated  in the screen recording below:
 
@@ -233,7 +233,7 @@ The following steps to visualize problems with applications are illustrated  in 
 
     ![Liberty traffic dashboard](extras/images/liberty-traffic-dashboard.gif)
 
-#### Traditional WebSphere applications
+#### Traditional WebSphere applications (Hands-on)
 
 1. Go back to the list of dashboards and click on _WAS-traditional-Problems-K5-20190609_. Similar to the first dashboard for Liberty, this dashboard visualizes message and trace information for WebSphere Application Server traditional.
 
@@ -245,7 +245,7 @@ The following steps to visualize problems with applications are illustrated  in 
 
 Building observability into applications externalizes the internal status of a system to enable operations teams to monitor systems more effectively. It is important that applications are written to produce metrics. When the Customer Order Services application was modernized, we used MicroProfile Metrics and it provides a `/metrics` endpoint from where you can access all metrics emitted by the JVM, Open Liberty server and deployed applications. Operations teams can gather the metrics and store them in a database by using tools like Prometheus. The metrics data can then be visualized and analyzed in dashboards, such as Grafana.
 
-### Grafana dashboard
+### Grafana dashboard (Hands-on)
 
 1. Custom resource [GrafanaDashboard](dashboards/grafana/grafana-dashboard-cos.yaml) defines a set of dashboards for monitoring Customer Order Services application and Open Liberty. In web terminal, run the following command to create the dashboard resource:
 
@@ -290,7 +290,7 @@ You may need to gather server traces and/or dumps for analyzing some problems. O
 
 A storage must be configured so the generated artifacts can persist, even after the Pod is deleted. This storage can be shared by all instances of the Open Liberty applications. RedHat OpenShift on IBM Cloud utilizes the storage capabilities provided by IBM Cloud. Let's create a request for storage.
 
-### Request storage
+### Request storage (Hands-on)
 
 1. In OpenShift console, from the left-panel, select **Storage** > **Persistent Volume Claims**.
 
@@ -310,7 +310,7 @@ A storage must be configured so the generated artifacts can persist, even after 
 
 1. Once bound, you should see the volume displayed under `Persistent Volume` field.
 
-### Enable serviceability
+### Enable serviceability (Hands-on)
 
 Enable serviceability option for the Customer Order Services application. In productions systems, it's recommended that you do this step with the initial deployment of the application - not when you encounter an issue and need to gather server traces or dumps. OpenShift cannot attach volumes to running Pods so it'll have to create a new Pod, attach the volume and then take down the old Pod. If the problem is intermittent or hard to reproduce, you may not be able to reproduce it on the new instance of server running in the new Pod. The volume can be shared by all Liberty applications that are in the same namespace and the volumes wouldn't be used unless you perform day-2 operation on a particular application - so that should make it easy to enable serviceability with initial deployment.
 
@@ -338,7 +338,7 @@ Enable serviceability option for the Customer Order Services application. In pro
 
     ![requesting server dump](extras/images/pod-name.png)
 
-### Request server dump
+### Request server dump (Hands-on)
 
 You can request a snapshot of the server status including different types of server dumps, from an instance of Open Liberty server running inside a Pod, using Open Liberty Operator and `OpenLibertyDump` custom resource (CR). 
 
@@ -362,7 +362,7 @@ The following steps to request a server dump are illustrated in the screen recor
 
     ![requesting server dump](extras/images/day2-dump-operation.gif)
 
-### Request server traces
+### Request server traces (Hands-on)
 
 You can also request server traces, from an instance of Open Liberty server running inside a Pod, using `OpenLibertyTrace` custom resource (CR).
 
@@ -387,7 +387,7 @@ The following steps to request a server trace are illustrated in the screen reco
 
     ![requesting server trace](extras/images/day2-trace-operation.gif)
 
-### Accessing the generated files
+### Accessing the generated files (Hands-on)
 
 The generated trace and dump files should now be in the persistent volume. You used storage from IBM Cloud and we have to go through a number of steps using a different tool to access those files. Since the volume is attached to the Pod, we can instead use Pod's terminal to easily verify that trace and dump files are present.
 
