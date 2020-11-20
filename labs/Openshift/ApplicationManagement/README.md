@@ -64,7 +64,9 @@ In this lab, you'll learn about managing your running applications efficiently u
    - Close the browser.
 
 
-### Build and deploy the liberty application
+### Build and deploy the Liberty application (Skip this step if you just finished the previous lab ![Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization) and if you did not clean up the deployment)
+
+1. Note: The following steps are to help you re-deploy the Liberty application if the previous deployment has been deleted from the previous lab Runtime Modernization.  The deployment is required to generate data for the follow-on steps in monitoring.
 
 1. From the top level directory, change to the lab's directory:
    ```
