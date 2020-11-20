@@ -698,7 +698,7 @@ The OpenID Connector Provider Keycloak has already been pre-deployed in the clus
    NAME                   READY   STATUS    RESTARTS   AGE
    cos-596b4f849f-2fg4h   1/1     Running   0          18m
    ```
-  - If the pod doesn't display the expected status (for example, after 5 minutes) (and possibly with ImagePull error), then delete the pod to get it restarted.
+  - If the pod doesn't display the expected `Running` status (for example, after 5 minutes) (and possibly with ImagePull error), then delete the pod to get it restarted.
     From the command line, run `oc delete pod <pod name>`  (where pod name is the string under NAME column from the output of `oc get pod`)
     
 
