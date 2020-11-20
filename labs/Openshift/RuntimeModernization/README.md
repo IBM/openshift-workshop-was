@@ -137,7 +137,7 @@ We used MicroProfile Config to [inject information](app/CustomerOrderServicesWeb
   private String keycloakURI;
   ```
 
-#### Determine application's availability
+#### Determine application's availability (for reading only)
 
 In the last lab, we used `/CustomerOrderServicesWeb/index.html` for readiness and liveness probes, which is not the best indication that application is ready to handle traffic or is healthy to process requests correctly within a reasonable amount of time. What if the database is down? What if application's security layer is not yet ready/unable to handle authentication? The Pod would still be considered ready and healthy and traffic would still be sent to it. All of those requests will fail or would queue up - leading to bigger problems.
 
