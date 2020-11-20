@@ -37,7 +37,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    cd openshift-workshop-was/labs/Openshift/OperationalModernization
    ```
 
-1. Create and switch over to the project `apps-was`. Note: The first step `oc new-project` may fail if the project already exists.
+1. Create and switch over to the project `apps-was`. Note: The first step `oc new-project` may fail if the project already exists; proceed to next command.
    ```
    oc new-project apps-was
    oc project apps-was
@@ -80,7 +80,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    cd openshift-workshop-was/labs/Openshift/RuntimeModernization
    ```
 
-1. Create and switch over to the project `apps`. Also enable monitoring for the project. Note: The first step `oc new-project` may fail if the project already exists.
+1. Create and switch over to the project `apps`. Also enable monitoring for the project. Note: The first step `oc new-project` may fail if the project already exists; proceed to next command.
    ```
    oc new-project apps
    oc project apps
