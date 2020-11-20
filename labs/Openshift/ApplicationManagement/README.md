@@ -20,7 +20,7 @@ In this lab, you'll learn about managing your running applications efficiently u
 
 1. If you have not log in to OpenShift CLI or if your previous `oc login` session is no longer available (due to OpenShift CLI login token expired, or web termainl session is reopened), then follow the instructions in the [Login section](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/IntroOpenshift#login) to login to OpenShift CLI through issing `oc login` command from the web terminal.
 
-1. If you have not yet cloned the GitHub repo with the lab artifacts (which is the same as used in the previous lab ![Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization), then run the following command on your web terminal:
+1. If you have not yet cloned the GitHub repo with the lab artifacts (which is the same as used in the previous lab [Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization), then run the following command on your web terminal:
     ```
     git clone https://github.com/IBM/openshift-workshop-was.git
     ```
@@ -63,7 +63,7 @@ In this lab, you'll learn about managing your running applications efficiently u
    - Close the browser.
 
 
-### Build and deploy the Liberty application (Skip this step if you just finished the previous lab ![Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization) and if you did not clean up the deployment)
+### Build and deploy the Liberty application (Skip this step if you just finished the previous lab [Runtime Modernization](https://github.com/IBM/openshift-workshop-was/tree/master/labs/Openshift/RuntimeModernization) and if you did not clean up the deployment)
 
 1. Note: The following steps are to help you re-deploy the Liberty application if the deployment has been deleted from the previous lab Runtime Modernization.  The deployment is required to generate data for the follow-on steps in monitoring.
 
