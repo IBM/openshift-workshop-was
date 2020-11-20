@@ -114,16 +114,16 @@ Let's kick that process off and then come back to learn what you did.
 - Upgraded to Java EE8. Changed from using annotations from _jackson_ to _jsonb_. For example, changed from `@JsonProperty(value="id")` to `@JsonbProperty(value="id")`.
 
 
-### Modernize with MicroProfile
+### Modernize with MicroProfile (for reading only)
 
 We used the opportunity to make code changes to modernize some aspects of the application as well. Eclipse MicroProfile is a modular set of technologies designed so that you can write cloud-native microservices. Even though our application is a monolith, we can still take advantage of some of the technologies from MicroProfile.
 
 
-#### Secure application
+#### Secure application (for reading only)
 
 We updated the application to use a token-based authentication mechanism to authenticate, authorize, and verify user identities. Added MicroProfile JWT to validate security tokens. The application was updated to use Keycloak, which runs on the cluster and will handle authenticating users. It'll also handle registering & storing user account information.
 
-#### Externalize configuration
+#### Externalize configuration (for reading only)
 
 The application will have to run on many different environments. So it's important to avoid hardcoding environment specific values in your code. Otherwise, you'll have to update code, recompile and containerize it frequently. 
 
@@ -174,7 +174,7 @@ We implemented the following health checks:
     return HealthCheckResponse.named("Liveness").up().build();
     ```
 
-#### Adding metrics to application
+#### Adding metrics to application (for reading only)
 
 MicroProfile Metrics is used to gather metrics about the time it takes to add an item to cart, retrieve customer information and to count the number of time these operations are performed.
 
@@ -220,7 +220,7 @@ Have a look at the configuration files and note:
   - `quickStartSecurity` provides an easy way to define an internal user registry with just one user. It is used to secure endpoints such as _/metrics_.
 
 
-### Build instructions
+### Build instructions (for reading only)
 
 The `Dockerfile` required to build the immutable image containing the application and Liberty runtime was created from the template provided by IBM Cloud Transformation Advisor. 
 Here is the final version of the file:
