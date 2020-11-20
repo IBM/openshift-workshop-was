@@ -187,7 +187,7 @@ MicroProfile Metrics is used to gather metrics about the time it takes to add an
   {
   ```
 
-### Liberty server configuration
+### Liberty server configuration (for reading only)
 
 The Liberty runtime configuration files are based on a template provided by IBM Cloud Transformation Advisor.  
 For this lab, instead of using a single server.xml, the configurations have been split into multiple configuration files and placed into [config/configDropins/overrides](config/configDropins/overrides) directory.
