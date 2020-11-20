@@ -1221,7 +1221,7 @@ echo $(echo $(oc get secret credential-keycloak -n keycloak --template='{{ .data
 
    ![KeyCloakClientCosApp](extras/images/KeyCloakClientCosApp.jpg)
 
-## Cleanup (Hands-on)
+## Cleanup (Hands-on) (Skip this step if you're going to run the next lab Application Management on the same assigned cluster.)
 
 1. The controller for the Open Liberty Operator creates the necessary Deployment, Service, and Route objects for Customer Order Services application. To list these resources, run the commands:
 
