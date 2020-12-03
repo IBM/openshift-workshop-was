@@ -200,6 +200,8 @@ Transformation Advisor can evaluate any Java based applications and help to pack
 
    ![](images/ta-data-collector-download.png)
 
+   ![](images/ta-data-collector-save.png)
+
 1. Open a terminal and navigate to `/headless/Downloads` and extract the data collector using the following command, replacing the file name as needed:
 
    ```shell
@@ -214,7 +216,11 @@ Transformation Advisor can evaluate any Java based applications and help to pack
    ./transformationadvisor -w /opt/IBM/WebSphere/AppServer -p AppSrv01
    ```
 
-1. Type "1" and press "enter" to agree to the license terms, and the data collector will scan your profile, generate reports, and upload the results to TA. 
+1. Type "1" and press "enter" to agree to the license terms. 
+
+   ![](images/ta-data-collector-license.png)
+
+   The data collector will scan your profile, generate reports, and upload the results to TA. 
 
    ![](images/ta-data-collector-progress.png)
 
@@ -258,15 +264,19 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/ta-view-migration-plan.png)
 
-1. Transformation Advisor is now starting to prepare the migration bundle package for the application. It quickly prepares a migration bundle package with several required key files created from the application data collected from the WAS server, including server.xml, pom.xml, OpenShift Operator resource files and Dockerfile. However, it needs a few more application specific dependencies like the application runtime binary file and other library files, like database driver file the application is using. For the Mod Resorts application, it only needs the application runtime binary file. Select **Binary** option, **Don’t use Accelerator for Teams** option, and **Manual upload** option, then click **Drag or add file** in Application binary row.
+1. Transformation Advisor is now starting to prepare the migration bundle package for the application. It quickly prepares a migration bundle package with several required key files created from the application data collected from the WAS server, including server.xml, pom.xml, OpenShift Operator resource files and Dockerfile. However, it needs a few more application specific dependencies like the application runtime binary file and other library files, like database driver file the application is using. 
+
+   For the Mod Resorts application, TA only needs the application runtime binary file. Select **Binary** option under **Build type**, click the toggle so it says **Don’t Use** under **Accelerator for Teams**, and select **Manual upload** option under **Applicaiton dependencies**, then click **Drag or add file** in the Application binary row to open a file browser.
 
    ![](images/ta-migration-drag-or-add-file.png)
 
-1. Navigate to **/headless/Desktop/apps** directory, select **modresorts.war** file and click Open to add the file to the bundle.
+1. Navigate to **/headless/Desktop/apps** directory, select the **modresorts.war** file and click **Open** to add the file to the bundle.
 
    ![](images/ta-add-modresorts-war.png)
 
    Once the file is added, your application migration bundle is completed and ready for use.
+
+   ![](images/ta-confirm-modresorts-war.png)
 
    If you are sure that no more changes are needed for the migration bundle, you can push it to your GitHub repository and use your delivery pipeline to deploy it to cloud.
 
@@ -277,6 +287,8 @@ Transformation Advisor has the ability to use the imported application analysis 
 1. Click **Download** to download it to the local machine and choose **Save file**. The download button is located in the bottom-right corner of the web page; you may need to scroll or resize your browser window in order to see it.
 
    ![](images/ta-download-bundle.png)
+
+   ![](images/ta-save-bundle.png)
 
    Your migration bundle is downloaded to **/headless/Downloads** directory.
 
@@ -306,7 +318,11 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/vm-extract-bundle-4.png)
 
-1. Choose **Show the files** or navigate to the **modresorts** directory. When you do so, you see the all files in the migration bundle package.
+1. Choose **Show the files** or navigate to the **modresorts** directory. 
+
+   ![](images/vm-extract-bundle-5.png)
+
+   When you do so, you see the all files in the migration bundle package.
 
    ![](images/migration-bundle-folder.png)
 
