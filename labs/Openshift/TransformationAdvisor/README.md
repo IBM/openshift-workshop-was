@@ -360,6 +360,25 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/migration-update-operator.png)
 
+1. In the same **deploy** directory, open the **role.yaml** file. Scroll to the end and add the following lines to the bottom of the file:
+
+   ```yaml
+   - apiGroups:
+      - image.openshift.io
+      resources:
+      - imagestreams
+      verbs:
+      - '*'
+   ```
+
+   Make sure that the indentation of the new lines is the same as the lines above:
+
+   <img src="images/migration-update-role.png" height="750px" />
+
+   These lines allow the operator to access image streams in the cluster. It will use this permission to deploy the image you create for your application from the internal image registry.
+
+   Save and close this file.
+
 <a name="containerize"></a>
 
 ## Containerize Your Liberty Application
