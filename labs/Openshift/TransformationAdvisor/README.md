@@ -32,7 +32,7 @@ As shown in the image below, your company has a web application called Mod Resor
 
 ![](images/mod-resorts-app-home-page.png)
 
-You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a lightweight Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the container to an OpenShift Kubernetes cluster environment.
+You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a lightweight Open Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the container to an OpenShift Kubernetes cluster environment.
 
 ### Objective
 
@@ -66,7 +66,7 @@ During this lab, you complete the following tasks:
 - Create Migration Bundle
 - Update the Migration Bundle
 - Test the Migration Bundle Locally (Optional)
-- Containerize Liberty Application
+- Containerize Open Liberty Application
 - Deploy the Application to OpenShift
 
 <a name="login"></a>
@@ -77,7 +77,7 @@ During this lab, you complete the following tasks:
 
 > Note: You should have already been assigned a cluster to your IBM Cloud account, usually using a lab key provided in the materials specific to your lab. If you are unsure about this step, ask your lab instructor.
 
-Open the IBM Cloud dashboard. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find Clusters in the list of resources, click it, then click the name of the cluster in the resource list. 
+Open the [IBM Cloud dashboard](https://cloud.ibm.com) and log in with your IBM ID. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find **Clusters** in the list of resources, click it, then click the name of the cluster in the resource list. 
 
 ![](images/lab-dashboard.png)
 
@@ -193,7 +193,7 @@ Transformation Advisor is installed on the OpenShift cluster in IBM Cloud. In th
 
    ![](images/ocp-ta-route.png)
 
-1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). You can use this technique to send any data you need to into the lab environment.
+1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). 
 
    ![](images/lab-clipboard.png)
 
@@ -278,7 +278,7 @@ The Recommendations page also shows the summary analysis results for all the app
 - Issues
 - Estimated development cost in days
 
-For example, if you want to move the **modresorts.ear** application to Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
+For example, if you want to move the **modresorts.ear** application to Open Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
 
 You can view details for a scanned application by clicking its name. On the application details page, you can see any dependencies detected, the complexity rules which contributed to the overall complexity assessment, and links to additional Technology, Inventory, and Analysis reports.
 
@@ -288,7 +288,7 @@ You can view details for a scanned application by clicking its name. On the appl
 
 ## Create Migration Bundle
 
-Transformation Advisor has the ability to use the imported application analysis data to generate a migration bundle for the specified application and target environment to accelerate the migration process while minimizing the errors and risks. You use it to create a migration package for moving the Mod Resorts application to Liberty container on OpenShift cluster environment.
+Transformation Advisor has the ability to use the imported application analysis data to generate a migration bundle for the specified application and target environment to accelerate the migration process while minimizing the errors and risks. You use it to create a migration package for moving the Mod Resorts application to Open Liberty container on OpenShift cluster environment.
 
 1. From the Recommendations page, click the action icon in **modresorts.ear** application and Open Liberty target row.
 
@@ -314,7 +314,7 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/ta-add-modresorts-war.png)
 
-   Once the file is added, your application migration bundle is completed and ready for use.
+   Once the file is added, your application migration bundle is completed and ready for use. It may take a few moments for the file to finish uploading; when you see a small X next to the name, as in the screenshot, it is finished.
 
    ![](images/ta-confirm-modresorts-war.png)
 
@@ -366,7 +366,7 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/migration-bundle-folder.png)
 
-   There are five key files you needed to build your Open Liberty server container image:
+   There are five key files you use to build and deploy your Open Liberty server container image:
 
    - src/main/liberty/config/server.xml - contains the Open Liberty server configuration for the application you are migrating. It configures application dependencies such as database connections and messaging.
    - Dockerfile - this multi-stage file first downloads the application binary and dependencies (if specified), and then builds a container image which includes your application deployed to Open Liberty.
@@ -376,9 +376,9 @@ Transformation Advisor has the ability to use the imported application analysis 
 
 <a name="containerize"></a>
 
-## Containerize Your Liberty Application
+## Containerize Your Open Liberty Application
 
-In this task, you containerize the application. You first create a Liberty container image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
+In this task, you containerize the application. You first create an Open Liberty container image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
 
 1. From the terminal window issue the command below to stop the WebSphere server to free the ports it is using (you can skip this step if you did not start WebSphere or have stopped it already):
 
@@ -393,7 +393,7 @@ In this task, you containerize the application. You first create a Liberty conta
    docker build . --no-cache -t modresorts:latest
    ```
 
-   The base Liberty image is pulled down and used to create the image that includes your migrated application. You should receive the message **Successfully tagged modresorts:latest** when the build completes (approximately 2-3 minutes.)
+   The base Open Liberty image is pulled down and used to create the image that includes your migrated application. You should receive the message **Successfully tagged modresorts:latest** when the build completes (approximately 2-3 minutes.)
 
 1. Once the container image is built, create a container instance from the image and confirm that it is working correctly:
 
@@ -467,9 +467,7 @@ To push your image to the cluster, you'll need to log in on the command line.
    oc project modresorts
    ```
 
-   ![](images/run-oc-new-project.png)
-
-   You see the message to confirm that the modresorts project is created.
+   You see the message to confirm that the modresorts project is in use.
 
 1. Get OpenShift internal image registry URL and cluster URL with commands:
 
