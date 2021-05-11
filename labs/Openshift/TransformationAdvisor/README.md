@@ -18,9 +18,9 @@
 
 ## Introduction
 
-IBM Cloud Transformation Advisor (Transformation Advisor, or TA) is one of the tools included in the Cloud Pak for Applications (CP4Apps), a developer tool helps you quickly evaluate on-premises Java EE applications and to prepare the apps for a rapid cloud deployment. The tool identifies the Java EE programming models in the application, help determine its complexity by listing a high-level inventory of the content and structure of the application, highlight Java EE programming models and WebSphere API differences between the WebSphere profile type and show any Java EE specification implementation differences that could affect the app. You can use this tool in your move in the cloud journey to quickly analyze on-premise WebSphere apps without accessing source code and to prepare the apps for a rapid cloud deployment.
+IBM Cloud Transformation Advisor (Transformation Advisor, or TA) is one of the tools included in WebSphere Hybrid Edition (WSHE.) A developer tool, TA helps you quickly evaluate on-premises Java EE applications and to prepare the apps for a rapid cloud deployment. The tool identifies the Java EE programming models in the application, help determine its complexity by listing a high-level inventory of the content and structure of the application, highlight Java EE programming models and WebSphere API differences between the WebSphere profile type and show any Java EE specification implementation differences that could affect the app. You can use this tool in your move in the cloud journey to quickly analyze on-premise WebSphere apps without accessing source code and to prepare the apps for a rapid cloud deployment.
 
-This lab showcases Transformation Advisor as a tool to help you analyze your existing applications and begin the re-platform process for applications you select. Re-platform uses Lift, Modify and Shift approach to move an existing application the cloud. In this lab, you learn how to package a selected candidate Java application to Liberty container without any application code change and to deploy it to an IBM Red Hat OpenShift Kubernetes Service (ROKS) cluster in IBM Cloud using the Transformation Advisor Migration Bundle tool.
+This lab showcases how Transformation Advisor can help you analyze your existing applications and begin the re-platform process for the applications you select. Re-platform uses Lift, Modify and Shift approach to move an existing application the cloud. In this lab, you learn how to package a selected candidate Java application to an Open Liberty container without any application code change, and to deploy it to an IBM Red Hat OpenShift Kubernetes Service (ROKS) cluster in IBM Cloud using the Transformation Advisor migration bundle.
 
 <a name="tasks"></a>
 
@@ -32,7 +32,7 @@ As shown in the image below, your company has a web application called Mod Resor
 
 ![](images/mod-resorts-app-home-page.png)
 
-You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a lightweight Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the container to an OpenShift Kubernetes cluster environment.
+You will analyze this application and assess the difficulty of re-platforming it to the cloud. Based on the analysis you will discover that you can move this application from the traditional WebSphere Server environment to a lightweight Open Liberty server environment without any code change. Then you will use the Transformation Advisor migration plan to create the migration bundle, to containerize the application on Liberty, and to deploy the container to an OpenShift Kubernetes cluster environment.
 
 ### Objective
 
@@ -66,7 +66,7 @@ During this lab, you complete the following tasks:
 - Create Migration Bundle
 - Update the Migration Bundle
 - Test the Migration Bundle Locally (Optional)
-- Containerize Liberty Application
+- Containerize Open Liberty Application
 - Deploy the Application to OpenShift
 
 <a name="login"></a>
@@ -75,27 +75,41 @@ During this lab, you complete the following tasks:
 
 ### Access the lab environment and get started
 
-Open the IBM Cloud dashboard. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find your cluster in the resource list and click it, then click the link for **OpenShift web console** in the top right. You should now be in the OpenShift console.
+> Note: You should have already been assigned a cluster to your IBM Cloud account, usually using a lab key provided in the materials specific to your lab. If you are unsure about this step, ask your lab instructor.
 
-In the left-hand navigation bar, choose **Networking** and then **Routes**. Make sure the **Project** field is set to "lab" and find the **Location** for "vnc-route". Click this link to enter the lab environment. Click **Connect** and enter the password given to you by the lab instructor. You should now see a desktop environment.
+Open the [IBM Cloud dashboard](https://cloud.ibm.com) and log in with your IBM ID. Ensure the account name displayed in the top right is 2044184 - CP4AWorkshops. Find **Clusters** in the list of resources, click it, then click the name of the cluster in the resource list. 
 
-![](images/lab-desktop.png)
+![](images/lab-dashboard.png)
+
+On the information page for the cluster, click the link for **OpenShift web console** in the top right. If your browser blocks the pop up, make sure to allow it (usually a banner, or an icon to the right of the address bar.)
+
+![](images/lab-cluster-page.png)
+
+You should now be in the OpenShift console. In the left-hand navigation bar, choose **Networking** and then **Routes**. Make sure the **Project** field is set to "lab" and find the **Location** for "vnc-route". Click this link to enter the lab environment. 
+
+![](images/lab-openshift-route.png)
+
+Click **Connect** and enter the password given to you by the lab instructor. You should now see a desktop environment.
 
 > Note: Be sure to keep both the OpenShift console page and the lab environment page open. You will interact with both throughout this lab.
 
 ### Working with the lab environment
 
+![](images/lab-desktop.png)
+
 This lab uses the web-based noVNC software to display a desktop running in the OpenShift cluster. Take a moment to familiarize yourself with the environment.
 
 On the Desktop, you will find shortcuts to the Firefox web browser and the Terminal Emulator, as well as the filesystem root and home directories. You will also find the `apps` directory which contains a copy of the app you will use for this lab.
 
-Clipboard contents are not synchronized between your local workstation and the lab environment. To pass text to the lab clipboard, use the clipboard tool. On the left side of the lab window you will see a small tab with an arrow on it. Clicking this reveals the tool palette.
+Clipboard contents are not automatically synchronized between your local workstation and the lab environment. To pass text between the host and the lab clipboard, use the clipboard tool. On the left side of the lab window you will see a small tab with an arrow on it. Clicking this reveals the tool palette.
 
 The second button from the top is the clipboard window. This window contains a textbox that reflects the current contents of the lab clipboard and can be edited or replaced. Whenever you want to send text to the lab environment, reveal this window and paste the text from your local clipboard into the text box. You can then paste that text into any text box in the lab environment using the context menu or CTRL-V.
 
 ![](images/lab-clipboard.png)
 
-> Note: Since the destination desktop environment is Linux, use CTRL-V to paste, even on macOS. In the terminal, right click and choose paste from the menu, as CTRL-V will be generate a control character instead of pasting.
+> Note: Since the destination desktop environment is Linux, use CTRL-V to paste, even on macOS. In the terminal, right click and choose paste from the menu, as CTRL-V will generate a control character instead of pasting.
+
+The lab session starts at a fixed size. If you want the session to instead fill your browser window, open the tool palette and click the fourth icon from the top, a gear that represents Settings. Under **Scaling Mode:** select **Remote resizing**, which will cause the lab environment to change screen resolution to fill your browser window.
 
 Once you have familiarized yourself with the lab environment desktop, proceed to the rest of the lab.
 
@@ -107,7 +121,7 @@ In this task, you take a look at Mod Resorts application deployed to the local W
 
 ### Start WebSphere Application Server
 
-In the workstation VM, you have a local WebSphere Application Server V9 which hosts the Mod Resorts application.
+In the lab environment, you have a local WebSphere Application Server V9 profile which hosts the Mod Resorts application.
 
 To start the WAS server:
 
@@ -149,6 +163,8 @@ To start the WAS server:
 
    The Mod Resorts application home page is displayed.
 
+   > Note: Don't worry if you see a white background instead of the background images depicted in the screenshots. Sometimes the browser in the lab environment has difficulties displaying large images or complex pages. The app is still working.
+
    ![](images/mod-resorts-app-home-page.png)
 
    > Note: if you do not see the modresorts application, ensure you are using port **9080**, which is different from the admin console port of **9060**.
@@ -177,7 +193,7 @@ Transformation Advisor is installed on the OpenShift cluster in IBM Cloud. In th
 
    ![](images/ocp-ta-route.png)
 
-1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). You can use this technique to send any data you need to into the lab environment.
+1. In the tab with your lab environment, locate the arrow on the left side of the screen and click it. This will reveal the noVNC toolbar. Click the second button from the top to reveal the Clipboard palette. Paste the URL you copied earlier into the textbox. Then, in the lab environment, paste the URL into the address bar using CTRL-V (even on macOS). 
 
    ![](images/lab-clipboard.png)
 
@@ -186,25 +202,25 @@ Transformation Advisor is installed on the OpenShift cluster in IBM Cloud. In th
 
 ### Upload Application Data into Transformation Advisor
 
-Transformation Advisor can evaluate any Java based applications and help to package the good candidate application to move to cloud. You will use the data collector provided by TA to scan your applications and upload the results back to TA itself.
+Transformation Advisor can evaluate any Java based applications and help package them to move to the cloud. You will use the data collector provided by TA to scan your applications and upload the results back to TA itself.
 
-1. On the Transformation Advisor page, first create a new workspace by clicking **Add a new workspace**, entering the workspace name as **Evaluation** and then clicking **Next**.
+1. On the Transformation Advisor page, first create a new workspace by clicking **Create new**, entering the workspace name as **Evaluation** and then clicking **Next**.
 
    ![](images/ta-new-workspace.png)
 
-   > Note: A workspace is a designated area that houses the migration recommendations provided by Transformation Advisor against your application server environment. You can name and organize these however you want, whether it’s by business application, location or teams.
+   > Note: A workspace is a designated area that houses the migration recommendations provided by Transformation Advisor against your overall application server environment. You can name and organize these however you want, whether it’s by business application, location, team, or any other way useful to you.
 
-1. Enter the collection name as **Server1** and click **Let’s go**.
+1. Enter the collection name as **Server1** and click **Create**.
 
    ![](images/ta-new-collection.png)
 
-   > Note: Each workspace can be divided into collections for more focused assessment and planning. Like workspaces, collections can be named and organized in whatever way you want.
+   > Note: Each workspace is divided into collections for more focused assessment and planning. Like workspaces, collections can be named and organized in whatever way you want. Each collection is populated by a data collector scan, so one collection commonly represents the applications deployed to one server or WebSphere Network Deployment cell.
 
-1. Once the Workspace and Collection are created, you get the data collection options page. You can either download the Data Collector utility and run it against your application server, or upload an existing data file. In this lab, you are going to use the data collector option. Click **Data Collector** to go to the download page.
+1. Once the Workspace and Collection are created, you see the data collection options page. You can either download the Data Collector utility and run it against your application server, or upload an existing data file. In this lab, you are going to use the data collector option to scan the WebSphere profile you inspected earlier. Click **Download** to go to the download page.
 
    <img src="images/ta-upload-data.png" height="500px" />
 
-1. The default platform for the data collector is Linux, which you are using for this lab. Click **Download for Linux** and choose **Save File** for the resulting archive.
+1. Choose the version of the data collector to download. The lab environment is based on Linux, which is selected by default. Click **Download for Linux** and choose **Save File** for the resulting archive.
 
    ![](images/ta-data-collector-download.png)
 
@@ -220,7 +236,7 @@ Transformation Advisor can evaluate any Java based applications and help to pack
 1. Change to the bin directory of the data collector and run it, specifying the path to WebSphere with `-w` and the name of the profile to scan with `-p`:
 
    ```shell
-   cd transformationadvisor-2.3.0/bin
+   cd transformationadvisor-2.4.3/bin
    ./transformationadvisor -w /opt/IBM/WebSphere/AppServer -p AppSrv01
    ```
 
@@ -236,7 +252,7 @@ Transformation Advisor can evaluate any Java based applications and help to pack
 
    ![](images/ta-data-collector-finished.png)
 
-1. Click **Server1** in the top breadcrumb bar to return to the collection page.
+1. Click **Server1** in the top breadcrumb bar to return to the collection page, also called the Recommendation page.
 
    ![](images/ta-recommendation-page.png)
 
@@ -246,7 +262,13 @@ Transformation Advisor can evaluate any Java based applications and help to pack
 
 Transformation Advisor provides migration recommendations for all applications deployed to the WAS server based on the specified source and target environments.
 
-On the **Recommendations** page, the identified migration source environment is shown in the **Source environment** section, and the target environment is shown in the **Preferred migration on Cloud Pak for Applications** section. The data collector tool detects that the source environment is your **WebSphere Application Server AppSrv01** profile. The target environment is **Compatible Liberty Runtime**, which is the default target environment.
+On the **Recommendations** page, the identified migration source environment is shown in the **Source environment** section, and the target environment is shown in the **Migration target** section. The data collector tool detects that the source environment is your **WebSphere Application Server AppSrv01** profile. The target environment is **Liberty Runtime**, which is the default target environment.
+
+![](images/ta-recommendation-environments.png)
+
+The target environment can show only Liberty targets (always Open Liberty; if an application requires a feature found only in WebSphere Liberty, that will show as an additional entry,) WebSphere traditional, or all of those targets. Each app will have a separate entry for each target.
+
+![](images/ta-recommendation-all-compatible.png)
 
 The Recommendations page also shows the summary analysis results for all the applications in the AppSrv01 environment to be moved to a Compatible Liberty Runtime environment. For each application, you can see these results:
 
@@ -256,17 +278,19 @@ The Recommendations page also shows the summary analysis results for all the app
 - Issues
 - Estimated development cost in days
 
-For example, if you want to move the **modresorts.ear** application to Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
+For example, if you want to move the **modresorts.ear** application to Open Liberty on OpenShift, the complexity level is Simple which indicates that the application code does not need to be changed before it can be moved to cloud. The application has no dependency, has one minor level issue and the estimated development effort is 0 day with no code change.
 
 You can view details for a scanned application by clicking its name. On the application details page, you can see any dependencies detected, the complexity rules which contributed to the overall complexity assessment, and links to additional Technology, Inventory, and Analysis reports.
+
+![](images/ta-detailed-analysis.png)
 
 <a name="bundle"></a>
 
 ## Create Migration Bundle
 
-Transformation Advisor has the ability to use the imported application analysis data to generate a migration bundle for the specified application and target environment to accelerate the migration process while minimizing the errors and risks. You use it to create our migration package for moving the Mod Resorts application to Liberty container on OpenShift cluster environment.
+Transformation Advisor has the ability to use the imported application analysis data to generate a migration bundle for the specified application and target environment to accelerate the migration process while minimizing the errors and risks. You use it to create a migration package for moving the Mod Resorts application to Open Liberty container on OpenShift cluster environment.
 
-1. Click the action icon in **modresorts.ear** application row.
+1. From the Recommendations page, click the action icon in **modresorts.ear** application and Open Liberty target row.
 
    ![](images/ta-action-button.png)
 
@@ -274,21 +298,23 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/ta-view-migration-plan.png)
 
-1. Transformation Advisor is now starting to prepare the migration bundle package for the application. It quickly prepares a migration bundle package with several required key files created from the application data collected from the WAS server, including server.xml, pom.xml, OpenShift Operator resource files and Dockerfile. However, it needs a few more application specific dependencies like the application runtime binary file and other library files, like database driver file the application is using.
+   > Note: from the Application details page, the **View migration plan** button will bring you to the same page.
 
-   For the Mod Resorts application, TA only needs the application runtime binary file. Select **Binary** option under **Build type**, click the toggle so it says **Don’t Use** under **Accelerator for Teams**, and select **Manual upload** option under **Applicaiton dependencies**, then click **Drag or add file** in the Application binary row to open a file browser.
+1. Transformation Advisor is now starting to prepare the migration bundle package for the application. It assembles a migration bundle package with several required files using the collected application data, including server.xml, pom.xml, OpenShift Operator resource files and a Dockerfile. However, it needs a few more application-specific dependencies: the application runtime binary file and other library files the application depends on.
+
+   For the Mod Resorts application, TA only needs the application runtime binary file. Select **Binary** option under **Build type** and select **Manual upload** option under **Applicaiton dependencies**. Then, click **Drag or add file** in the Application binary row to open a file browser.
 
    ![](images/ta-migration-drag-or-add-file.png)
 
    > **Why do I upload a modresorts.war file when the application is modresorts.ear?**
    >
-   > The application you are migrating is built into a .war file from its source code. WebSphere Application Server converts all .war applications into .ear applications at deploy time. Sine Transformation Advisor scans the applications as deployed in WebSphere, it sees the .ear application. However, it is a good practice to provide the application as built from source to the migration bundle, to more closely match the version of the application that will be automatically built from source and deployed into the cluster by a pipeline.
+   > The application you are migrating is built into a .war file from its source code. WebSphere Application Server converts all .war applications into .ear applications at deploy time. Since Transformation Advisor scans the applications as deployed in WebSphere, it sees the .ear application. However, it is a good practice to provide the application binary built from source to the migration bundle. This will more closely match the version of the application that will be automatically built from source and deployed into the cluster by a pipeline.
 
 1. Navigate to **/headless/Desktop/apps** directory, select the **modresorts.war** file and click **Open** to add the file to the bundle.
 
    ![](images/ta-add-modresorts-war.png)
 
-   Once the file is added, your application migration bundle is completed and ready for use.
+   Once the file is added, your application migration bundle is completed and ready for use. It may take a few moments for the file to finish uploading; when you see a small X next to the name, as in the screenshot, it is finished.
 
    ![](images/ta-confirm-modresorts-war.png)
 
@@ -340,65 +366,34 @@ Transformation Advisor has the ability to use the imported application analysis 
 
    ![](images/migration-bundle-folder.png)
 
-   There are five key files you needed to build your Open Liberty server container image:
+   There are five key files you use to build and deploy your Open Liberty server container image:
 
-   - src/main/liberty/config/server.xml - contains the Liberty server configuration for the application you are migrating. It configures application dependencies such as database connections and messaging.
-   - Dockerfile - this multi-stage file first downloads the application binary and dependencies (if specified), and then builds a container image which includes your application configured in Liberty.
+   - src/main/liberty/config/server.xml - contains the Open Liberty server configuration for the application you are migrating. It configures application dependencies such as database connections and messaging.
+   - Dockerfile - this multi-stage file first downloads the application binary and dependencies (if specified), and then builds a container image which includes your application deployed to Open Liberty.
    - pom.xml – the file contains information about the project and configuration details used by Maven to build the project. In the case of a binary project generated by Transformation Advisor, it may contain coordinates for application binaries and dependencies.
-   - target/application runtime – the ear or war file of your application.
-   - Operator resources - deploy and manage your migrated application in Cloud Pak for Applications running on OpenShift Container Platform.
-
-1. Navigate to the **operator/deploy** directory and open the **operator.yaml** file in the file editor by double-clicking it. Locate the line which specifies the operator image, around line 20:
-
-   ```yaml
-   image: openliberty/operator:0.3.0
-   ```
-
-   Update the version of the image so it reads `openliberty/operator:0.7.0` to use the latest released version of the Open Liberty Operator.
-
-   Save and close this file.
-
-   ![](images/migration-update-operator.png)
-
-1. In the same **deploy** directory, open the **role.yaml** file. Scroll to the end and add the following lines to the bottom of the file:
-
-   ```yaml
-   - apiGroups:
-      - image.openshift.io
-      resources:
-      - imagestreams
-      verbs:
-      - '*'
-   ```
-
-   Make sure that the indentation of the new lines is the same as the lines above:
-
-   <img src="images/migration-update-role.png" height="750px" />
-
-   These lines allow the operator to access image streams in the cluster. It will use this permission to deploy the image you create for your application from the internal image registry.
-
-   Save and close this file.
+   - target/modresorts.war– your application.
+   - deploy/application-cr.yaml - deploy and manage your migrated application in OpenShift Container Platform using the Open Liberty Operator. You will install the Open Liberty Operator later in this lab.
 
 <a name="containerize"></a>
 
-## Containerize Your Liberty Application
+## Containerize Your Open Liberty Application
 
-In this task, you containerize the application. You first create a Liberty container image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
+In this task, you containerize the application. You first create an Open Liberty container image that has the Mod Resorts application installed and configured, and then you test the image to confirm that it is operating correctly.
 
-1. From the terminal window issue the command below to stop the WebSphere server and to free the ports it is using (skip this step if you did not start WebSphere or have stopped it already):
+1. From the terminal window issue the command below to stop the WebSphere server to free the ports it is using (you can skip this step if you did not start WebSphere or have stopped it already):
 
    ```shell
    /opt/IBM/WebSphere/AppServer/bin/stopServer.sh server1
    ```
 
-1. Go to where your migration artifacts are located and build your image from the docker file.
+1. Change directory to where your migration artifacts are located and build your image from the docker file.
 
    ```shell
    cd /headless/Downloads/modresorts
    docker build . --no-cache -t modresorts:latest
    ```
 
-   The base Liberty image is pulled down and used to create the image that includes your migrated application. You should receive the message **Successfully tagged modresorts:latest** when the build completes (approximately 2-3 minutes.)
+   The base Open Liberty image is pulled down and used to create the image that includes your migrated application. You should receive the message **Successfully tagged modresorts:latest** when the build completes (approximately 2-3 minutes.)
 
 1. Once the container image is built, create a container instance from the image and confirm that it is working correctly:
 
@@ -408,21 +403,51 @@ In this task, you containerize the application. You first create a Liberty conta
 
 1. If everything looks good, the container has been started and mapped to the port 9080. You can access it from your browser with this link: **localhost:9080/resorts/**.
 
-1. After testing, press **Ctrl-C** to stop the container.
+1. After testing, return to the terminal window and press **Ctrl-C** to stop the container.
 
 <a name="deploy"></a>
 
 ## Deploy Your Application to OpenShift
 
-In this step you deploy the container image you have created to Red Hat OpenShift and create an instance of it. Before you begin, you need push the image to the OpenShift image registry.
+In this step you deploy the container image you have created to Red Hat OpenShift and create an instance of it. Before you begin, you need to install the Open Liberty Operator, and to push the image to the OpenShift image registry.
 
-1. From your local web browser, return to the tab/window with the OpenShift web console.
+In your local web browser, return to the tab/window with the OpenShift web console.
+
+### Install the Open Liberty Operator
+
+1. In the left-hand column, under the **Home** section, click **Projects**. In the upper-right corner of the page, click **Create Project**.
+
+   ![](images/ocp-create-project.png)
+
+1. Name the project **modresorts** and click **Create**. The project overview is displayed.
+
+   ![](images/ocp-project-name.png)
+
+1. In the left-hand column, under the **Operators** section, click **OperatorHub**. Under **All Items**, in the **Filter by keyword...** textbox, type "Open Liberty". Click the tile for the **Open Liberty Operator**.
+
+   ![](images/ocp-operator-hub.png)
+
+1. In the popover that appears, click **Install**.
+
+   ![](images/ocp-open-liberty-install.png)
+
+1. On the next page, for **Installation Mode** choose **A specific namespace on the cluster** and ensure the **Installed Namespace** is the project you just created, **modresorts**. Then, click **Install**.
+
+   ![](images/ocp-open-liberty-namespace.png)
+
+1. When the status says **Installed operator - ready for use**, the operator has been successfully deployed. If it instead shows an error, contact your instructor.
+
+   ![](images/ocp-open-liberty-success.png)
+
+### Push Your Application Image
+
+To push your image to the cluster, you'll need to log in on the command line.
 
 1. In the OpenShift Web Console page, click the **Action** icon next to your username and select **Copy Login** Command to get the OpenShift console login command.
 
    ![](images/ocp-copy-login-command.png)
 
-1. In the next page, click **Display Token** link.
+1. In the next page, click **Display Token** link. It may take some time for the page to update. If the page displays a time out error, try refreshing the page and clicking **Request another token**.
 
    ![](images/ocp-display-token.png)
 
@@ -436,15 +461,13 @@ In this step you deploy the container image you have created to Red Hat OpenShif
 
    ![](images/run-oc-login-command.png)
 
-1. Create a new project (namespace) as **modresorts**.
+1. Switch to the project (namespace) **modresorts**. If you are already on **modresorts**, you can skip this command.
 
    ```shell
-   oc new-project modresorts
+   oc project modresorts
    ```
 
-   ![](images/run-oc-new-project.png)
-
-   You see the message to confirm that the modresorts project is created.
+   You see the message to confirm that the modresorts project is in use.
 
 1. Get OpenShift internal image registry URL and cluster URL with commands:
 
@@ -473,11 +496,11 @@ In this step you deploy the container image you have created to Red Hat OpenShif
 
 1. Verify the pushed container image in OpenShift cluster.
 
-   1. From the OpenShift Web Console Home page, click **Builds**>**Images Streams**.
+   1. From the OpenShift Web Console, in the left-hand column click **Builds**>**Images Streams**.
 
       <img src="images/ocp-builds-is.png" height="500px" />
 
-   1. Change project (namespace) from **default** to **modresorts**.
+   1. If not already, change project (namespace) from **default** to **modresorts**.
 
       <img src="images/ocp-modresorts-project.png" height="500px" />
 
@@ -489,29 +512,9 @@ In this step you deploy the container image you have created to Red Hat OpenShif
 
       <img src="images/ocp-modresorts-is-overview.png" height="500px" />
 
-      > Note: If you created the OpenShift project with a name other than `modresorts`, you'll need to update the `applicationImage` field of **modresorts/application/application-cr.yaml** to read `image-registry.openshift-image-registry.svc:5000/<project>/modresorts`, substituting the name you chose for your project for `<project>`. Images in the internal image registry can only be deployed in the project they are tagged for. If you named your project `modresorts`, you don't need to make any changes.
+ 1. In the lab environment, update the `applicationImage` field of **modresorts/deploy/application-cr.yaml** to read `modresorts`, replacing `IMAGE_REFERENCE`. This is the Image Stream name of your container image. The Open Liberty Operator will use this name to find the image in the internal registry. Save the file by clicking the **Save** button in the toolbar or typing CTRL-S. 
 
-1. Return to your terminal and cd to the **modresorts/operator** directory. Run the following commands to deploy the application operator, which will allow you to create instances of your application by deploying a single file:
-
-   ```shell
-   # Be sure you are in /headless/Downloads/modresorts/operator
-
-   oc apply -f deploy/service_account.yaml
-   oc apply -f deploy/role.yaml
-   oc apply -f deploy/role_binding.yaml
-   oc apply -f deploy/operator.yaml
-   oc apply -f application/application-crd.yaml
-   ```
-
-   You can check that the operator has started by running the command `oc get pods`. There should be a pod with a name beginning `modresorts-operator` with **STATUS** "Running". If it isn't running yet, wait a few moments, then check again.
-
-   ```shell
-   root@lab-tools-76d88b7566-hjwc6:~/Downloads/modresorts/operator# oc get pods
-   NAME                                   READY   STATUS    RESTARTS   AGE
-   modresorts-operator-76899bdb85-6xzwz   1/1     Running   0          16s
-   ```
-
-1. Once the operator has been deployed and started, run the following command to use the operator to deploy the image you created earlier:
+1. Once the file has been saved, and with the operator successfully deployed, run the following command to use the operator to deploy the image you created earlier:
 
    ```shell
    oc apply -f application/application-cr.yaml
@@ -552,7 +555,7 @@ That's it, you're done! There is no need to perform any clean up steps. The clus
 
 ## Summary
 
-In this lab, you have learned how to use Transformation Advisor to prepare a migration bundle for your application and to deploy it to cloud. As a part of IBM Application Modernization solutions in IBM Cloud Pak for Applications, the Transformation Advisor accelerates application migrating to cloud process, minimize errors and risks and reduce time to market. To learn more about IBM Application Modernization solutions, please visit [Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications).
+In this lab, you have learned how to use Transformation Advisor to prepare a migration bundle for your application and to deploy it to cloud. As a part of IBM Application Modernization solutions in IBM WebSphere Hybrid Edition, the Transformation Advisor can accelerate moving WebSphere applications to the cloud, helping to minimize errors and risks, and reduce time to market. To learn more about IBM Application Modernization solutions, please visit [WebSphere Hybrid Edition](https://www.ibm.com/cloud/websphere-hybrid-edition).
 
 **Congratulations! You have successfully completed the lab “Modernize Java Application for Container and OpenShift with Transformation Advisor”.**
 
