@@ -302,7 +302,7 @@ Transformation Advisor has the ability to use the imported application analysis 
 
 1. Transformation Advisor is now starting to prepare the migration bundle package for the application. It assembles a migration bundle package with several required files using the collected application data, including server.xml, pom.xml, OpenShift Operator resource files and a Dockerfile. However, it needs a few more application-specific dependencies: the application runtime binary file and other library files the application depends on.
 
-   For the Mod Resorts application, TA only needs the application runtime binary file. Select **Binary** option under **Build type** and select **Manual upload** option under **Applicaiton dependencies**. Then, click **Drag or add file** in the Application binary row to open a file browser.
+   For the Mod Resorts application, TA only needs the application runtime binary file. Select **Binary** option under **Build type** and select **Manual upload** option under **Application dependencies**. Then, click **Drag or add file** in the Application binary row to open a file browser.
 
    ![](images/ta-migration-drag-or-add-file.png)
 
@@ -517,7 +517,8 @@ To push your image to the cluster, you'll need to log in on the command line.
 1. Once the file has been saved, and with the operator successfully deployed, run the following command to use the operator to deploy the image you created earlier:
 
    ```shell
-   oc apply -f application/application-cr.yaml
+   cd /headless/Downloads/modresorts
+   oc apply -f deploy/application-cr.yaml
    ```
 
    You can check the status of the deployment by running `oc get pods`. Once the new `modresorts` pod shows as "Running", your app has started.
