@@ -1,4 +1,4 @@
-# Openshift Workshop for WebSphere Users
+# This repo is no longer maintained - Openshift Workshop for WebSphere Users
 
 This information in this repository is designed to help with WebSphere user's journey in application and operations modernization,  to transition to Cloudpak for Applications and Openshift.
 
